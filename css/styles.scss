@@ -195,17 +195,22 @@ body {
       .bcg.bcg_center {
           background-position: center center;
       }
+
+
       /* Slide 1 */
       #slide-1{
-        height: 600px;
+        height: 100%;
         font-family: 'Raleway', sans-serif;
       }
       #slide-1 .bcg {
-        height: 600px;
+        height: 100%;
         background-attachment: fixed;
         background-repeat: repeat;
         background-image:url('/images/section_top_1.jpg')
       }
+
+
+
 
 
 

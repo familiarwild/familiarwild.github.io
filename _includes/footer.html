@@ -25,10 +25,14 @@
   htmlbody = $('html,body');
   var duration = 500;
   
+  $(document).ready(function(){
+
+    adjustWindow();
+
+  })
     //FadeIn all sections   
   $body.imagesLoaded( function() {
     setTimeout(function() {
-          
           // Resize sections
           adjustWindow();
           
@@ -52,17 +56,23 @@
     });
     
     winH = $window.height(); 
-    if(winH <= 550) {
-      winH = 550;
-    } 
+    // if(winH <= 550) {
+    //   winH = 550;
+    // } 
       // // Resize our slides
-    //$slide.height(winH);
+    $(".topSlide").height(winH);
+    $(".topSlide .bcg").height(winH);
+    $(".topSlide .hsContent").height(winH);
     //$slideTall.height(winH);
       
     // Refresh Skrollr after resizing our sections
-    s.refresh( $('.homeSlide') );
+    //s.refresh( $('.topSlide') );
       
   }
+
+  // $(window).resize(function(){
+  //   adjustWindow();
+  // });
 
   function initHomepageNav(){
     

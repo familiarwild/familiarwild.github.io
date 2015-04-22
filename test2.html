@@ -1,0 +1,300 @@
+---
+layout: default
+---
+
+<style type="text/css">
+  * {
+    padding:0;
+    margin:0;
+  }
+
+  html, body {
+    height:100%;
+  }
+
+  .skrollr-desktop body {
+    height:100% !important;
+  }
+
+  body {
+    font-family:sans-serif;
+  }
+
+  p {
+    margin:1em 0;
+  }
+
+  .parallax-image-wrapper {
+    position:fixed;
+    left:0;
+    width:100%;
+    overflow:hidden;
+  }
+
+  .parallax-image-wrapper-50 {
+    height:50%;
+    top:-50%;
+  }
+
+  .parallax-image-wrapper-100 {
+    height:100%;
+    top:-100%;
+  }
+
+  .parallax-image {
+    display:none;
+    position:absolute;
+    bottom:0;
+    left:0;
+    width:100%;
+    background-repeat:no-repeat;
+    background-position:center;
+    background-size:cover;
+  }
+
+  .parallax-image-50 {
+    height:200%;
+    top:-50%;
+  }
+
+  .parallax-image-100 {
+    height:100%;
+    top:0;
+  }
+
+  .parallax-image.skrollable-between {
+    display:block;
+  }
+
+  .no-skrollr .parallax-image-wrapper {
+    display:none !important;
+  }
+
+  #skrollr-body {
+    height:100%;
+    overflow:visible;
+    position:relative;
+  }
+
+  .gap {
+    position: relative;
+    background:transparent center no-repeat;
+    background-size:cover;
+  }
+
+  .skrollr .gap {
+    background:transparent !important;
+  }
+
+  .gap-50 {
+    height:50%;
+  }
+
+  .gap-100 {
+    height:100%;
+  }
+
+
+
+
+  .header, .content {
+    background:transparent;
+    padding:1em;
+
+    -webkit-box-sizing:border-box;
+    -moz-box-sizing:border-box;
+    box-sizing:border-box;
+  }
+
+  .transparent{
+    background: transparent !important;
+  }
+
+  .content-full {
+    height:100%;
+  }
+
+  #done {
+    height:100%;
+  }
+
+  #main_logo {
+    font-family: 'Raleway', sans-serif;
+    font-weight: 100;
+    font-size: 1.2em;
+    color: #fff;
+  }
+
+  #main_logo img{
+     width: 200px;
+     margin: 0 auto;
+     -webkit-filter: drop-shadow( 0px 0px 2px #000 );
+                  filter: drop-shadow( 0px 0px 2px #000 ); /* Same syntax as box-shadow */
+  }
+  </style>
+
+
+
+<!--
+    We position the images fixed and therefore need to place them outside of #skrollr-body.
+    We will then use data-anchor-target to display the correct image matching the current section (.gap element).
+  -->
+
+  <div 
+  id="main_logo"
+  class="parallax-image-wrapper parallax-image-wrapper-100"
+  data-anchor-target="#logo"
+  data-top-bottom="transform:translate3d(0px, 200%, 0px)"
+  data-bottom-top="transform:translate3d(0px, 0%, 0px)">
+    <div
+    class="parallax-image parallax-image-100"
+    style="background-image:url(/images/section_top_1.jpg)"
+    data-anchor-target="#logo"
+    data-bottom-top="transform: translate3d(0px, -90%, 0px);"
+    data-top-bottom="transform: translate3d(0px, 90%, 0px);">
+      <div
+      style="width: 100%; text-align: center;"
+      data-target="#logo"
+      data-top="opacity:1;"
+      data--30p-top="opacity:0.3;">
+        <div style="margin: 0 auto; margin-top:10%;">
+          <img src="/images/logo.svg" /> 
+          <div style="overflow: hidden; margin: 0px;">
+            <h1>FAMILIAR WILD</h1>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--the +/-80% translation can be adjusted to control the speed difference of the image-->
+  </div>
+
+  <div
+  id="par_album"
+  class="parallax-image-wrapper parallax-image-wrapper-100"
+  style="height: 200%;"
+  data-anchor-target="#album_container"
+  data-bottom-top="transform:translate3d(0px, 200%, 0px)"
+  data-top-bottom="transform:translate3d(0px, 0%, 0px)">
+    <div
+      class="parallax-image parallax-image-100"
+      style="background-image:url(/images/cd_thingsweforgot.jpg)"
+      data-anchor-target="#album_container"
+      data-bottom-top="transform: translate3d(0px, -20%, 0px);"
+      data-top-bottom="transform: translate3d(0px, 20%, 0px);"
+    >
+
+
+    </div>
+  </div>
+
+  <div
+    class="parallax-image-wrapper parallax-image-wrapper-100"
+    data-anchor-target="#maincontent"
+    data-bottom-top="transform:translate3d(0px, 200%, 0px)"
+    data-top-bottom="transform:translate3d(0px, 0%, 0px)">
+    <div
+      class="parallax-image parallax-image-100"
+      style="background-image:url(/images/wintercd.jpg)"
+      data-anchor-target="#maincontent"
+      data-bottom-top="transform: translate3d(0px, -60%, 0px);"
+      data-top-bottom="transform: translate3d(0px, 60%, 0px);"
+    ></div>
+  </div>
+
+  <div id="skrollr-body">
+
+    <div class="gap gap-100" id="logo">
+    &nbsp;
+    </div>
+    <div class="gap gap-100" id="albums">
+      <div class="container" style="height: 100%;">
+        <div class="col-md-6 text-center">
+          <h1 class="heading  text-center">NEW</h1>
+
+          <div id="album_container">
+            <div id="ALBUM_1" class="album_info row featurette">
+              <div style="padding: 0px 20px;"> 
+                <h2 class="">Every Cloud (Single)</h2>
+                <h4><span class="text-muted">New Single 2015</span></h4>
+
+                <a href="http://familiarwild.bandcamp.com/album/every-cloud-single"><img class="featurette-image img-responsive" src="/images/cd_everycloud1000.jpg" alt="Generic placeholder image" /></a>
+                <iframe style="border: 0; width: 100%; height: 42px;" src="http://bandcamp.com/EmbeddedPlayer/album=1342195243/size=small/bgcol=333333/linkcol=ffffff/artwork=none/transparent=true/" seamless><a href="http://familiarwild.bandcamp.com/album/every-cloud-single">Every Cloud Single by Familiar Wild</a></iframe>
+
+                <small><p>Digital Release by <a href="http://www.abandonbuilding.com" target="_blank">Abandon Building Records.</a></p></small>
+                <p >Available Exclusively through Bandcamp.</a></p>
+
+                <!-- <p class="lead"><a class="btn btn-info btn-lg">Watch The Video</a></p> -->
+                <p class="lead"><a href="http://familiarwild.bandcamp.com/album/every-cloud-single" class="btn btn-default btn-lg">Pre Order</a></p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <div class="col-md-6 text-center">
+
+          <h1 class="heading  text-center">UPCOMING</h1>
+
+          <div id="albumnew_container">
+           <div id="ALBUMNEW_1" class="album_info row featurette">
+            <div style="padding: 0px 20px;"> 
+              <h2 class="">Things We Forgot</h2>
+              <h4><span class="text-muted">New Album - Coming Early 2016</span></h4>
+              <img class="featurette-image img-responsive" src="/images/cd_thingsweforgot.jpg" alt="Generic placeholder image" />
+              
+            </div>
+           </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="gap gap-100" id="maincontent">
+      <p>Landjaeger chicken ham fatback sausage hamburger, tri-tip capicola pastrami pancetta ribeye turducken. Rump shank turkey pig kevin sausage meatloaf tenderloin drumstick short ribs short loin. Prosciutto spare ribs chuck, pork strip steak pork chop swine bacon turkey shoulder andouille. Jowl landjaeger chicken corned beef. Ham hock kielbasa pancetta ground round sausage. Spare ribs porchetta pastrami filet mignon drumstick ball tip. Beef ribs prosciutto kevin, landjaeger shoulder ham hock ham brisket sirloin chuck t-bone drumstick kielbasa pork chop.</p>
+
+      <p>Landjaeger spare ribs chicken ball tip, filet mignon frankfurter ribeye tenderloin corned beef. Strip steak boudin pork loin, chicken turkey ball tip beef ribs ground round shank ham hock. Kevin capicola beef, chuck pork chop shoulder brisket doner meatloaf shank ham hock tenderloin. Chuck ham hock short ribs ground round sausage prosciutto shoulder bacon andouille tri-tip beef biltong filet mignon chicken. Pork belly andouille shank, bacon sausage meatloaf bresaola pork chop short ribs t-bone. Ham hock salami porchetta bacon beef turkey, strip steak kielbasa pancetta brisket meatball t-bone.</p>
+
+      <p>Chicken pancetta capicola chuck, turkey meatball jerky frankfurter kielbasa ball tip bacon ground round. Beef ribs brisket meatloaf short ribs landjaeger shankle spare ribs sausage, pancetta swine sirloin flank. Tail shank chuck pancetta, ham meatloaf short ribs sausage rump turkey kevin pork chop landjaeger. Doner boudin short ribs t-bone, jerky shankle bresaola drumstick. Strip steak shank spare ribs boudin doner short ribs. Boudin prosciutto jowl tenderloin tongue beef ribs, short ribs salami short loin strip steak ham jerky. Shank pancetta beef ribs, corned beef ham hock pork belly drumstick tail bresaola chuck.</p>
+    </div>
+    
+  </div>
+
+<script>
+
+$(document).ready(function(){
+
+  //var hc = $("#albums").height();
+
+  
+  // $("#albums").height( hc );
+  // $("#par_album").height( hc );
+
+
+  var oskrollr = skrollr.init({
+
+
+    forceHeight: false,
+    render: function(data) {
+      // if(data.curTop === data.maxTop) {
+      //   this.setScrollTop(0, true);
+      // }
+    }
+
+ 
+  });
+  oskrollr.setScrollTop(0, true);
+
+
+  // var hc = $("#albums").height();
+
+  // // $("#albums").height( hc );
+  // ("#par_album").height( hc );
+
+  // $("#par_album div").height( hc );
+  
+  // oskrollr.refresh( );
+  
+})
+
+</script>
+
+

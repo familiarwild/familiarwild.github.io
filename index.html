@@ -161,14 +161,17 @@ box-shadow: 0px 0px 38px 0px rgba(0,0,0,1);
 
 
   <div
-    class="parallax-image-wrapper parallax-image-wrapper-100"
+    id="top-para"
+    class="parallax-image-wrapper"
+    style="height: 100%;"
     data-anchor-target="#logo"
     data-bottom-top="transform:translate3d(0px, 200%, 0px)"
     data-top-bottom="transform:translate3d(0px, 0%, 0px)">
 
     <div
+      id="top-para-img"
       class="parallax-image parallax-image-100"
-      style="background-image:url(/images/section_top_1.jpg)"
+      style="display: block;background-image:url(/images/section_top_1.jpg)"
       data-anchor-target="#logo"
       data-bottom-top="transform: translate3d(0px, -70%, 0px);"
       data-top-bottom="transform: translate3d(00px, 70%, 0px);"
@@ -261,7 +264,6 @@ box-shadow: 0px 0px 38px 0px rgba(0,0,0,1);
     </div>
 
     <div id="footer" style="background: #222;">
-      
       <div class="container" style="position: relative; top: 0px; color: #ccc;">
         <div class="col-md-12 text-center" style="padding: 50px;">
             <p>Copyright 2015 - Familiar Wild - All Rights Reserved</p>
@@ -277,7 +279,26 @@ box-shadow: 0px 0px 38px 0px rgba(0,0,0,1);
 
 <script>
 
+var t_h = null;
+var change_h = null;
+
 $(document).ready(function(){
+
+  t_h = $("#logo").height();
+  change_h = 0.6 * t_h;
+  $(window).resize(function(){
+    t_h = $("#logo").height();
+    change_h = 0.6 * t_h;
+  });
+
+  $(window).scroll(function(){
+
+    var scroll_h = $(window).scrollTop();
+    var diff = t_h - scroll_h;
+    diff = (diff < 0) ? t_h : t_h - diff;
+    var percent_h = ( diff / t_h  );
+    $("#top-para-img").animate({top: "-"+( percent_h * change_h )+"px"}, 0);
+  });
 
 //    var hc = $("#maincontent").height();
 // console.log(hc);
@@ -294,18 +315,22 @@ $(document).ready(function(){
 
 
 
-  var oskrollr = skrollr.init({
+  // var oskrollr = skrollr.init({
 
 
-    //forceHeight: false,
-    render: function(data) {
-      // if(data.curTop === data.maxTop) {
-      //   this.setScrollTop(0, true);
-      // }
-    }
+  //   //forceHeight: false,
+  //   render: function(data) {
+  //     // if(data.curTop === data.maxTop) {
+  //     //   this.setScrollTop(0, true);
+  //     // }
+  //   }
 
  
-  });
+  // });
+
+
+
+
   //oskrollr.setScrollTop(0, true);
 
 
@@ -316,9 +341,9 @@ $(document).ready(function(){
 
   // $("#par_album div").height( hc );
   
-  oskrollr.refresh( );
+  //oskrollr.refresh( );
   
-})
+});
 
 </script>
 

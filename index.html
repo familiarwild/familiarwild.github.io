@@ -297,7 +297,10 @@ $(document).ready(function(){
     var diff = t_h - scroll_h;
     diff = (diff < 0) ? t_h : t_h - diff;
     var percent_h = ( diff / t_h  );
-    $("#top-para-img").animate({top: "-"+( percent_h * change_h )+"px"}, 0);
+    //$("#top-para-img").css({top: "-"+( percent_h * change_h )+"px"}, 0);
+    $("#top-para-img").css({transform: "translate3d(0px, -"+( percent_h * change_h )+"px, 0px)"});
+
+
   });
 
 //    var hc = $("#maincontent").height();

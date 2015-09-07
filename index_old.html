@@ -70,7 +70,7 @@ layout: default
     display:none !important;
   }
 
-  #sc-body {
+  #skrollr-body {
     height:100%;
     overflow:visible;
     position:relative;
@@ -152,25 +152,23 @@ layout: default
   }
 
   .albumbg{
-    -webkit-box-shadow: 0px 0px 38px 0px rgba(0,0,0,1);
-    -moz-box-shadow: 0px 0px 38px 0px rgba(0,0,0,1);
-    box-shadow: 0px 0px 38px 0px rgba(0,0,0,1);
+-webkit-box-shadow: 0px 0px 38px 0px rgba(0,0,0,1);
+-moz-box-shadow: 0px 0px 38px 0px rgba(0,0,0,1);
+box-shadow: 0px 0px 38px 0px rgba(0,0,0,1);
+
   }
   </style>
 
 
   <div
-    id="top-para"
-    class="parallax-image-wrapper"
-    style="height: 100%;"
+    class="parallax-image-wrapper parallax-image-wrapper-100"
     data-anchor-target="#logo"
     data-bottom-top="transform:translate3d(0px, 200%, 0px)"
     data-top-bottom="transform:translate3d(0px, 0%, 0px)">
 
     <div
-      id="top-para-img"
       class="parallax-image parallax-image-100"
-      style="display: block;background-image:url(/images/section_top_1.jpg)"
+      style="background-image:url(/images/section_top_1.jpg)"
       data-anchor-target="#logo"
       data-bottom-top="transform: translate3d(0px, -70%, 0px);"
       data-top-bottom="transform: translate3d(00px, 70%, 0px);"
@@ -189,7 +187,7 @@ layout: default
     <!--the +/-80% translation can be adjusted to control the speed difference of the image-->
   </div>
 
-  <div id="sc-body">
+  <div id="skrollr-body">
     <div class="gap gap-100" id="logo">
       
       &nbsp;
@@ -216,7 +214,7 @@ layout: default
           <p >Available Exclusively through Bandcamp.</a></p>
 
           <!-- <p class="lead"><a class="btn btn-info btn-lg">Watch The Video</a></p> -->
-          <p class="lead"><a href="http://familiarwild.bandcamp.com/album/every-cloud-single" class="btn btn-default btn-lg"> Order</a></p>
+          <p class="lead"><a href="http://familiarwild.bandcamp.com/album/every-cloud-single" class="btn btn-default btn-lg">Pre Order</a></p>
         </div>
       </div>
     </div>
@@ -256,11 +254,6 @@ layout: default
             
             <div style="padding: 50px;">
             <p class="lead"><a href="http://blog.familiarwild.com" class="btn btn-default btn-lg">Visit Blog</a></p>
-
-
-              <script type="text/jsx" src="/js/react/music.js.jsx"></script>
-
-
             </div>
           </div>
         </div>
@@ -268,51 +261,72 @@ layout: default
     </div>
 
     <div id="footer" style="background: #222;">
+      
       <div class="container" style="position: relative; top: 0px; color: #ccc;">
         <div class="col-md-12 text-center" style="padding: 50px;">
             <p>Copyright 2015 - Familiar Wild - All Rights Reserved</p>
-            {% for category in site.categories %}
-              {% if category[0] == 'shows' %}
-                {% for sposts in category[1] %}
-                    
-                        <p>{{ sposts.title }}</p>
-
-                {% endfor %} 
-
-              {% endif %}
-            {% endfor %}
         </div>
       </div>
     </div>
+
+
+
+
 
   </div>
 
 <script>
 
-var t_h = null;
-var change_h = null;
-
 $(document).ready(function(){
 
-  t_h = $("#logo").height();
-  change_h = 0.6 * t_h;
-  $(window).resize(function(){
-    t_h = $("#logo").height();
-    change_h = 0.6 * t_h;
-  });
+$(window).scroll(function(){
+  console.log('d')
 
-  $(window).scroll(function(){
+})
+//    var hc = $("#maincontent").height();
+// console.log(hc);
 
-    var scroll_h = $(window).scrollTop();
-    var diff = t_h - scroll_h;
-    diff = (diff < 0) ? t_h : t_h - diff;
-    var percent_h = ( diff / t_h  );
-    //$("#top-para-img").css({top: "-"+( percent_h * change_h )+"px"}, 0);
-    $("#top-para-img").css({transform: "translate3d(0px, -"+( percent_h * change_h )+"px, 0px)"});
+//   $("#maincontent-para").height( hc );
+//   $("#maincontent-para").css({top: "-" + hc });
+//   $("#maincontent-para-img").height( hc );
+//   $("#maincontent-para-img").css({top: "-200px" });
 
-  });
+//   $("#maincontent-para").data("bottom-top", "transform:translate3d(0px, "+ (hc * 2)+ "px, 0px)");
+//   $("#maincontent-para").data("top-bottom", "transform:translate3d(0px, 0px, 0px)");
+//     // data-bottom-top="transform:translate3d(0px, 200%, 0px)"
+//     // data-top-bottom="transform:translate3d(0px, 0%, 0px)">
 
-});
+
+
+  // var oskrollr = skrollr.init({
+
+
+  //   //forceHeight: false,
+  //   render: function(data) {
+  //     // if(data.curTop === data.maxTop) {
+  //     //   this.setScrollTop(0, true);
+  //     // }
+  //   }
+
+ 
+  // });
+
+
+
+
+  //oskrollr.setScrollTop(0, true);
+
+
+  // var hc = $("#albums").height();
+
+  // // $("#albums").height( hc );
+  // ("#par_album").height( hc );
+
+  // $("#par_album div").height( hc );
+  
+  oskrollr.refresh( );
+  
+})
 
 </script>
 

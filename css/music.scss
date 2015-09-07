@@ -1,0 +1,107 @@
+---
+# Only the main Sass file needs front matter (the dashes are enough)
+---
+@charset "utf-8";
+
+
+.Albums{
+  width: 100%;
+}
+.Album{
+  width: 50%;
+  display: block;
+  float: left;
+  border: solid 1px #ccc;
+  padding: 10px;
+}
+@media screen and (max-width: 801px) {
+  .Album{
+    width: 100%;
+  }
+}
+
+.AlbumArt {
+  border: none;
+}
+
+.AlbumArt.shadow {
+  -webkit-box-shadow: 0px 0px 38px 0px rgba(0,0,0,1);
+  -moz-box-shadow: 0px 0px 38px 0px rgba(0,0,0,1);
+  box-shadow: 0px 0px 38px 0px rgba(0,0,0,1);
+}
+.AlbumArt.linked {
+  cursor: pointer;
+}
+
+.AlbumArt img {
+  width: 100%;
+  height: auto;
+}
+
+
+
+
+.Blog{
+  margin-top: -50px;
+  display: block;
+}
+
+.BlogItem{
+  background: #fff;
+  display: block;
+
+}
+.BlogItem img {
+    width: 100%;
+    height: auto;
+}
+
+
+.BlogList .BlogItemContainer {
+  
+}
+.BlogList .BlogItem {
+  display: inline-block;
+  vertical-align: bottom;
+  min-height: 20px;
+}
+
+.BlogArrow{
+  background: #ff9900;
+  height: 40px;
+}
+
+.Row{
+
+}
+
+
+
+.trans_blogitem-enter {
+  opacity: 0.01;
+}
+
+.trans_blogitem-enter.trans_blogitem-enter-active {
+  opacity: 1;
+  transition: opacity .5s ease-in;
+}
+
+.trans_blogitem-leave {
+  opacity: 1;
+}
+
+.trans_blogitem-leave.trans_blogitem-leave-active {
+  opacity: 0.1;
+  transition: opacity .5s ease-in;
+  display: none;
+}
+
+
+
+
+
+
+
+
+
+

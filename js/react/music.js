@@ -137,72 +137,8 @@ var Albums = React.createClass({
 
 
 
-var BlogItem = React.createClass({
-  getDefaultProps: function() {
-    return {
-      sizeInfo: {
-        small:{
-          width: "50px",
-          font_size: "2px",
-          alt_size: 3
-        },
-        large:{
-          width: "500px",
-          font_size: "16px",
-          alt_size: 1
-        }
-      }
-    };
-  },
-  handleClick: function(){
-    this.props.onSelect(this.props.data);
-  },
-  render: function() {
-    var sizeInfo;
-    if(this.props.isSmall){
-      sizeInfo = this.props.sizeInfo.small;
-    }else{
-      sizeInfo = this.props.sizeInfo.large;
-    }
-
-    var imgs = null;
-    if(this.props.data.photos && this.props.data.photos.length>0){
-      imgs = <img src={this.props.data.photos[0].alt_sizes[3].url} />
-    }
-   
-
-    return (
-   
-       <div className="BlogItem" onClick={this.handleClick} style={{width: sizeInfo.width, fontSize: sizeInfo.font_size}}>
-        {imgs}
-        <div dangerouslySetInnerHTML={{__html: this.props.data.caption }} />
-        <div className="BlogArrow" />
-       </div>
-
-    );
-  }
-});
 
 
-var BlogList = React.createClass({
-  handleSelect: function(item){
-    this.props.onItemSelect(item);
-  },
-  render: function() {
-    var items = this.props.items.map(function(item, i) {
-      return (
-          <BlogItem key={item.id} data={item} isSmall={true} onSelect={this.handleSelect}/>
-      );
-    }.bind(this));
-    return (
-        <div className="BlogList clearfix">
-          <ReactCSSTransitionGroup transitionName="trans_blogitem">
-            {items}
-          </ReactCSSTransitionGroup>
-        </div>
-    );
-  }
-});
 
 
 
@@ -213,24 +149,48 @@ var Blog = React.createClass({
       items: [],
       item: null,
       offset: 0,
-      limit: 10
+      isSmall: false
     };
   },
   componentDidMount: function() {
+    this.handleResize(false);
+    alert(this.state.isSmall);
+
     this.getStateData(function(){
       console.log(this.state.items[0])
       this.setState({ item: this.state.items[0] })
     }.bind(this));
+
+    ST_windowResize(function(){
+      this.handleResize(true);
+    }.bind(this));
+
+  },
+  handleResize: function(get_data){
+    if( ST_windowWidth()<=780){
+      //console.log(ST_windowWidth());
+      this.state.isSmall=true;
+      //this.setState();
+    }else{
+      this.state.isSmall=false;
+      //this.setState();
+    }
+    console.log(this.state);
+    if(get_data==true){
+      this.getStateData();
+    }
   },
   getStateData: function(callback){
     this.getItems(function(data){
       //console.log(data)
       //this.state.items = data.response.posts
       this.setState({items: data.response.posts});
-      callback();
+      if(typeof callback==='function'){
+        callback();
+      }
     }.bind(this));
   },
-  getItems: function(success_callback){
+  getItems: function(callback){
     $.ajax({
       type:'GET',
       url: "http://api.tumblr.com/v2/blog/familiarwild.tumblr.com/posts",
@@ -238,11 +198,13 @@ var Blog = React.createClass({
       data: {
           api_key : "cm1eEmrZgqEcevWcnGhO6yCdhSgaNQyNKB1pLRnFOaIgRrZZsG",
           tag: "",
-          limit: this.state.limit,
+          limit: (this.state.isSmall) ? 5 : 10,
           offset: this.state.offset
       },
       success: function(data){
-        success_callback(data);
+        if(typeof callback==='function'){
+          callback(data);
+        }
       }.bind(this)
     });
   },
@@ -253,7 +215,7 @@ var Blog = React.createClass({
   handleItemSelect: function(item){
     var item_c = item;
     this.setState({ item: item_c })
-    //alert(item.id);
+    //console.log(item);
   },
   render: function() {
     var blog = null;
@@ -279,19 +241,95 @@ var Blog = React.createClass({
     );
   }
 });
+var BlogList = React.createClass({
+  handleSelect: function(item){
+    this.props.onItemSelect(item);
+  },
+  render: function() {
+    var items = this.props.items.map(function(item, i) {
+      return (
+          <BlogItem key={item.id} data={item} isSmall={true} onSelect={this.handleSelect}/>
+      );
+    }.bind(this));
+    return (
+        <div className="BlogList clearfix">
+          <ReactCSSTransitionGroup transitionName="trans_blogitem">
+            {items}
+          </ReactCSSTransitionGroup>
+        </div>
+    );
+  }
+});
+var BlogItem = React.createClass({
+  getDefaultProps: function() {
+    return {
+      sizeInfo: {
+        small:{
+          width: "70px",
+          font_size: "3px",
+          alt_size: 3
+        },
+        large:{
+          width: "500px",
+          font_size: "16px",
+          alt_size: 1
+        }
+      }
+    };
+  },
+  handleClick: function(){
+    this.props.onSelect(this.props.data);
+  },
+  render: function() {
+    var sizeInfo;
+    var class_name = "BlogItem";
+    if(this.props.isSmall){
+      class_name += " small";
+      sizeInfo = this.props.sizeInfo.small;
+    }else{
+      class_name += " large";
+      sizeInfo = this.props.sizeInfo.large;
+    }
+
+    var imgs = null;
+    if(this.props.data.photos && this.props.data.photos.length>0){
+      imgs = <img src={this.props.data.photos[0].alt_sizes[3].url} />
+    }
+   
+    return (
+   
+       <div className={class_name} onClick={this.handleClick} style={{width: sizeInfo.width, fontSize: sizeInfo.font_size}}>
+        {imgs}
+        <div dangerouslySetInnerHTML={{__html: this.props.data.caption }} />
+        <div className="BlogArrow" />
+       </div>
+
+    );
+  }
+});
+
 
 
 
 
 
 React.render( <Blog />, document.getElementById('blog'));
+React.render( <Albums />, document.getElementById('albums'));
 
 
-React.render(
-  <Albums />,
-  document.getElementById('albums')
-);
 
+function ST_windowWidth(){
+  return $(window).width();
+}
 
+var ST_windowResize_timeout;
+function ST_windowResize(callback){
+  $(window).resize(function(){
+    var ST_windowResize_timeout = window.setTimeout(function(){
+      window.clearTimeout(ST_windowResize_timeout);
+      callback();
+    },300);
+  }.bind(this));
+}
 
 

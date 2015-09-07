@@ -21,7 +21,6 @@ var ALBUMDATA = { albums: [
 ]};
 
 
-
 var ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
 
 
@@ -31,11 +30,6 @@ var ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
 
 
 var LayoutRow = React.createClass({
-  getInitialState: function() {
-    return {
-      margin: "0px"
-    };
-  },
   render: function() {
     return (
       <div className="LayoutRow" style={{backgroundColor: this.props.row_data.color}}>
@@ -143,37 +137,43 @@ var Albums = React.createClass({
 
 
 
-
-
 var BlogItem = React.createClass({
-  getInitialState: function() {
-    return {
-      isSmall: true
-    };
-  },
   getDefaultProps: function() {
     return {
       sizeInfo: {
         small:{
           width: "50px",
-          font_size: "2px"
+          font_size: "2px",
+          alt_size: 3
         },
         large:{
-          width: "100px",
-          font_size: "16px"
+          width: "500px",
+          font_size: "16px",
+          alt_size: 1
         }
       }
     };
   },
+  handleClick: function(){
+    this.props.onSelect(this.props.data);
+  },
   render: function() {
+    var sizeInfo;
+    if(this.props.isSmall){
+      sizeInfo = this.props.sizeInfo.small;
+    }else{
+      sizeInfo = this.props.sizeInfo.large;
+    }
+
     var imgs = null;
     if(this.props.data.photos && this.props.data.photos.length>0){
       imgs = <img src={this.props.data.photos[0].alt_sizes[3].url} />
     }
-    var sizeInfo = this.props.sizeInfo.small;
+   
+
     return (
    
-       <div className="BlogItem" style={{width: sizeInfo.width, fontSize: sizeInfo.font_size}}>
+       <div className="BlogItem" onClick={this.handleClick} style={{width: sizeInfo.width, fontSize: sizeInfo.font_size}}>
         {imgs}
         <div dangerouslySetInnerHTML={{__html: this.props.data.caption }} />
         <div className="BlogArrow" />
@@ -185,21 +185,15 @@ var BlogItem = React.createClass({
 
 
 var BlogList = React.createClass({
-  
+  handleSelect: function(item){
+    this.props.onItemSelect(item);
+  },
   render: function() {
     var items = this.props.items.map(function(item, i) {
       return (
-          <BlogItem key={item.id} data={item} />
+          <BlogItem key={item.id} data={item} isSmall={true} onSelect={this.handleSelect}/>
       );
     }.bind(this));
-
-    // for (var i=0; i < this.state.items.length; i++) {
-    //   var itemdata = this.state.items[i];
-    //   var iadd = <ReactCSSTransitionGroup transitionName="example" transitionAppear={true}>
-    //     <h1>Fading at Initial Mount</h1>
-    //   </ReactCSSTransitionGroup>""
-    //   items.push();
-    // }
     return (
         <div className="BlogList clearfix">
           <ReactCSSTransitionGroup transitionName="trans_blogitem">
@@ -217,18 +211,23 @@ var Blog = React.createClass({
   getInitialState: function() {
     return {
       items: [],
+      item: null,
       offset: 0,
       limit: 10
     };
   },
   componentDidMount: function() {
-    this.getStateData();
+    this.getStateData(function(){
+      console.log(this.state.items[0])
+      this.setState({ item: this.state.items[0] })
+    }.bind(this));
   },
-  getStateData: function(){
+  getStateData: function(callback){
     this.getItems(function(data){
-      console.log(data)
+      //console.log(data)
       //this.state.items = data.response.posts
       this.setState({items: data.response.posts});
+      callback();
     }.bind(this));
   },
   getItems: function(success_callback){
@@ -249,20 +248,30 @@ var Blog = React.createClass({
   },
   handleClick: function(){
     this.state.offset = 5;
-    this.getStateData();
+    // this.getStateData();
+  },
+  handleItemSelect: function(item){
+    var item_c = item;
+    this.setState({ item: item_c })
+    //alert(item.id);
   },
   render: function() {
+    var blog = null;
+    if(this.state.item){
+      var item = this.state.item
+      blog = <BlogItem key={item.id} data={item} onSelect={this.handleSelect}/>
+    }
     return (
       <div className="Blog" onClick={this.handleClick}>
       <LayoutRow row_data={{color: "transparent", url: "/images/bg_every.jpg"}}>
         <LayoutContainer>
-          <BlogList items={this.state.items}/>
+          <BlogList items={this.state.items} onItemSelect={this.handleItemSelect} />
         </LayoutContainer>
       </LayoutRow>
       <LayoutRow row_data={{color: "#ff9900", url: "/images/bg_every.jpg"}}>
         <LayoutContainer>
           <div style={{minHeight: "100px"}}>
-          hello world
+          {blog}
           </div>
         </LayoutContainer>
       </LayoutRow>

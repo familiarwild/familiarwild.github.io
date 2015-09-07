@@ -216,7 +216,7 @@ layout: default
           <p >Available Exclusively through Bandcamp.</a></p>
 
           <!-- <p class="lead"><a class="btn btn-info btn-lg">Watch The Video</a></p> -->
-          <p class="lead"><a href="http://familiarwild.bandcamp.com/album/every-cloud-single" class="btn btn-default btn-lg">Pre Order</a></p>
+          <p class="lead"><a href="http://familiarwild.bandcamp.com/album/every-cloud-single" class="btn btn-default btn-lg"> Order</a></p>
         </div>
       </div>
     </div>
@@ -266,6 +266,16 @@ layout: default
       <div class="container" style="position: relative; top: 0px; color: #ccc;">
         <div class="col-md-12 text-center" style="padding: 50px;">
             <p>Copyright 2015 - Familiar Wild - All Rights Reserved</p>
+            {% for category in site.categories %}
+              {% if category[0] == 'shows' %}
+                {% for sposts in category[1] %}
+                    
+                        <p>{{ sposts.title }}</p>
+
+                {% endfor %} 
+
+              {% endif %}
+            {% endfor %}
         </div>
       </div>
     </div>

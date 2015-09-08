@@ -74,13 +74,26 @@
     height: auto;
 }
 
-.BIContent{
+.BlogItem .BIContent{
   min-height: 40px;
   position: relative;
   z-index: 1;
+  overflow: hidden;
 }
 
-.BIOverlay{
+.BlogItem.nav .BIContent{
+  height: 40px;
+  min-height: 40px;
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+}
+.BlogItem.nav.active .BIContent{
+  min-height: 70px;
+  height: auto;
+}
+
+.BlogItem .BIOverlay{
   position: absolute;
   z-index: 10;
   background: #eee;
@@ -130,7 +143,6 @@
   margin: 0px auto;
   display: block;
 }
-
 
 
 

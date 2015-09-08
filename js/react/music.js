@@ -255,6 +255,7 @@ var Blog = React.createClass({
     );
   }
 });
+
 var BlogList = React.createClass({
   handleSelect: function(item){
     this.props.onItemSelect(item);

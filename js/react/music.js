@@ -316,6 +316,10 @@ var BlogItem = React.createClass({
   handleMouseOut: function(){
     this.setState({isHover: false});
   },
+  handleScroll: function(){
+    alert('d')
+    this.props.onScroll()
+  },
   render: function() {
     var sizeInfo;
     var class_name = "BlogItem";
@@ -341,7 +345,11 @@ var BlogItem = React.createClass({
     }
    
     return (
-       <div id={"blog_"+this.props.data.id} className={class_name} unselectable="on" onMouseOver={this.handleHover} onMouseOut={this.handleMouseOut} onClick={this.handleClick} style={{width: this.props.width, padding: this.props.padding }}>
+       <div id={"blog_"+this.props.data.id} className={class_name} unselectable="on" 
+        onMouseOver={this.handleHover} 
+        onMouseOut={this.handleMouseOut} 
+        onScroll={this.handleScroll}
+        onClick={this.handleClick} style={{width: this.props.width, padding: this.props.padding }}>
         <div className="BIOverlay" style={{width: this.props.width }} >&nbsp;</div>
         <div className="BIContent" style={{overflow: "hidden" }}>
           {imgs}

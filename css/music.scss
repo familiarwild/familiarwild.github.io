@@ -88,8 +88,13 @@
   cursor: pointer;
 }
 .BlogItem.active .BIOverlay{
+  border: solid 2px #bc0787;
+  border-bottom: none;
   background: #bc0787;
   opacity: 0.5;
+}
+.BlogItem.active.hover .BIOverlay{
+  background: #bc0787;
 }
 .BlogItem.hover .BIOverlay{
   background-color: #666;

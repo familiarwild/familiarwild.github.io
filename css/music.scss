@@ -44,30 +44,86 @@
 .Blog{
   margin-top: -50px;
   display: block;
+  margin: 0px auto;
+}
+
+.Blog #blog_nav{
+  margin-bottom: -20px;
 }
 
 .BlogItem{
+  user-select: none;
   background: #fff;
   display: block;
-
+  margin: 0px auto;
+}
+.BlogItem.nav .BIContent{
+  border: solid 2px #aaa;
+  border-bottom: none;
+}
+.BlogItem.nav .BIOverlay{
+  border: solid 2px #aaa;
+  border-bottom: none;
+}
+.BlogItem.full{
+  width: 500px;
+  margin-top: 60px;
 }
 .BlogItem img {
     width: 100%;
     height: auto;
 }
 
+.BIContent{
+  min-height: 40px;
+  position: relative;
+  z-index: 1;
+}
 
-.BlogList .BlogItemContainer {
-  
+.BIOverlay{
+  position: absolute;
+  z-index: 10;
+  background: #eee;
+  opacity: 0.2;
+  cursor: pointer;
+}
+.BlogItem.active .BIOverlay{
+  background: #bc0787;
+  opacity: 0.5;
+}
+.BlogItem.hover .BIOverlay{
+  background-color: #666;
+  opacity: 0.7;
+  transition: background-color .5s ease-in;
+  transition: opacity .2s ease-in;
+}
+
+
+.BlogList{
+  margin: 0px auto;
 }
 .BlogList .BlogItem {
   display: inline-block;
   vertical-align: bottom;
   min-height: 20px;
+  
 }
 .BlogArrow{
-  background: #ff9900;
-  height: 40px;
+  font-family: "Roboto Mono";
+  font-size: 10px;
+  background: #eee;
+  height: 20px;
+  cursor: pointer;
+  border-bottom: solid 1px #ccc; 
+}
+
+.BlogItem.active .BlogArrow{
+  border-bottom: solid 5px #bc0787; 
+}
+
+.BlogArrow .arrow{
+  margin: 0px auto;
+  display: block;
 }
 
 

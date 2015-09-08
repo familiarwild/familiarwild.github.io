@@ -32,7 +32,7 @@ var ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
 var LayoutRow = React.createClass({
   render: function() {
     return (
-      <div className="LayoutRow" style={{backgroundColor: this.props.row_data.color}}>
+      <div id={this.props.id} className="LayoutRow" style={{backgroundColor: this.props.row_data.color}}>
         { this.props.children }
       </div>
     );
@@ -50,6 +50,16 @@ var LayoutContainer = React.createClass({
       <div className="container">
         { this.props.children }
       </div>
+    );
+  }
+});
+
+var LayoutContainerHeading = React.createClass({
+  render: function() {
+    return (
+      <h1 className="heading">
+        { this.props.children }
+      </h1>
     );
   }
 });
@@ -143,7 +153,6 @@ var Albums = React.createClass({
 
 
 var Blog = React.createClass({
-
   getInitialState: function() {
     return {
       items: [],
@@ -154,8 +163,6 @@ var Blog = React.createClass({
   },
   componentDidMount: function() {
     this.handleResize(false);
-    alert(this.state.isSmall);
-
     this.getStateData(function(){
       console.log(this.state.items[0])
       this.setState({ item: this.state.items[0] })
@@ -167,17 +174,11 @@ var Blog = React.createClass({
 
   },
   handleResize: function(get_data){
-    if( ST_windowWidth()<=780){
-      //console.log(ST_windowWidth());
+    if( ST_windowWidth()<=800){
       this.state.isSmall=true;
-      //this.setState();
+      this.setState({ isSmall: true});
     }else{
-      this.state.isSmall=false;
-      //this.setState();
-    }
-    console.log(this.state);
-    if(get_data==true){
-      this.getStateData();
+      this.setState({ isSmall: false});
     }
   },
   getStateData: function(callback){
@@ -198,7 +199,7 @@ var Blog = React.createClass({
       data: {
           api_key : "cm1eEmrZgqEcevWcnGhO6yCdhSgaNQyNKB1pLRnFOaIgRrZZsG",
           tag: "",
-          limit: (this.state.isSmall) ? 5 : 10,
+          limit: 10,
           offset: this.state.offset
       },
       success: function(data){
@@ -209,7 +210,7 @@ var Blog = React.createClass({
     });
   },
   handleClick: function(){
-    this.state.offset = 5;
+    //this.state.offset = 5;
     // this.getStateData();
   },
   handleItemSelect: function(item){
@@ -217,20 +218,33 @@ var Blog = React.createClass({
     this.setState({ item: item_c })
     //console.log(item);
   },
+
+
+
+
+
+
+
+
   render: function() {
     var blog = null;
+    var active_id = null;
     if(this.state.item){
       var item = this.state.item
-      blog = <BlogItem key={item.id} data={item} onSelect={this.handleSelect}/>
+      blog = <BlogItem key={item.id} data={item} onSelect={this.handleSelect} />
+      var active_id = item.id;
     }
+    
+
     return (
       <div className="Blog" onClick={this.handleClick}>
-      <LayoutRow row_data={{color: "transparent", url: "/images/bg_every.jpg"}}>
+      <LayoutRow id="blog_nav" row_data={{color: "#c6e3ec", url: "/images/bg_every.jpg"}}>
         <LayoutContainer>
-          <BlogList items={this.state.items} onItemSelect={this.handleItemSelect} />
+          <LayoutContainerHeading>Blog</LayoutContainerHeading>
+          <BlogList active_id={active_id} isSmall={this.state.isSmall} items={this.state.items} onItemSelect={this.handleItemSelect} />
         </LayoutContainer>
       </LayoutRow>
-      <LayoutRow row_data={{color: "#ff9900", url: "/images/bg_every.jpg"}}>
+      <LayoutRow id="blog_body" row_data={{color: "#eee", url: "/images/bg_every.jpg"}}>
         <LayoutContainer>
           <div style={{minHeight: "100px"}}>
           {blog}
@@ -246,70 +260,99 @@ var BlogList = React.createClass({
     this.props.onItemSelect(item);
   },
   render: function() {
+    var width = (this.props.isSmall ? 50 : 75)
+    var fontsize = (this.props.isSmall ? 2 : 3)
+
     var items = this.props.items.map(function(item, i) {
       return (
-          <BlogItem key={item.id} data={item} isSmall={true} onSelect={this.handleSelect}/>
+          <BlogItem isActive={this.props.active_id==item.id} key={item.id} data={item} width={width+"px"} font_size={fontsize+"px"} alt_size={3} padding="0px" isNav={true} onSelect={this.handleSelect}/>
       );
     }.bind(this));
+    
     return (
-        <div className="BlogList clearfix">
+        <div className="BlogList clearfix" style={{width: (width*items.length)+"px"}}>
+          {items}
           <ReactCSSTransitionGroup transitionName="trans_blogitem">
-            {items}
+            
           </ReactCSSTransitionGroup>
         </div>
     );
   }
 });
+
+
 var BlogItem = React.createClass({
+  getInitialState: function() {
+    return {
+      isHover: false
+    };
+  },
   getDefaultProps: function() {
     return {
-      sizeInfo: {
-        small:{
-          width: "70px",
-          font_size: "3px",
-          alt_size: 3
-        },
-        large:{
-          width: "500px",
-          font_size: "16px",
-          alt_size: 1
-        }
-      }
+      isActive: false,
+      alt_size: 1,
+      padding: "20px",
+      font_size: "16px"
     };
   },
   handleClick: function(){
     this.props.onSelect(this.props.data);
   },
+  componentDidMount: function(){
+    window.setTimeout(this.setOverlayHeight, 1000);
+  },
+  componentDidUpdate: function(){
+    this.setOverlayHeight();
+    //$("blog_"+this.props.data.id+" .BIOverlay").hide();
+    //$("blog_"+this.props.data.id+" .BIOverlay").height( $("blog_"+this.props.data.id+" .BIContent").height() );
+  },
+  setOverlayHeight: function(){
+    var h = $("#blog_"+this.props.data.id+" .BIContent").height();
+    $("#blog_"+this.props.data.id+" .BIOverlay").height(h);
+  },
+  handleHover: function(){
+    this.setState({isHover: true});
+  },
+  handleMouseOut: function(){
+    this.setState({isHover: false});
+  },
   render: function() {
     var sizeInfo;
     var class_name = "BlogItem";
-    if(this.props.isSmall){
-      class_name += " small";
-      sizeInfo = this.props.sizeInfo.small;
-    }else{
-      class_name += " large";
-      sizeInfo = this.props.sizeInfo.large;
-    }
+    var arrow;
 
+    if(this.props.isNav){
+      class_name += " nav";
+      if(this.props.isActive){
+        class_name += " active";
+      }
+      if(this.state.isHover){
+        //console.log('this.props.data.id')
+        class_name += " hover";
+      }
+      arrow = <div className="BlogArrow"><div className="arrow"></div></div>
+    }else{
+      class_name += " full";
+    }
+    
     var imgs = null;
     if(this.props.data.photos && this.props.data.photos.length>0){
-      imgs = <img src={this.props.data.photos[0].alt_sizes[3].url} />
+      imgs = <img src={this.props.data.photos[0].alt_sizes[this.props.alt_size].url} />
     }
    
     return (
-   
-       <div className={class_name} onClick={this.handleClick} style={{width: sizeInfo.width, fontSize: sizeInfo.font_size}}>
-        {imgs}
-        <div dangerouslySetInnerHTML={{__html: this.props.data.caption }} />
-        <div className="BlogArrow" />
+       <div id={"blog_"+this.props.data.id} className={class_name} unselectable="on" onMouseOver={this.handleHover} onMouseOut={this.handleMouseOut} onClick={this.handleClick} style={{width: this.props.width, padding: this.props.padding }}>
+        <div className="BIOverlay" style={{width: this.props.width }} >&nbsp;</div>
+        <div className="BIContent" style={{overflow: "hidden" }}>
+          {imgs}
+          <div style={{fontSize: this.props.font_size}} dangerouslySetInnerHTML={{__html: this.props.data.caption }} />
+        </div>
+        {arrow}
        </div>
 
     );
   }
 });
-
-
-
 
 
 
@@ -322,14 +365,33 @@ function ST_windowWidth(){
   return $(window).width();
 }
 
-var ST_windowResize_timeout;
+var ST_windowResize_timeout = null;
 function ST_windowResize(callback){
   $(window).resize(function(){
+    window.clearTimeout(ST_windowResize_timeout);
     var ST_windowResize_timeout = window.setTimeout(function(){
-      window.clearTimeout(ST_windowResize_timeout);
       callback();
-    },300);
+    }, 1000);
   }.bind(this));
 }
+
+
+// (function($){
+//     $.fn.disableSelection = function() {
+//         return this
+//                  .attr('unselectable', 'on')
+//                  .css('user-select', 'none')
+//                  .on('selectstart', false);
+//     };
+// })(jQuery);
+
+$(document).on("selectstart", ".BlogItem", function(){
+  return false
+});
+
+
+
+
+
 
 

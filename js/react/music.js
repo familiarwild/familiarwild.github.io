@@ -198,7 +198,7 @@ var Blog = React.createClass({
       dataType:'jsonp',
       data: {
           api_key : "cm1eEmrZgqEcevWcnGhO6yCdhSgaNQyNKB1pLRnFOaIgRrZZsG",
-          tag: "",
+          tag: "fwshows",
           limit: 10,
           offset: this.state.offset
       },
@@ -216,14 +216,8 @@ var Blog = React.createClass({
   handleItemSelect: function(item){
     var item_c = item;
     this.setState({ item: item_c })
-    //console.log(item);
+    console.log(item);
   },
-
-
-
-
-
-
 
 
   render: function() {
@@ -240,7 +234,7 @@ var Blog = React.createClass({
       <div className="Blog" onClick={this.handleClick}>
       <LayoutRow id="blog_nav" row_data={{color: "#c6e3ec", url: "/images/bg_every.jpg"}}>
         <LayoutContainer>
-          <LayoutContainerHeading>Blog</LayoutContainerHeading>
+          <LayoutContainerHeading>Shows</LayoutContainerHeading>
           <BlogList active_id={active_id} isSmall={this.state.isSmall} items={this.state.items} onItemSelect={this.handleItemSelect} />
         </LayoutContainer>
       </LayoutRow>
@@ -340,10 +334,26 @@ var BlogItem = React.createClass({
       class_name += " full";
     }
     
-    var imgs = null;
-    if(this.props.data.photos && this.props.data.photos.length>0){
-      imgs = <img src={this.props.data.photos[0].alt_sizes[this.props.alt_size].url} />
-    }
+    
+
+    var content;
+    if(this.props.data.type=="photo"){
+      var imgs = null;
+      if(this.props.data.photos && this.props.data.photos.length>0){
+        imgs = <img src={this.props.data.photos[0].alt_sizes[this.props.alt_size].url} />
+      }
+      content = <div className="BIContent" style={{overflow: "hidden" }}>
+          {imgs}
+          <div style={{fontSize: this.props.font_size}} dangerouslySetInnerHTML={{__html: this.props.data.caption }} />
+        </div>
+    } 
+    if(this.props.data.type=="text"){
+      content = <div className="BIContent" style={{overflow: "hidden" }}>
+          <div style={{fontSize: this.props.font_size}} dangerouslySetInnerHTML={{__html: "<h1>"+this.props.data.title+"</h1>" + this.props.data.body }} />
+        </div>
+    } 
+
+
    
     return (
        <div id={"blog_"+this.props.data.id} className={class_name} unselectable="on" 
@@ -353,8 +363,7 @@ var BlogItem = React.createClass({
         onClick={this.handleClick} style={{width: this.props.width, padding: this.props.padding }}>
         <div className="BIOverlay" style={{width: this.props.width }} >&nbsp;</div>
         <div className="BIContent" style={{overflow: "hidden" }}>
-          {imgs}
-          <div style={{fontSize: this.props.font_size}} dangerouslySetInnerHTML={{__html: this.props.data.caption }} />
+        {content}
         </div>
         {arrow}
        </div>

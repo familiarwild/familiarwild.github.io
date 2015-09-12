@@ -170,7 +170,7 @@ var Blog = React.createClass({
     ST_windowResize(function(){
       this.handleResize(true);
     }.bind(this));
-
+    this.props.onLoaded();
   },
   handleResize: function(get_data){
     if( ST_windowWidth()<=800){
@@ -234,7 +234,6 @@ var Blog = React.createClass({
   },
   handleNext: function(){
   },
-
   render: function() {
     var blog = null;
     var active_id = null;
@@ -246,7 +245,7 @@ var Blog = React.createClass({
     
     return (
       <div className="Blog" onClick={this.handleClick}>
-      <ParallaxContainer backgroundColor="#ff9900" height="130" imgSrc="/images/bg_horizon_a.jpg" img_h={258} img_w={1280} >
+      <ParallaxContainer parallax={false} backgroundColor="#eee" height="129" imgSrc="/images/bg_horizon_a.jpg" img_h={258} img_w={1280} >
           <LayoutRow id="blog_nav" row_data={{color: "transparent"}}>
             <LayoutContainer>
               <LayoutContainerHeading>{this.props.title}</LayoutContainerHeading>
@@ -511,6 +510,7 @@ var ParallaxContainer = React.createClass({
   },
   getDefaultProps: function() {
     return {
+      parallax: true,
       height: "auto",
       img_h: 100,
       img_w: 100,
@@ -570,9 +570,11 @@ var ParallaxContainer = React.createClass({
     ST_windowResize(function(){
       this.handleResize();
     }.bind(this));
-    ST_windowScroll(function(){
-      this.handleWindowScroll();
-    }.bind(this));
+    if(this.props.parallax){
+      ST_windowScroll(function(){
+        this.handleWindowScroll();
+      }.bind(this));
+    }
   },
   handleResize: function(){
     var h = this.getWindowHeight();
@@ -641,7 +643,10 @@ var ParallaxContainer = React.createClass({
       imageContainHeight = 1;
     }
     
-    var mainStyle = { position: "relative", width: "100%", height: setHeight, margin: 0, padding: 0, backgroundColor: this.props.backgroundColor };
+    var mainStyle = {
+      position: "relative", 
+      width: "100%", 
+      height: setHeight, margin: 0, padding: 0, backgroundColor: this.props.backgroundColor };
    
     var bgimg;
     if(this.props.height!="auto" && !setHeight.isNaN ){
@@ -653,13 +658,13 @@ var ParallaxContainer = React.createClass({
     }
 
     return (
-      <div className="ParaMain" style={mainStyle} >
+      <div className="ParaContainer" style={mainStyle} >
         <div className="ParaBG" style={{ position: "relative", overflow: "hidden", width: "100%", height: imageContainHeight, margin: 0, padding: 0}}>
           {bgimg}
         </div>
         <div className="ParaContent" style={{ position: "relative", width: "100%", top: "-"+imageContainHeight, height: setHeight, margin: 0, padding: 0}}>
-          <div style={{ position: "relative", width: "100%", height: "100%"}}>
-          { this.props.children }
+          <div style={{ position: "relative", width: "100%", height: "100%", zoom: "1"}}>
+            { this.props.children }
           </div>
         </div>
       </div>
@@ -670,21 +675,45 @@ var ParallaxContainer = React.createClass({
 
 
 var Stuff = React.createClass({
+  getInitialState: function() {
+    return {
+      loaded: false,
+    };
+  },
+  handleLoaded: function(){
+    this.setState({loaded: true});
+  },
   render: function() {
-    return (
-      <TopContainer>
-        <ParallaxContainer imgSrc="/images/section_top_1.jpg" img_h={800} img_w={2310} height="100%" >
-        
-          <div id="test" style={{height: "50%", marginTop: "10%" }} >
-            <img src="/images/logo.svg" className="DropShadowed" style={{display: "block", height: "80%", margin: "0 auto"}} /> 
-            <div className="DropShadowed" style={{display: "block", height: "20%", textAlign: "center", color: "#fff", fontWeight: "200", fontSize: "36px", fontFamily: "Raleway, Helvettica, Arial, sans-serif"}} ><span>FAMILIAR&nbsp;WILD</span></div>
-          </div>
+    if(this.state.loaded){
+      return (
+        <TopContainer>
+          <ParallaxContainer imgSrc="/images/section_top_1.jpg" img_h={800} img_w={2310} height="100%" >
+          
+            <div id="test" style={{position: "relative", top: "50%", height: "50%" }} >
+              <img src="/images/logo.svg" className="DropShadowed" style={{display: "block", height: "80%", margin: "0 auto"}} /> 
+              <div className="DropShadowed" style={{display: "block", height: "20%", textAlign: "center", color: "#fff", fontWeight: "200", fontSize: "36px", fontFamily: "Raleway, Helvettica, Arial, sans-serif"}} ><span>FAMILIAR&nbsp;WILD</span></div>
+            </div>
 
-        </ParallaxContainer>
-        <Blog tag="fwvideo" title="Videos" />
-        
-      </TopContainer>
-    );
+          </ParallaxContainer>
+          <Blog tag="fwvideo" title="Videos" onLoaded={this.handleLoaded} />
+          
+        </TopContainer>
+      );
+    } else{
+      return (
+        <TopContainer>
+          <ParallaxContainer imgSrc="/images/section_top_1.jpg" img_h={800} img_w={2310} height="100%" >
+          
+            <div id="test" style={{position: "relative", top: "25%", height: "50%" }} >
+            
+                <img src="/images/logo.svg" className="DropShadowed" style={{display: "block", height: "80%", margin: "0 auto"}} /> 
+                <div className="DropShadowed" style={{display: "block", height: "20%", textAlign: "center", color: "#fff", fontWeight: "200", fontSize: "36px", fontFamily: "Raleway, Helvettica, Arial, sans-serif"}} ><span>LOADING...</span></div>
+            </div>
+
+          </ParallaxContainer>
+        </TopContainer>
+      );
+    }
   }
 });
 

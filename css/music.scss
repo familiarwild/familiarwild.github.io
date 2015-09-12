@@ -161,8 +161,8 @@
   position: relative;
   margin: 0px auto;
   overflow: hidden;
-  overflow-x: scroll;
-/*  -ms-overflow-style: none;*/
+  overflow-x: auto;
+  -ms-overflow-style: none;
 }
 
 .BlogListInner{

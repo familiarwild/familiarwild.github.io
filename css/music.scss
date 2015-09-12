@@ -42,17 +42,23 @@
 
 
 .Blog{
+  position: relative;
   margin-top: -50px;
   display: block;
   margin: 0px auto;
 }
 
 .Blog #blog_nav{
+  position: relative;
   margin-bottom: -20px;
+}
+.Blog #blog_body{
+  position: relative;
 }
 
 
 .BlogItem {
+  position: relative;
   background: #fff;
   display: block;
   margin: 0px auto;
@@ -145,6 +151,7 @@
 
 
 .BlogList{
+  position: relative;
   margin: 0px auto;
   background: blue;
   overflow: hidden;

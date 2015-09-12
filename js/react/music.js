@@ -23,14 +23,38 @@ var ALBUMDATA = { albums: [
 ]};
 
 
+var IMGS = { 
+  none: {url: null, img_w: null, img_h: null, color: "#fff"},
+  bgice: {url: "/images/bg_ice.jpg", img_w: 1000, img_h: 679, color: "#d4f1fe"},
+  bgrock: {url: "/images/bg_rock.jpg", img_w: 1000, img_h: 679, color: "#e5dac3"},
+  bghorizon: {url: "/images/bg_horizon_a.jpg", img_w: 1280, img_h: 258, color: "#ff9900"},
+  bgblurvid: {url: "/images/bg_vidblur.jpg", img_w: 800, img_h: 40, color: "#ff9900"},
+}
+
+
+
+
+
+
+
+
+
+
+
+
 var ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
 
 
 
 var LayoutRow = React.createClass({
   render: function() {
+    var rowStyle = { color: this.props.row_data.fontColor, background: this.props.row_data.backgroundColor }
+    if(this.props.row_data.backgroundImage){
+      rowStyle.background = this.props.row_data.fontColor + " url('"+ this.props.row_data.backgroundImage+"') no-repeat center center";
+      rowStyle.backgroundSize= "cover";
+    }
     return (
-      <div id={this.props.id} className="LayoutRow" style={{backgroundColor: this.props.row_data.color}}>
+      <div id={this.props.id} className={"LayoutRow "+this.props.className} style={rowStyle}>
         { this.props.children }
       </div>
     );
@@ -150,27 +174,65 @@ var Albums = React.createClass({
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 var Blog = React.createClass({
   getInitialState: function() {
     return {
       items: [],
       item: null,
+      toScroll: false,
       offset: 0,
       isSmall: false,
-      prev: false,
-      next: false
+      prevActive: false,
+      nextActive: false
     };
   },
   componentDidMount: function() {
     this.handleResize(false);
     this.getStateData(function(){
       this.setState({ item: this.state.items[0] })
+      this.props.onLoaded();
     }.bind(this));
 
     ST_windowResize(function(){
       this.handleResize(true);
     }.bind(this));
-    this.props.onLoaded();
+    
   },
   handleResize: function(get_data){
     if( ST_windowWidth()<=800){
@@ -211,7 +273,7 @@ var Blog = React.createClass({
       dataType:'jsonp',
       data: {
           api_key : "cm1eEmrZgqEcevWcnGhO6yCdhSgaNQyNKB1pLRnFOaIgRrZZsG",
-          tag: this.props.tag ? this.props.tag : "",
+          tag: this.props.data.tag ? this.props.data.tag : "",
           limit: 50,
           offset: this.state.offset
       },
@@ -222,45 +284,75 @@ var Blog = React.createClass({
       }.bind(this)
     });
   },
-  handleClick: function(){
-    //this.state.offset = 5;
-    // this.getStateData();
-  },
   handleItemSelect: function(item){
     var item_c = item;
-    this.setState({ item: item_c })
+    this.setState({ item: item_c, toScroll: true })
+  },
+  handleScrollTo: function(){
+    if(this.state.toScroll){
+      var el = this.getDOMNode();
+      var ts = $(el).offset().top;
+      ST_setScrollPos(ts);
+    }
   },
   handlePrev: function(){
+    this.handleScrollTo();
+    var index = 0;
+    for(var i=0; i<this.state.items.length;i++){
+      if(this.state.items[i]===this.state.item){
+        index=i;
+        break;
+      }
+    }
+    index = ((index-1) >= 0) ? (index-1) : 0;
+    this.setState({ item: this.state.items[index], toScroll: true });
   },
   handleNext: function(){
+    this.handleScrollTo();
+    var index = 0;
+    for(var i=0; i<this.state.items.length;i++){
+      if(this.state.items[i]===this.state.item){
+        index=i;
+        break;
+      }
+    }
+    if ((index+1) <= this.state.items.length){
+      this.setState({ item: this.state.items[index+1], toScroll: true });
+    }
   },
   render: function() {
     var blog = null;
     var active_id = null;
     if(this.state.item){
       var item = this.state.item
-      blog = <BlogItem width={500} key={item.id} data={item} onSelect={this.handleSelect} />
+      blog = <BlogItem width={500} key={item.id} data={item} onSelect={this.handleSelect} onScrollTo={this.handleScrollTo} />
       var active_id = item.id;
     }
+    //console.log(this.props.data)
     
     return (
-      <div className="Blog" onClick={this.handleClick}>
-      <ParallaxContainer parallax={false} backgroundColor="#eee" height="129" imgSrc="/images/bg_horizon_a.jpg" img_h={258} img_w={1280} >
-          <LayoutRow id="blog_nav" row_data={{color: "transparent"}}>
-            <LayoutContainer>
-              <LayoutContainerHeading>{this.props.title}</LayoutContainerHeading>
-              <BlogList prev={this.state.prev} next={this.state.next} onPrev={this.handlePrev} onNext={this.handleNext} active_id={active_id} isSmall={this.state.isSmall} items={this.state.items} onItemSelect={this.handleItemSelect} />
-            </LayoutContainer>
-          </LayoutRow>
-      </ParallaxContainer>
+      <div className="Blog">
+      <ParallaxContainer backgroundColor={this.props.data.backgroundIMG.color} height={this.props.data.height} imgSrc={this.props.data.backgroundIMG.url} img_h={this.props.data.backgroundIMG.img_h} img_w={this.props.data.backgroundIMG.img_w} >
+        <LayoutRow className="BlogNav" row_data={{ fontColor: "#fff", backgroundColor: "transparent", backgroundImage: this.props.data.titleIMG.url }}>
+          <LayoutContainer>
+            <LayoutContainerHeading>{this.props.data.title}</LayoutContainerHeading>
+            <BlogList prev={this.state.prev} next={this.state.next} onPrev={this.handlePrev} onNext={this.handleNext} active_id={active_id} isSmall={this.state.isSmall} items={this.state.items} onItemSelect={this.handleItemSelect} />
+          </LayoutContainer>
+        </LayoutRow>
+      
 
-      <LayoutRow id="blog_body" row_data={{color: "#ccc", url: "/images/bg_every.jpg"}}>
-        <LayoutContainer>
-          <div style={{minHeight: "100px"}}>
-          {blog}
-          </div>
-        </LayoutContainer>
-      </LayoutRow>
+        <LayoutRow className="BlogBody" row_data={{ fontColor: "#fff", backgroundColor: "transparent" }}>
+          <LayoutContainer>
+            <div style={{minHeight: "100px"}}>
+            {blog}
+            </div>
+            <div style={{height: "80px", padding: "20px"}}>
+              <span onClick={this.handlePrev}>Prev</span>
+              <span onClick={this.handleNext}>Next</span>
+            </div>
+          </LayoutContainer>
+        </LayoutRow>
+      </ParallaxContainer>
       </div>
     );
   }
@@ -396,6 +488,9 @@ var BlogItem = React.createClass({
   },
   componentDidMount: function(){
     window.setTimeout(this.setOverlayHeight, 1000);
+    if(typeof this.props.onScrollTo == "function"){
+      this.props.onScrollTo();
+    }
   },
   componentDidUpdate: function(){
     this.setOverlayHeight();
@@ -451,7 +546,6 @@ var BlogItem = React.createClass({
       if(this.props.isNav){
         var vidsrc = this.props.data.permalink_url.replace("https://www.youtube.com/watch?v=", "");
         vidsrc = "http://img.youtube.com/vi/"+vidsrc+"/mqdefault.jpg"
-        //console.log(this.props.data)
         content = <div className="BIContent" style={{overflow: "hidden" }}>
           <img src={vidsrc} width="100%" />
         </div>
@@ -464,8 +558,6 @@ var BlogItem = React.createClass({
       }
     } 
 
-
-   
     return (
        <div id={"blog_"+this.props.data.id} className={class_name} unselectable="on" 
         onMouseOver={this.handleHover} 
@@ -654,7 +746,8 @@ var ParallaxContainer = React.createClass({
       var imgStyle = this.imgStyle(imgDimensions);
       bgimg = <img className="ParaBGImg" data-topoffset={imgDimensions.offsetTop} src={this.props.imgSrc} style={imgStyle} />
     }else{
-      mainStyle.background = "transparent url('"+this.props.imgSrc+"')";
+      mainStyle.background = "transparent url('"+this.props.imgSrc+"') no-repeat center center";
+      mainStyle.backgroundSize = "cover";
     }
 
     return (
@@ -690,9 +783,13 @@ var Stuff = React.createClass({
     } 
 
     var datablog = [
-      {tag: "fwshows", title:"Shows"},
-      {tag: "fwvideo", title:"Videos"}
+      {tag: "fwvideo", title:"Videos", height: "100%", titleIMG: IMGS.none, backgroundIMG: IMGS.bgrock},
+      {tag: "fwshows", title:"Shows", height: "auto", titleIMG: IMGS.none, backgroundIMG: IMGS.bgice},
+      {tag: "fwquote", title:"Quotes", height: "100%", titleIMG: IMGS.none, backgroundIMG: IMGS.bgrock},
+      
     ];
+
+
 
     return (
       <TopContainer>
@@ -715,42 +812,8 @@ var Stuff = React.createClass({
 });
 
 
-var StuffBlogs = React.createClass({
-  getInitialState: function() {
-    return {
-      loaded: false,
-      countLoad: 0
-    };
-  },
-  handleLoaded: function(){
-    
-    this.setState({ countLoad: this.state.countLoad+1 });
-    var loadCount = this.props.data.length;
-    if(this.countLoad==loadCount){
-      this.setState({ loaded: true });
-      this.props.onLoaded();
-    }
-  },
-  render: function() {
 
-    var loadCount = (this.state.countLoad < this.props.data.length) ? this.state.countLoad : this.props.data.length;
-    var blogs;
 
-    console.log('a'+this.state.countLoad)
-    for(var i=0; i<=loadCount; i++){
-      var blogdata = this.props.data[i]
-      blogs += <Blog tag={blogdata.tag} title={blogdata.title} onLoaded={this.handleLoaded} />
-    }
-
-    return (
-      <div style={{display: (this.props.isHidden ? "block": "block") }}>
-       {blogs}
-        // 
-        // <Blog tag="fwshows" title="Shows" onLoaded={this.handleLoaded} />
-      </div>
-    );
-  }
-});
 
 var StuffBlogs = React.createClass({
   getInitialState: function() {
@@ -760,11 +823,8 @@ var StuffBlogs = React.createClass({
     };
   },
   handleLoaded: function(){
-    console.log('s')
     this.setState({ countLoad: this.state.countLoad+1 });
     var loadNumber = this.props.data.length-1;
-    console.log(this.state.countLoad)
-    console.log(loadNumber)
     if(this.state.countLoad==loadNumber){
       this.setState({ loaded: true });
       this.props.onLoaded();
@@ -778,7 +838,6 @@ var StuffBlogs = React.createClass({
     for(var i=0; i<=loadNumber; i++){
       showBlogs.push(this.props.data[i]);
     }
-    console.log(showBlogs)
 
     return (
       <div style={{display: (this.props.isHidden ? "block": "block") }}>
@@ -796,13 +855,11 @@ var StuffBlogsList = React.createClass({
     var blogs;
     if(this.props.data.length>0){
       blogs = this.props.data.map(function(item, i) {
-        console.log(item)
         return (
-          <Blog tag={item.tag} title={item.title} onLoaded={this.handleLoaded} />
+          <Blog data={item} onLoaded={this.handleLoaded} />
         );
       }.bind(this));
     }
-    
 
     return (
       <div>
@@ -811,10 +868,6 @@ var StuffBlogsList = React.createClass({
     );
   }
 });
-
-
-
-
 
 
 
@@ -857,6 +910,11 @@ function ST_windowScroll(callback){
 
 function ST_getScrollPos(){
   return $(window).scrollTop();
+}
+function ST_setScrollPos(number){
+  var body = $("html, body");
+  body.stop().animate({scrollTop:number}, '500', 'swing');
+  //return $(window).scrollTop(number, 200);
 }
 
 

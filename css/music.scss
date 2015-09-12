@@ -57,7 +57,7 @@ Color='#000')";
   margin: 0px auto;
 }
 
-.Blog #blog_nav{
+.Blog .BlogNav{
   margin-bottom: -40px;
 }
 
@@ -66,6 +66,7 @@ Color='#000')";
   position: relative;
   display: block;
   margin: 0px auto;
+  color: #444;
   &.full{
     background: #fff;
     width: 500px;

@@ -689,6 +689,11 @@ var Stuff = React.createClass({
       text = <span>FAMILIAR&nbsp;WILD</span>;
     } 
 
+    var datablog = [
+      {tag: "fwshows", title:"Shows"},
+      {tag: "fwvideo", title:"Videos"}
+    ];
+
     return (
       <TopContainer>
         <ParallaxContainer imgSrc="/images/section_top_1.jpg" img_h={800} img_w={2310} height="100%" >
@@ -701,7 +706,7 @@ var Stuff = React.createClass({
           </div>
 
         </ParallaxContainer>
-        <StuffBlogs onLoaded={this.handleLoaded} isHidden={!this.state.loaded}/>
+        <StuffBlogs onLoaded={this.handleLoaded} data={datablog} isHidden={!this.state.loaded}/>
         
       </TopContainer>
     );
@@ -713,23 +718,95 @@ var Stuff = React.createClass({
 var StuffBlogs = React.createClass({
   getInitialState: function() {
     return {
-      loaded: false
+      loaded: false,
+      countLoad: 0
     };
   },
   handleLoaded: function(){
-    this.countLoad++;
-    if(this.countLoad==this.loadnumber){
-      this.setState({loaded: true});
+    
+    this.setState({ countLoad: this.state.countLoad+1 });
+    var loadCount = this.props.data.length;
+    if(this.countLoad==loadCount){
+      this.setState({ loaded: true });
       this.props.onLoaded();
     }
   },
   render: function() {
-    this.countLoad=0;
-    this.loadnumber=1;
+
+    var loadCount = (this.state.countLoad < this.props.data.length) ? this.state.countLoad : this.props.data.length;
+    var blogs;
+
+    console.log('a'+this.state.countLoad)
+    for(var i=0; i<=loadCount; i++){
+      var blogdata = this.props.data[i]
+      blogs += <Blog tag={blogdata.tag} title={blogdata.title} onLoaded={this.handleLoaded} />
+    }
+
     return (
-      <div style={{display: (this.props.isHidden ? "none": "block") }}>
-        <Blog tag="fwvideo" title="Videos" onLoaded={this.handleLoaded} />
-        <Blog tag="fwshows" title="Shows" onLoaded={this.handleLoaded} />
+      <div style={{display: (this.props.isHidden ? "block": "block") }}>
+       {blogs}
+        // 
+        // <Blog tag="fwshows" title="Shows" onLoaded={this.handleLoaded} />
+      </div>
+    );
+  }
+});
+
+var StuffBlogs = React.createClass({
+  getInitialState: function() {
+    return {
+      loaded: false,
+      countLoad: 0
+    };
+  },
+  handleLoaded: function(){
+    console.log('s')
+    this.setState({ countLoad: this.state.countLoad+1 });
+    var loadNumber = this.props.data.length-1;
+    console.log(this.state.countLoad)
+    console.log(loadNumber)
+    if(this.state.countLoad==loadNumber){
+      this.setState({ loaded: true });
+      this.props.onLoaded();
+    }
+  },
+  render: function() {
+
+    var loadNumber = (this.state.countLoad < this.props.data.length) ? this.state.countLoad : this.props.data.length-1;
+
+    var showBlogs = [];
+    for(var i=0; i<=loadNumber; i++){
+      showBlogs.push(this.props.data[i]);
+    }
+    console.log(showBlogs)
+
+    return (
+      <div style={{display: (this.props.isHidden ? "block": "block") }}>
+       <StuffBlogsList data={showBlogs} onLoaded={this.handleLoaded} />
+      </div>
+    );
+  }
+});
+
+var StuffBlogsList = React.createClass({
+  handleLoaded: function(){
+    this.props.onLoaded();
+  },
+  render: function() {
+    var blogs;
+    if(this.props.data.length>0){
+      blogs = this.props.data.map(function(item, i) {
+        console.log(item)
+        return (
+          <Blog tag={item.tag} title={item.title} onLoaded={this.handleLoaded} />
+        );
+      }.bind(this));
+    }
+    
+
+    return (
+      <div>
+       {blogs}
       </div>
     );
   }

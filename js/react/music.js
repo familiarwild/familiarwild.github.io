@@ -753,7 +753,7 @@ $(document).on("selectstart", ".BlogItem", function(){
 
 $(document).ready(function(){
   $(window).resize(function(){
-      console.log($(window).width())
+      setViewportMeta();
   });
   setViewportMeta()
 })
@@ -763,7 +763,8 @@ function setViewportMeta(){
   var winW = $(window).width();
   if(winW < 600){
     //var times = winW / 600;
-    $('meta[name=viewport]').attr('content','width=600, initial-scale=1');
+    alert('d')
+    $('meta[name=viewport]').attr('content','width=600');
   }else{
     $('meta[name=viewport]').attr('content','width=device-width, initial-scale=1');
   }

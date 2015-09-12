@@ -572,8 +572,9 @@ var ParallaxContainer = React.createClass({
     }.bind(this));
   },
   handleResize: function(){
-    var el = this.getDOMNode();
+    
     if(this.props.height=="auto"){
+      var el = this.getDOMNode();
       $(el).find(".ParaBG").height(1);
       $(el).find(".ParaContent").css("top", "-1px");
     }
@@ -589,11 +590,13 @@ var ParallaxContainer = React.createClass({
       return;
     }
 
-    var h = $(el).height();
-    $(el).find(".ParaBG").height(h);
-    $(el).find(".ParaContent").css("top", "-"+h+"px");
-    var imgDimensions = this.calcImageDimensions( this.state.windowWidth, h );
-    $(el).find(".ParaBG img").css(this.imgStyle(imgDimensions));
+    if(this.props.height=="auto"){
+      var h = $(el).height();
+      $(el).find(".ParaBG").height(h);
+      $(el).find(".ParaContent").css("top", "-"+h+"px");
+      var imgDimensions = this.calcImageDimensions( this.state.windowWidth, h );
+      $(el).find(".ParaBG img").css(this.imgStyle(imgDimensions));
+    }
 
   },
   imgStyle: function(imgDimensions){

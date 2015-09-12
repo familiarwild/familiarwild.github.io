@@ -627,20 +627,30 @@ var ParallaxContainer = React.createClass({
       imageContainHeight = 1;
     }
     
+    var mainStyle = { position: "relative", width: "100%", height: setHeight, margin: 0, padding: 0, backgroundColor: this.props.backgroundColor };
+   
     var bgimg;
     if(this.props.height!="auto" && !setHeight.isNaN ){
+      console.log(mainStyle)
       imgDimensions = this.calcImageDimensions( this.state.windowWidth, imageContainHeight );
       var imgStyle = this.imgStyle(imgDimensions);
       bgimg = <img className="ParaBGImg" data-topoffset={imgDimensions.offsetTop} src={this.props.imgSrc} style={imgStyle} />
+    }else{
+      console.log(mainStyle)
+      mainStyle.background = "transparent url('"+this.props.imgSrc+"')";
+      //mainStyle.backgroundSize = "cover";
+
     }
 
+   
+
     return (
-      <div className="ParaMain" style={{ position: "relative", width: "100%", height: setHeight, margin: 0, padding: 0, backgroundColor: this.props.backgroundColor }} >
+      <div className="ParaMain" style={mainStyle} >
         <div className="ParaBG" style={{ position: "relative", overflow: "hidden", width: "100%", height: imageContainHeight, margin: 0, padding: 0}}>
           {bgimg}
         </div>
         <div className="ParaContent" style={{ position: "relative", width: "100%", top: "-"+imageContainHeight, height: setHeight, margin: 0, padding: 0}}>
-          <div style={{ position: "absolute", width: "100%", height: "100%"}}>
+          <div style={{ position: "relative", width: "100%", height: "100%"}}>
           { this.props.children }
           </div>
         </div>
@@ -664,8 +674,9 @@ var Stuff = React.createClass({
 
         </ParallaxContainer>
         <ParallaxContainer backgroundColor="#ff9900" height="auto" imgSrc="/images/section_top_1.jpg" img_h={800} img_w={2310} >
-        <div>test
-        fdslkajfskla
+        <div>
+        tessst
+        fdslkajfskladssds
         <br />
         fdsa
         </div>

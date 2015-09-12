@@ -182,6 +182,22 @@ var Blog = React.createClass({
   },
   getStateData: function(callback){
     this.getItems(function(data){
+
+      //console.log(data.response.posts)
+      var posts = [];
+      var count = 0;
+      for(var i=0; i<data.response.posts.length; i++){
+        var post = data.response.posts[i];
+        //console.log(post.state)
+        if(post.status=="published"){
+          posts.push(post);
+          count++;
+        }
+        if(count==10){
+          break;
+        }
+      }
+
       this.setState({items: data.response.posts});
       if(typeof callback==='function'){
         callback();
@@ -196,7 +212,7 @@ var Blog = React.createClass({
       data: {
           api_key : "cm1eEmrZgqEcevWcnGhO6yCdhSgaNQyNKB1pLRnFOaIgRrZZsG",
           tag: this.props.tag ? this.props.tag : "",
-          limit: 10,
+          limit: 50,
           offset: this.state.offset
       },
       success: function(data){
@@ -433,7 +449,7 @@ var BlogItem = React.createClass({
       if(this.props.isNav){
         var vidsrc = this.props.data.permalink_url.replace("https://www.youtube.com/watch?v=", "");
         vidsrc = "http://img.youtube.com/vi/"+vidsrc+"/mqdefault.jpg"
-        console.log(this.props.data)
+        //console.log(this.props.data)
         content = <div className="BIContent" style={{overflow: "hidden" }}>
           <img src={vidsrc} width="100%" />
         </div>
@@ -470,9 +486,201 @@ var BlogItem = React.createClass({
 
 
 
+
+
+
+var TopContainer = React.createClass({
+  render: function() {
+    return (
+      <div className="ParaMain" style={{ width: "100%", height: "auto", margin: 0, padding: 0 }} >
+        { this.props.children }
+      </div>
+    );
+  }
+});
+
+var ParallaxContainer = React.createClass({
+  getInitialState: function() {
+    return {
+      windowHeight: this.getWindowHeight(),
+      windowWidth: this.getWindowWidth()
+    };
+  },
+  getDefaultProps: function() {
+    return {
+      height: "100%",
+      img_h: 100,
+      img_w: 100,
+      imgSrc: null,
+      backgroundColor: "#ffffff"
+    };
+  },
+  getWindowHeight: function(){
+    return Math.ceil(ST_windowHeight());
+  },
+  getWindowWidth: function(){
+    return Math.ceil(ST_windowWidth());
+  },
+  checkImageHorizontal: function(){
+    return this.props.img_w >= this.props.img_h;
+  },
+  calcPaneHeight: function(){
+    if(this.props.height.indexOf("%") > -1) {
+      // console.log(this.props.height.replace("%"))
+      var percent = (parseInt(this.props.height) / 100);
+      return Math.ceil(percent * this.state.windowHeight);
+    }else{
+      return this.props.height;
+    }
+    // return (this.props.height.indexOf("%") > -1) ? this.state.windowHeight : this.props.height; 
+  },
+  calcImageDimensions: function(containW, containH){
+    var paneIsHorizontal = (containW >= containH);
+    var returnDimensions = {
+      offsetLeft: 0,
+      offsetTop: 0
+    };
+    //var variance = 100;
+    if(this.checkImageHorizontal()){
+      var newH = containH;
+      var newW = Math.round( (containH / this.props.img_h) * this.props.img_w );
+
+      console.log("w"+newW+ "--h" + newH);
+
+      var widthDiff = containW - newW;
+      var heightDiff;
+      if(widthDiff>0){
+        returnDimensions.width = containW;
+        returnDimensions.height = Math.round((containW / newW) * newH);
+        heightDiff = containH - returnDimensions.height;
+        returnDimensions.offsetTop = Math.floor( heightDiff/2 );
+      }else{
+        returnDimensions.height = newH;
+        returnDimensions.width = newW;
+        returnDimensions.offsetLeft = Math.floor( widthDiff/2 );
+      }
+
+      console.log(returnDimensions);
+
+    }else{
+      console.log("todo")
+    }
+    return returnDimensions;
+
+  },
+  componentDidMount: function() {
+    this.handleResize(false);
+    ST_windowResize(function(){
+      this.handleResize(true);
+    }.bind(this));
+    ST_windowScroll(function(){
+      this.handleWindowScroll();
+    }.bind(this));
+  },
+  handleResize: function(get_data){
+    var h = this.getWindowHeight();
+    if( h!==this.state.windowHeight){
+      this.setState({ windowHeight: h });
+    }
+    var w = this.getWindowWidth();
+    if( w!==this.state.windowWidth){
+      this.setState({ windowWidth: w });
+    }
+  },
+  handleWindowScroll: function(){
+    var el = this.getDOMNode();
+    var offsetTop =  $(el).offset().top;
+    var h = $(el).height();
+    var offsetH = offsetTop+h;
+    if($(window).scrollTop()>=offsetTop &&  $(window).scrollTop()<=offsetH){
+      var diff = $(window).scrollTop() - offsetTop;
+      var elimg = $(el).find(".ParaBGImg");
+      var Ctop = parseInt(elimg.data("topoffset"));
+      var change = Ctop+(diff*0.5);
+      if(Modernizr && Modernizr.csstransforms3d){
+        elimg.css({transform: "translate3d(0px, "+change+"px, 0px)"});
+      }else{
+        elimg.css("top", change);
+      }
+      
+
+      console.log(diff)
+    }
+
+  },
+  render: function() {
+    var setHeight = this.calcPaneHeight();
+    var imgDimensions = this.calcImageDimensions( this.state.windowWidth, setHeight );
+    
+    //var imgOffset = this.calcImageOffset();
+    var imgStyle = {
+      display: "block", 
+      width: imgDimensions.width, 
+      height: imgDimensions.height, 
+      position: "relative", 
+      left: imgDimensions.offsetLeft+"px"
+    }
+    if(Modernizr && Modernizr.csstransforms3d){
+      imgStyle.transform = "translate3d(0px, -"+imgDimensions.offsetTop+"px, 0px)";
+    }else{
+      imgStyle.top = imgDimensions.offsetTop+"px";
+    }
+
+    return (
+      <div className="ParaMain" style={{ position: "relative", width: "100%", height: setHeight, margin: 0, padding: 0, backgroundColor: this.props.backgroundColor }} >
+        <div className="ParaBG" style={{ position: "relative", overflow: "hidden", width: "100%", height: setHeight, margin: 0, padding: 0}}>
+          <img className="ParaBGImg" data-topoffset={imgDimensions.offsetTop} src={this.props.imgSrc} style={imgStyle} />
+        </div>
+        <div className="ParaContent" style={{ position: "relative", width: "100%", top: "-"+setHeight, height: setHeight, margin: 0, padding: 0}}>
+        { this.props.children }
+        </div>
+      </div>
+    );
+  }
+});
+
+
+
+var Stuff = React.createClass({
+  render: function() {
+    return (
+      <TopContainer>
+        <ParallaxContainer imgSrc="/images/section_top_1.jpg" img_h={800} img_w={2310} height="90%" >
+        hifd
+        </ParallaxContainer>
+        <ParallaxContainer backgroundColor="#ff9900" height="auto" >
+        test
+        </ParallaxContainer>
+      </TopContainer>
+    );
+  }
+});
+
+
+
+
+
+
+
+React.render( <Stuff /> , document.getElementById('ppp'));
+
+
+
+
+
+
+
+
+
+
 function ST_windowWidth(){
   return $(window).width();
 }
+
+function ST_windowHeight(){
+  return $(window).height();
+}
+
 
 var ST_windowResize_timeout = null;
 function ST_windowResize(callback){
@@ -483,6 +691,15 @@ function ST_windowResize(callback){
     }, 1000);
   }.bind(this));
 }
+
+function ST_windowScroll(callback){
+  $(window).scroll(callback);
+}
+
+function ST_getScrollPos(){
+  return $(window).scrollTop();
+}
+
 
 
 // (function($){
@@ -499,6 +716,19 @@ $(document).on("selectstart", ".BlogItem", function(){
 });
 
 
+
+
+
+// $(window).scroll(function(){
+
+//     var scroll_h = $(window).scrollTop();
+//     var diff = t_h - scroll_h;
+//     diff = (diff < 0) ? t_h : t_h - diff;
+//     var percent_h = ( diff / t_h  );
+//     //$("#top-para-img").css({top: "-"+( percent_h * change_h )+"px"}, 0);
+//     $("#top-para-img").css({transform: "translate3d(0px, -"+( percent_h * change_h )+"px, 0px)"});
+
+//   });
 
 
 

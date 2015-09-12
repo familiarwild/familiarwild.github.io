@@ -541,10 +541,10 @@ var ParallaxContainer = React.createClass({
     var paneIsHorizontal = (containW >= containH);
     var returnDimensions = {
       offsetLeft: 0,
-      offsetTop: 0
+      offsetTop: -10
     };
     if(this.checkImageHorizontal()){
-      var newH = containH;
+      var newH = containH+20;
       var newW = Math.round( (containH / this.props.img_h) * this.props.img_w );
 
       var widthDiff = containW - newW;

@@ -669,7 +669,7 @@ var Stuff = React.createClass({
         
           <div id="test" style={{height: "50%", marginTop: "10%" }} >
             <img src="/images/logo.svg" className="DropShadowed" style={{display: "block", height: "80%", margin: "0 auto"}} /> 
-            <div className="DropShadowed" style={{display: "block", height: "20%", textAlign: "center", color: "#fff"}} ><h1>FAMILIAR&nbsp;WILD</h1></div>
+            <div className="DropShadowed" style={{display: "block", height: "20%", textAlign: "center", color: "#fff", fontWeight: "200", fontSize: "36px", fontFamily: "Raleway, Helvettica, Arial, sans-serif"}} ><span>FAMILIAR&nbsp;WILD</span></div>
           </div>
 
         </ParallaxContainer>

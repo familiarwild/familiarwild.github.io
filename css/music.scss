@@ -51,65 +51,88 @@
   margin-bottom: -20px;
 }
 
-.BlogItem{
-  user-select: none;
+
+.BlogItem {
   background: #fff;
   display: block;
   margin: 0px auto;
-}
-.BlogItem.nav .BIContent{
-  border: solid 2px #aaa;
-  border-bottom: none;
-}
-.BlogItem.nav .BIOverlay{
-  border: solid 2px #aaa;
-  border-bottom: none;
-}
-.BlogItem.full{
-  width: 500px;
-  margin-top: 60px;
-}
-.BlogItem img {
-    width: 100%;
-    height: auto;
-}
-
-.BlogItem .BIContent{
-  min-height: 40px;
-  position: relative;
-  z-index: 1;
-  overflow: hidden;
-}
-
-.BlogItem.nav .BIContent{
-  height: 40px;
-  min-height: 40px;
-  position: relative;
-  z-index: 1;
-  overflow: hidden;
-  h1 {
-    font-size: 8px;
+  &.full{
+    width: 500px;
+    margin-top: 60px;
   }
-}
-.BlogItem.nav.active .BIContent{
-  height: 70px;
-  min-height: 70px;
+  &.nav{
+    .BIContent{
+      border: solid 2px #aaa;
+      border-bottom: none;
+    }
+  }
+  &.Prev{
+    
+  }
+  &.Next{
+    
+  }
 
+  .BIContent{
+    min-height: 40px;
+    z-index: 1;
+    overflow: hidden;
+  }
+  &.nav {
+    .BIContent {
+      height: 40px;
+      min-height: 40px;
+      z-index: 1;
+      overflow: hidden;
+      h1 {
+        font-size: 8px;
+      }
+    }
+    .BIOverlay{
+      z-index: 10;
+      position: relative;
+      margin-bottom: -40px;
+      background: #eee;
+      opacity: 0.2;
+      cursor: pointer;
+    }
+
+    &.active {
+      .BIOverlay{
+        margin-bottom: -70px;
+      }
+      .BIContent{
+        height: 70px;
+        min-height: 70px;
+      }
+    }
+  }
+
+  
+
+
+  img {
+      width: 100%;
+      height: auto;
+  }
+  
 }
 
-.BlogItem .BIOverlay{
-  position: absolute;
-  z-index: 10;
-  background: #eee;
-  opacity: 0.2;
-  cursor: pointer;
+.BlogList .BlogItem {
+  display: inline-block;
+  vertical-align: bottom;
+  min-height: 20px;
 }
+
+
+
 .BlogItem.active .BIOverlay{
   border: solid 2px #bc0787;
   border-bottom: none;
   background: #bc0787;
   opacity: 0.5;
 }
+
 .BlogItem.active.hover .BIOverlay{
   background: #bc0787;
 }
@@ -123,13 +146,17 @@
 
 .BlogList{
   margin: 0px auto;
+  background: blue;
+  overflow: scroll;
+  border: solid 1px black;
 }
-.BlogList .BlogItem {
-  display: inline-block;
-  vertical-align: bottom;
-  min-height: 20px;
-  
+
+.BlogListInner{
+ background: yellow;
 }
+
+
+
 .BlogArrow{
   font-family: "Roboto Mono";
   font-size: 10px;

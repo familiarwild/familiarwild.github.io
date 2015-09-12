@@ -1,3 +1,5 @@
+
+
 var ALBUMDATA = { albums: [
   {
     id: 1,
@@ -22,10 +24,6 @@ var ALBUMDATA = { albums: [
 
 
 var ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
-
-
-
-
 
 
 
@@ -158,13 +156,15 @@ var Blog = React.createClass({
       items: [],
       item: null,
       offset: 0,
-      isSmall: false
+      isSmall: false,
+      prev: false,
+      next: false
     };
   },
   componentDidMount: function() {
     this.handleResize(false);
     this.getStateData(function(){
-      console.log(this.state.items[0])
+      //console.log(this.state.items[0])
       this.setState({ item: this.state.items[0] })
     }.bind(this));
 
@@ -183,7 +183,7 @@ var Blog = React.createClass({
   },
   getStateData: function(callback){
     this.getItems(function(data){
-      //console.log(data)
+      console.log(data)
       //this.state.items = data.response.posts
       this.setState({items: data.response.posts});
       if(typeof callback==='function'){
@@ -198,7 +198,7 @@ var Blog = React.createClass({
       dataType:'jsonp',
       data: {
           api_key : "cm1eEmrZgqEcevWcnGhO6yCdhSgaNQyNKB1pLRnFOaIgRrZZsG",
-          tag: "fwshows",
+          tag: "",
           limit: 10,
           offset: this.state.offset
       },
@@ -216,9 +216,13 @@ var Blog = React.createClass({
   handleItemSelect: function(item){
     var item_c = item;
     this.setState({ item: item_c })
-    console.log(item);
   },
+  handlePrev: function(){
+    alert("p")
+  },
+  handleNext: function(){
 
+  },
 
   render: function() {
     var blog = null;
@@ -229,13 +233,12 @@ var Blog = React.createClass({
       var active_id = item.id;
     }
     
-
     return (
       <div className="Blog" onClick={this.handleClick}>
       <LayoutRow id="blog_nav" row_data={{color: "#c6e3ec", url: "/images/bg_every.jpg"}}>
         <LayoutContainer>
           <LayoutContainerHeading>Shows</LayoutContainerHeading>
-          <BlogList active_id={active_id} isSmall={this.state.isSmall} items={this.state.items} onItemSelect={this.handleItemSelect} />
+          <BlogList prev={this.state.prev} next={this.state.next} onPrev={this.handlePrev} onNext={this.handleNext} active_id={active_id} isSmall={this.state.isSmall} items={this.state.items} onItemSelect={this.handleItemSelect} />
         </LayoutContainer>
       </LayoutRow>
       <LayoutRow id="blog_body" row_data={{color: "#eee", url: "/images/bg_every.jpg"}}>
@@ -250,9 +253,65 @@ var Blog = React.createClass({
   }
 });
 
+
 var BlogList = React.createClass({
+  getInitialState: function() {
+    return {
+      loading: false
+    };
+  },
+
   handleSelect: function(item){
     this.props.onItemSelect(item);
+  },
+  handleScroll: function(e){
+    var el = this.getDOMNode();
+    var width = (this.props.isSmall ? 50 : 75)
+    var scrollbase = (this.props.prev) ? 3 : 0;
+    var scrollTo = (width*scrollbase);
+    var scrollNext = (this.props.prev) ? 3 : 0;
+
+
+    if(this.state.loading){
+      e.preventDefault();
+      e.stopPropagation();
+      return;
+    }
+    // return;
+    window.clearTimeout(window.timeoutBloglist);
+    if(this.props.prev==false && $(el).scrollLeft()<(width*3) ){
+      window.timeoutBloglist = window.setTimeout(function(){
+        $(el).animate({scrollLeft: (width*scrollbase) }, 50);
+      }, 400);
+      return;
+    }
+    // if(this.props.next==false && $(el).scrollLeft()>(width*3) ){
+    //   e.preventDefault();
+    //   $(el).scrollLeft(width*3);
+    //   return;
+    // }
+
+    if($(el).scrollLeft() >= ((width*3)*2) ){
+      this.setState({ loading: true });
+      this.props.onNext();
+    }else if($(el).scrollLeft() <=1 ){
+      this.setState({ loading: true });
+      this.props.onPrev();
+    }else{
+      window.timeoutBloglist = window.setTimeout(function(){
+        $(el).animate({scrollLeft: scrollTo }, 100);
+      }, 400);
+    }
+
+  },
+  componentDidMount: function() {
+    window.timeoutBloglist=null;
+
+    var el = this.getDOMNode();
+    var width = (this.props.isSmall ? 50 : 75)
+    var scrollbase = (this.props.prev) ? 3 : 0;
+    var scrollTo = (width*scrollbase);
+    $(el).scrollLeft( scrollTo );
   },
   render: function() {
     var width = (this.props.isSmall ? 50 : 75)
@@ -263,13 +322,27 @@ var BlogList = React.createClass({
           <BlogItem isActive={this.props.active_id==item.id} key={item.id} data={item} width={width+"px"} font_size={fontsize+"px"} alt_size={3} padding="0px" isNav={true} onSelect={this.handleSelect}/>
       );
     }.bind(this));
+
+    var itemprev;
+    var itemnext;
+    var prev_classname = "BlogItem Prev";
+    var next_classname = "BlogItem Next";
+    if(this.props.prev){
+      prev_classname += " active";
+    }
+    if(this.props.next){
+      next_classname += " active";
+    }
     
     return (
-        <div className="BlogList clearfix" style={{width: (width*items.length)+"px"}}>
-          {items}
-          <ReactCSSTransitionGroup transitionName="trans_blogitem">
-            
-          </ReactCSSTransitionGroup>
+        <div className="BlogList" onScroll={this.handleScroll} style={{width: (width*items.length)+"px"}}>
+          <div className="BlogListInner" style={{width: (width*(10+6))+"px"}}>
+           <div className={prev_classname} style={{width: (width*3)+"px"}} ><div className="BIOverlay"></div><div className="BIContent">Previous</div></div>
+             <div style={{display: "inline-block", width: (width*(10))+"px"}}>
+             {items}
+             </div>
+           <div className={next_classname} style={{width: (width*3)+"px"}} ><div className="BIOverlay"></div><div className="BIContent">Next</div></div>
+          </div>
         </div>
     );
   }
@@ -291,7 +364,9 @@ var BlogItem = React.createClass({
     };
   },
   handleClick: function(){
-    this.props.onSelect(this.props.data);
+    if(typeof this.props.onSelect == "function"){
+      this.props.onSelect(this.props.data);
+    }
   },
   componentDidMount: function(){
     window.setTimeout(this.setOverlayHeight, 1000);
@@ -310,10 +385,6 @@ var BlogItem = React.createClass({
   },
   handleMouseOut: function(){
     this.setState({isHover: false});
-  },
-  handleScroll: function(){
-    alert('d')
-    this.props.onScroll()
   },
   render: function() {
     var sizeInfo;
@@ -359,11 +430,10 @@ var BlogItem = React.createClass({
        <div id={"blog_"+this.props.data.id} className={class_name} unselectable="on" 
         onMouseOver={this.handleHover} 
         onMouseOut={this.handleMouseOut} 
-        onScroll={this.handleScroll}
         onClick={this.handleClick} style={{width: this.props.width, padding: this.props.padding }}>
         <div className="BIOverlay" style={{width: this.props.width }} >&nbsp;</div>
-        <div className="BIContent" style={{overflow: "hidden" }}>
-        {content}
+        <div className="BIContent" style={{overflow: "hidden", overflowX: "scroll" }}>
+        { content}
         </div>
         {arrow}
        </div>
@@ -373,9 +443,9 @@ var BlogItem = React.createClass({
 });
 
 
-
-React.render( <Blog />, document.getElementById('blog'));
-React.render( <Albums />, document.getElementById('albums'));
+//function load_components(){
+  React.render( <Blog /> , document.getElementById('blog'));
+//}
 
 
 

@@ -246,13 +246,16 @@ var Blog = React.createClass({
     
     return (
       <div className="Blog" onClick={this.handleClick}>
-      <LayoutRow id="blog_nav" row_data={{color: "#c6e3ec", url: "/images/bg_every.jpg"}}>
-        <LayoutContainer>
-          <LayoutContainerHeading>{this.props.title}</LayoutContainerHeading>
-          <BlogList prev={this.state.prev} next={this.state.next} onPrev={this.handlePrev} onNext={this.handleNext} active_id={active_id} isSmall={this.state.isSmall} items={this.state.items} onItemSelect={this.handleItemSelect} />
-        </LayoutContainer>
-      </LayoutRow>
-      <LayoutRow id="blog_body" row_data={{color: "#eee", url: "/images/bg_every.jpg"}}>
+      <ParallaxContainer backgroundColor="#ff9900" height="130" imgSrc="/images/bg_horizon_a.jpg" img_h={258} img_w={1280} >
+          <LayoutRow id="blog_nav" row_data={{color: "transparent"}}>
+            <LayoutContainer>
+              <LayoutContainerHeading>{this.props.title}</LayoutContainerHeading>
+              <BlogList prev={this.state.prev} next={this.state.next} onPrev={this.handlePrev} onNext={this.handleNext} active_id={active_id} isSmall={this.state.isSmall} items={this.state.items} onItemSelect={this.handleItemSelect} />
+            </LayoutContainer>
+          </LayoutRow>
+      </ParallaxContainer>
+
+      <LayoutRow id="blog_body" row_data={{color: "#ccc", url: "/images/bg_every.jpg"}}>
         <LayoutContainer>
           <div style={{minHeight: "100px"}}>
           {blog}
@@ -480,8 +483,8 @@ var BlogItem = React.createClass({
   }
 });
 
-  React.render( <Blog tag="fwshows" title="Shows" /> , document.getElementById('shows'));
-  React.render( <Blog tag="fwvideo" title="Videos" /> , document.getElementById('videos'));
+  // React.render( <Blog tag="fwshows" title="Shows" /> , document.getElementById('shows'));
+  // React.render( <Blog tag="fwvideo" title="Videos" /> , document.getElementById('videos'));
 
 
 
@@ -673,14 +676,8 @@ var Stuff = React.createClass({
           </div>
 
         </ParallaxContainer>
-        <ParallaxContainer backgroundColor="#ff9900" height="auto" imgSrc="/images/section_top_1.jpg" img_h={800} img_w={2310} >
-        <div>
-        tessst
-        fdslkajfskladssds
-        <br />
-        fdsa
-        </div>
-        </ParallaxContainer>
+        <Blog tag="fwvideo" title="Videos" />
+        
       </TopContainer>
     );
   }

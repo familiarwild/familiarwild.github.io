@@ -597,7 +597,7 @@ var ParallaxContainer = React.createClass({
     };
 
     if(Modernizr && Modernizr.csstransforms3d){
-      style.transform = "translate3d(0px, -"+imgDimensions.offsetTop+"px, 0px)";
+      style.transform = "translate3d(0px, "+imgDimensions.offsetTop+"px, 0px)";
     }else{
       style.top = imgDimensions.offsetTop+"px";
     }
@@ -610,13 +610,14 @@ var ParallaxContainer = React.createClass({
     var offsetH = offsetTop+h;
     if($(window).scrollTop()>=offsetTop &&  $(window).scrollTop()<=offsetH){
       var diff = $(window).scrollTop() - offsetTop;
-      var elimg = $(el).find(".ParaBGImg");
-      var Ctop = parseInt(elimg.data("topoffset"));
-      var change = Ctop+(diff*0.5);
+      console.log(diff);
+      var element_img = $(el).find(".ParaBGImg");
+      var current_offset = parseInt(element_img.data("topoffset"));
+      var change = current_offset+(diff*0.5);
       if(Modernizr && Modernizr.csstransforms3d){
-        elimg.css({transform: "translate3d(0px, "+change+"px, 0px)"});
+        element_img.css({transform: "translate3d(0px, "+change+"px, 0px)"});
       }else{
-        elimg.css("top", change);
+        element_img.css("top", change);
       }
     }
   },

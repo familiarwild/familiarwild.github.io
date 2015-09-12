@@ -183,7 +183,7 @@ var Blog = React.createClass({
   },
   getStateData: function(callback){
     this.getItems(function(data){
-      console.log(data)
+      //console.log(data)
       //this.state.items = data.response.posts
       this.setState({items: data.response.posts});
       if(typeof callback==='function'){

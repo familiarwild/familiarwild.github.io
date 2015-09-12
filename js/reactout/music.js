@@ -46,7 +46,7 @@ var ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
 
 
 
-var LayoutRow = React.createClass({
+var LayoutRow = React.createClass({displayName: "LayoutRow",
   render: function() {
     var rowStyle = { color: this.props.row_data.fontColor, background: this.props.row_data.backgroundColor }
     if(this.props.row_data.backgroundImage){
@@ -54,14 +54,14 @@ var LayoutRow = React.createClass({
       rowStyle.backgroundSize= "cover";
     }
     return (
-      <div id={this.props.id} className={"LayoutRow "+this.props.className} style={rowStyle}>
-        { this.props.children }
-      </div>
+      React.createElement("div", {id: this.props.id, className: "LayoutRow "+this.props.className, style: rowStyle}, 
+         this.props.children
+      )
     );
   }
 });
 
-var LayoutContainer = React.createClass({
+var LayoutContainer = React.createClass({displayName: "LayoutContainer",
   getInitialState: function() {
     return {
       margin: "0px"
@@ -69,25 +69,25 @@ var LayoutContainer = React.createClass({
   },
   render: function() {
     return (
-      <div className="container">
-        { this.props.children }
-      </div>
+      React.createElement("div", {className: "container"}, 
+         this.props.children
+      )
     );
   }
 });
 
-var LayoutContainerHeading = React.createClass({
+var LayoutContainerHeading = React.createClass({displayName: "LayoutContainerHeading",
   render: function() {
     return (
-      <h1 className="heading">
-        { this.props.children }
-      </h1>
+      React.createElement("h1", {className: "heading"}, 
+         this.props.children
+      )
     );
   }
 });
 
 
-var Album = React.createClass({
+var Album = React.createClass({displayName: "Album",
 
   getInitialState: function() {
     return {
@@ -98,15 +98,15 @@ var Album = React.createClass({
   },
   render: function() {
     return (
-      <div className="Album" >
-        {this.props.data.name}
-        <AlbumCover artwork_url={this.props.data.artwork_url} hasShadow={this.state.hasShadow} link_url={this.state.linkAlbum ? this.props.data.link_url : null} />
-      </div>
+      React.createElement("div", {className: "Album"}, 
+        this.props.data.name, 
+        React.createElement(AlbumCover, {artwork_url: this.props.data.artwork_url, hasShadow: this.state.hasShadow, link_url: this.state.linkAlbum ? this.props.data.link_url : null})
+      )
     );
   }
 });
 
-var AlbumCover = React.createClass({
+var AlbumCover = React.createClass({displayName: "AlbumCover",
   handleClick: function(){
     if(this.props.link_url){
       document.location.href=this.props.link_url;
@@ -121,9 +121,9 @@ var AlbumCover = React.createClass({
       class_name += " linked";
     }
     return (
-      <div className={class_name} >
-        <img src={this.props.artwork_url} onClick={this.handleClick} />
-      </div>
+      React.createElement("div", {className: class_name}, 
+        React.createElement("img", {src: this.props.artwork_url, onClick: this.handleClick})
+      )
     );
   }
 });
@@ -131,7 +131,7 @@ var AlbumCover = React.createClass({
 
 
 
-var Albums = React.createClass({
+var Albums = React.createClass({displayName: "Albums",
 
   getInitialState: function() {
     return {
@@ -149,12 +149,12 @@ var Albums = React.createClass({
     var albums = [];
     for (var i=0; i < this.state.albums.length; i++) {
       var a = this.state.albums[i];
-      albums.push(<Album key={a.id} data={a} />);
+      albums.push(React.createElement(Album, {key: a.id, data: a}));
     }
     return (
-      <div className="Albums">
-        {albums}
-      </div>
+      React.createElement("div", {className: "Albums"}, 
+        albums
+      )
     );
   }
 
@@ -210,7 +210,7 @@ var Albums = React.createClass({
 
 
 
-var Blog = React.createClass({
+var Blog = React.createClass({displayName: "Blog",
   getInitialState: function() {
     return {
       items: [],
@@ -325,41 +325,41 @@ var Blog = React.createClass({
     var active_id = null;
     if(this.state.item){
       var item = this.state.item
-      blog = <BlogItem width={500} key={item.id} data={item} onSelect={this.handleSelect} onScrollTo={this.handleScrollTo} />
+      blog = React.createElement(BlogItem, {width: 500, key: item.id, data: item, onSelect: this.handleSelect, onScrollTo: this.handleScrollTo})
       var active_id = item.id;
     }
     //console.log(this.props.data)
     
     return (
-      <div className="Blog">
-      <ParallaxContainer backgroundColor={this.props.data.backgroundIMG.color} height={this.props.data.height} imgSrc={this.props.data.backgroundIMG.url} img_h={this.props.data.backgroundIMG.img_h} img_w={this.props.data.backgroundIMG.img_w} >
-        <LayoutRow className="BlogNav" row_data={{ fontColor: "#fff", backgroundColor: "transparent", backgroundImage: this.props.data.titleIMG.url }}>
-          <LayoutContainer>
-            <LayoutContainerHeading>{this.props.data.title}</LayoutContainerHeading>
-            <BlogList prev={this.state.prev} next={this.state.next} onPrev={this.handlePrev} onNext={this.handleNext} active_id={active_id} isSmall={this.state.isSmall} items={this.state.items} onItemSelect={this.handleItemSelect} />
-          </LayoutContainer>
-        </LayoutRow>
+      React.createElement("div", {className: "Blog"}, 
+      React.createElement(ParallaxContainer, {backgroundColor: this.props.data.backgroundIMG.color, height: this.props.data.height, imgSrc: this.props.data.backgroundIMG.url, img_h: this.props.data.backgroundIMG.img_h, img_w: this.props.data.backgroundIMG.img_w}, 
+        React.createElement(LayoutRow, {className: "BlogNav", row_data: { fontColor: "#fff", backgroundColor: "transparent", backgroundImage: this.props.data.titleIMG.url}}, 
+          React.createElement(LayoutContainer, null, 
+            React.createElement(LayoutContainerHeading, null, this.props.data.title), 
+            React.createElement(BlogList, {prev: this.state.prev, next: this.state.next, onPrev: this.handlePrev, onNext: this.handleNext, active_id: active_id, isSmall: this.state.isSmall, items: this.state.items, onItemSelect: this.handleItemSelect})
+          )
+        ), 
       
 
-        <LayoutRow className="BlogBody" row_data={{ fontColor: "#fff", backgroundColor: "transparent" }}>
-          <LayoutContainer>
-            <div style={{minHeight: "100px"}}>
-            {blog}
-            </div>
-            <div style={{height: "80px", padding: "20px"}}>
-              <span onClick={this.handlePrev}>Prev</span>
-              <span onClick={this.handleNext}>Next</span>
-            </div>
-          </LayoutContainer>
-        </LayoutRow>
-      </ParallaxContainer>
-      </div>
+        React.createElement(LayoutRow, {className: "BlogBody", row_data: { fontColor: "#fff", backgroundColor: "transparent"}}, 
+          React.createElement(LayoutContainer, null, 
+            React.createElement("div", {style: {minHeight: "100px"}}, 
+            blog
+            ), 
+            React.createElement("div", {style: {height: "80px", padding: "20px"}}, 
+              React.createElement("span", {onClick: this.handlePrev}, "Prev"), 
+              React.createElement("span", {onClick: this.handleNext}, "Next")
+            )
+          )
+        )
+      )
+      )
     );
   }
 });
 
 
-var BlogList = React.createClass({
+var BlogList = React.createClass({displayName: "BlogList",
   getInitialState: function() {
     return {
       loading: false,
@@ -437,7 +437,7 @@ var BlogList = React.createClass({
 
     var items = this.props.items.map(function(item, i) {
       return (
-          <BlogItem isActive={this.props.active_id==item.id} key={item.id} data={item} width={width+"px"} font_size={fontsize+"px"} alt_size={3} padding="0px" isNav={true} onSelect={this.handleSelect}/>
+          React.createElement(BlogItem, {isActive: this.props.active_id==item.id, key: item.id, data: item, width: width+"px", font_size: fontsize+"px", alt_size: 3, padding: "0px", isNav: true, onSelect: this.handleSelect})
       );
     }.bind(this));
 
@@ -453,21 +453,21 @@ var BlogList = React.createClass({
     }
     
     return (
-        <div className="BlogList" onScroll={this.handleScroll} style={{width: (totW)+"px"}}>
-          <div className="BlogListInner" style={{width: (totWInner)+"px"}}>
-           <div className={prev_classname} style={{width: (prevW)+"px"}} ><div className="BIOverlay"></div><div className="BIContent">Previous</div></div>
-             <div style={{display: "inline-block", width: (contW)+"px"}}>
-             {items}
-             </div>
-           <div className={next_classname} style={{width: (nextW)+"px"}} ><div className="BIOverlay"></div><div className="BIContent">Next</div></div>
-          </div>
-        </div>
+        React.createElement("div", {className: "BlogList", onScroll: this.handleScroll, style: {width: (totW)+"px"}}, 
+          React.createElement("div", {className: "BlogListInner", style: {width: (totWInner)+"px"}}, 
+           React.createElement("div", {className: prev_classname, style: {width: (prevW)+"px"}}, React.createElement("div", {className: "BIOverlay"}), React.createElement("div", {className: "BIContent"}, "Previous")), 
+             React.createElement("div", {style: {display: "inline-block", width: (contW)+"px"}}, 
+             items
+             ), 
+           React.createElement("div", {className: next_classname, style: {width: (nextW)+"px"}}, React.createElement("div", {className: "BIOverlay"}), React.createElement("div", {className: "BIContent"}, "Next"))
+          )
+        )
     );
   }
 });
 
 
-var BlogItem = React.createClass({
+var BlogItem = React.createClass({displayName: "BlogItem",
   getInitialState: function() {
     return {
       isHover: false
@@ -521,7 +521,7 @@ var BlogItem = React.createClass({
         //console.log('this.props.data.id')
         class_name += " hover";
       }
-      arrow = <div className="BlogArrow"><div className="arrow"></div></div>
+      arrow = React.createElement("div", {className: "BlogArrow"}, React.createElement("div", {className: "arrow"}))
     }else{
       class_name += " full";
     }
@@ -530,45 +530,45 @@ var BlogItem = React.createClass({
     if(this.props.data.type=="photo"){
       var imgs = null;
       if(this.props.data.photos && this.props.data.photos.length>0){
-        imgs = <img src={this.props.data.photos[0].alt_sizes[this.props.alt_size].url} />
+        imgs = React.createElement("img", {src: this.props.data.photos[0].alt_sizes[this.props.alt_size].url})
       }
-      content = <div className="BIContent" style={{overflow: "hidden" }}>
-          {imgs}
-          <div style={{fontSize: this.props.font_size}} dangerouslySetInnerHTML={{__html: this.props.data.caption }} />
-        </div>
+      content = React.createElement("div", {className: "BIContent", style: {overflow: "hidden"}}, 
+          imgs, 
+          React.createElement("div", {style: {fontSize: this.props.font_size}, dangerouslySetInnerHTML: {__html: this.props.data.caption}})
+        )
     } 
     if(this.props.data.type=="text"){
-      content = <div className="BIContent" style={{overflow: "hidden" }}>
-          <div style={{fontSize: this.props.font_size}} dangerouslySetInnerHTML={{__html: "<h1>"+this.props.data.title+"</h1>" + this.props.data.body }} />
-        </div>
+      content = React.createElement("div", {className: "BIContent", style: {overflow: "hidden"}}, 
+          React.createElement("div", {style: {fontSize: this.props.font_size}, dangerouslySetInnerHTML: {__html: "<h1>"+this.props.data.title+"</h1>" + this.props.data.body}})
+        )
     } 
     if(this.props.data.type=="video"){
       if(this.props.isNav){
         var vidsrc = this.props.data.permalink_url.replace("https://www.youtube.com/watch?v=", "");
         vidsrc = "http://img.youtube.com/vi/"+vidsrc+"/mqdefault.jpg"
-        content = <div className="BIContent" style={{overflow: "hidden" }}>
-          <img src={vidsrc} width="100%" />
-        </div>
+        content = React.createElement("div", {className: "BIContent", style: {overflow: "hidden"}}, 
+          React.createElement("img", {src: vidsrc, width: "100%"})
+        )
       }else{
         var vidw = this.props.width-40;
         var vidh = Math.round(vidw*0.6);
-        content = <div className="BIContent" style={{overflow: "hidden" }}>
-          <div style={{fontSize: this.props.font_size}} dangerouslySetInnerHTML={{__html: this.props.data.player[0].embed_code.replace("width=\"250", "width=\""+vidw).replace("height=\"141", "height=\""+vidh) }} />
-        </div>
+        content = React.createElement("div", {className: "BIContent", style: {overflow: "hidden"}}, 
+          React.createElement("div", {style: {fontSize: this.props.font_size}, dangerouslySetInnerHTML: {__html: this.props.data.player[0].embed_code.replace("width=\"250", "width=\""+vidw).replace("height=\"141", "height=\""+vidh)}})
+        )
       }
     } 
 
     return (
-       <div id={"blog_"+this.props.data.id} className={class_name} unselectable="on" 
-        onMouseOver={this.handleHover} 
-        onMouseOut={this.handleMouseOut} 
-        onClick={this.handleClick} style={{width: this.props.width, padding: this.props.padding }}>
-        <div className="BIOverlay" style={{width: this.props.width }} >&nbsp;</div>
-        <div className="BIContent" style={{overflow: "hidden" }}>
-        { content}
-        </div>
-        {arrow}
-       </div>
+       React.createElement("div", {id: "blog_"+this.props.data.id, className: class_name, unselectable: "on", 
+        onMouseOver: this.handleHover, 
+        onMouseOut: this.handleMouseOut, 
+        onClick: this.handleClick, style: {width: this.props.width, padding: this.props.padding}}, 
+        React.createElement("div", {className: "BIOverlay", style: {width: this.props.width}}, " "), 
+        React.createElement("div", {className: "BIContent", style: {overflow: "hidden"}}, 
+         content
+        ), 
+        arrow
+       )
 
     );
   }
@@ -583,17 +583,17 @@ var BlogItem = React.createClass({
 
 
 
-var TopContainer = React.createClass({
+var TopContainer = React.createClass({displayName: "TopContainer",
   render: function() {
     return (
-      <div className="ParaMain" style={{ width: "100%", height: "auto", margin: 0, padding: 0 }} >
-        { this.props.children }
-      </div>
+      React.createElement("div", {className: "ParaMain", style: { width: "100%", height: "auto", margin: 0, padding: 0}}, 
+         this.props.children
+      )
     );
   }
 });
 
-var ParallaxContainer = React.createClass({
+var ParallaxContainer = React.createClass({displayName: "ParallaxContainer",
   getInitialState: function() {
     return {
       paneHeight: this.getWindowHeight(),
@@ -744,30 +744,30 @@ var ParallaxContainer = React.createClass({
     if(this.props.height!="auto" && !setHeight.isNaN ){
       imgDimensions = this.calcImageDimensions( this.state.paneWidth, imageContainHeight );
       var imgStyle = this.imgStyle(imgDimensions);
-      bgimg = <img className="ParaBGImg" data-topoffset={imgDimensions.offsetTop} src={this.props.imgSrc} style={imgStyle} />
+      bgimg = React.createElement("img", {className: "ParaBGImg", "data-topoffset": imgDimensions.offsetTop, src: this.props.imgSrc, style: imgStyle})
     }else{
       mainStyle.background = "transparent url('"+this.props.imgSrc+"') no-repeat center center";
       mainStyle.backgroundSize = "cover";
     }
 
     return (
-      <div className="ParaContainer" style={mainStyle} >
-        <div className="ParaBG" style={{ position: "relative", overflow: "hidden", width: "100%", height: imageContainHeight, margin: 0, padding: 0}}>
-          {bgimg}
-        </div>
-        <div className="ParaContent" style={{ position: "relative", width: "100%", top: "-"+imageContainHeight, height: setHeight, margin: 0, padding: 0}}>
-          <div style={{ position: "relative", width: "100%", height: "100%", zoom: "1"}}>
-            { this.props.children }
-          </div>
-        </div>
-      </div>
+      React.createElement("div", {className: "ParaContainer", style: mainStyle}, 
+        React.createElement("div", {className: "ParaBG", style: { position: "relative", overflow: "hidden", width: "100%", height: imageContainHeight, margin: 0, padding: 0}}, 
+          bgimg
+        ), 
+        React.createElement("div", {className: "ParaContent", style: { position: "relative", width: "100%", top: "-"+imageContainHeight, height: setHeight, margin: 0, padding: 0}}, 
+          React.createElement("div", {style: { position: "relative", width: "100%", height: "100%", zoom: "1"}}, 
+             this.props.children
+          )
+        )
+      )
     );
   }
 });
 
 
 
-var Stuff = React.createClass({
+var Stuff = React.createClass({displayName: "Stuff",
   getInitialState: function() {
     return {
       loaded: false,
@@ -777,9 +777,9 @@ var Stuff = React.createClass({
     this.setState({loaded: true});
   },
   render: function() {
-    var text = <span>loading...</span>;
+    var text = React.createElement("span", null, "loading...");
     if(this.state.loaded){
-      text = <span>FAMILIAR&nbsp;WILD</span>;
+      text = React.createElement("span", null, "FAMILIAR WILD");
     } 
 
     var datablog = [
@@ -789,21 +789,21 @@ var Stuff = React.createClass({
     ];
 
     return (
-      <TopContainer>
+      React.createElement(TopContainer, null, 
 
-        <ParallaxContainer imgSrc="/images/section_top_1.jpg" img_h={800} img_w={2310} height="100%" >
+        React.createElement(ParallaxContainer, {imgSrc: "/images/section_top_1.jpg", img_h: 800, img_w: 2310, height: "100%"}, 
         
-          <div id="test" style={{position: "relative", top: "20%", height: "50%" }} >
-            <img src="/images/logo.svg" className="DropShadowed" style={{display: "block", height: "80%", margin: "0 auto"}} /> 
-            <div className="DropShadowed" style={{display: "block", height: "20%", textAlign: "center", color: "#fff", fontWeight: "200", fontSize: "36px", fontFamily: "Raleway, Helvettica, Arial, sans-serif"}} >
-            {text}
-            </div>
-          </div>
+          React.createElement("div", {id: "test", style: {position: "relative", top: "20%", height: "50%"}}, 
+            React.createElement("img", {src: "/images/logo.svg", className: "DropShadowed", style: {display: "block", height: "80%", margin: "0 auto"}}), 
+            React.createElement("div", {className: "DropShadowed", style: {display: "block", height: "20%", textAlign: "center", color: "#fff", fontWeight: "200", fontSize: "36px", fontFamily: "Raleway, Helvettica, Arial, sans-serif"}}, 
+            text
+            )
+          )
 
-        </ParallaxContainer>
-        <StuffBlogs onLoaded={this.handleLoaded} data={datablog} isHidden={!this.state.loaded}/>
+        ), 
+        React.createElement(StuffBlogs, {onLoaded: this.handleLoaded, data: datablog, isHidden: !this.state.loaded})
         
-      </TopContainer>
+      )
     );
   
   }
@@ -813,7 +813,7 @@ var Stuff = React.createClass({
 
 
 
-var StuffBlogs = React.createClass({
+var StuffBlogs = React.createClass({displayName: "StuffBlogs",
   getInitialState: function() {
     return {
       loaded: false,
@@ -838,14 +838,14 @@ var StuffBlogs = React.createClass({
     }
 
     return (
-      <div style={{display: (this.props.isHidden ? "block": "block") }}>
-       <StuffBlogsList data={showBlogs} onLoaded={this.handleLoaded} />
-      </div>
+      React.createElement("div", {style: {display: (this.props.isHidden ? "block": "block")}}, 
+       React.createElement(StuffBlogsList, {data: showBlogs, onLoaded: this.handleLoaded})
+      )
     );
   }
 });
 
-var StuffBlogsList = React.createClass({
+var StuffBlogsList = React.createClass({displayName: "StuffBlogsList",
   handleLoaded: function(){
     this.props.onLoaded();
   },
@@ -854,22 +854,22 @@ var StuffBlogsList = React.createClass({
     if(this.props.data.length>0){
       blogs = this.props.data.map(function(item, i) {
         return (
-          <Blog key={item.id} data={item} onLoaded={this.handleLoaded} />
+          React.createElement(Blog, {key: item.id, data: item, onLoaded: this.handleLoaded})
         );
       }.bind(this));
     }
 
     return (
-      <div>
-       {blogs}
-      </div>
+      React.createElement("div", null, 
+       blogs
+      )
     );
   }
 });
 
 
 
-React.render( <Stuff /> , document.getElementById('ppp'));
+React.render( React.createElement(Stuff, null) , document.getElementById('ppp'));
 
 
 

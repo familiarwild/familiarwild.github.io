@@ -783,17 +783,16 @@ var Stuff = React.createClass({
     } 
 
     var datablog = [
-      {tag: "fwvideo", title:"Videos", height: "100%", titleIMG: IMGS.none, backgroundIMG: IMGS.bgrock},
-      {tag: "fwshows", title:"Shows", height: "auto", titleIMG: IMGS.none, backgroundIMG: IMGS.bgice},
-      {tag: "fwquote", title:"Quotes", height: "100%", titleIMG: IMGS.none, backgroundIMG: IMGS.bgrock},
-      
+      {id="vid", tag: "fwvideo", title:"Videos", height: "100%", titleIMG: IMGS.none, backgroundIMG: IMGS.bgrock},
+      {id="show", tag: "fwshows", title:"Shows", height: "auto", titleIMG: IMGS.none, backgroundIMG: IMGS.bgice},
+      {id="quote", tag: "fwquote", title:"Quotes", height: "100%", titleIMG: IMGS.none, backgroundIMG: IMGS.bgrock},
     ];
 
 
 
     return (
       <TopContainer>
-      
+
         <ParallaxContainer imgSrc="/images/section_top_1.jpg" img_h={800} img_w={2310} height="100%" >
         
           <div id="test" style={{position: "relative", top: "20%", height: "50%" }} >
@@ -857,7 +856,7 @@ var StuffBlogsList = React.createClass({
     if(this.props.data.length>0){
       blogs = this.props.data.map(function(item, i) {
         return (
-          <Blog data={item} onLoaded={this.handleLoaded} />
+          <Blog key={item.id} data={item} onLoaded={this.handleLoaded} />
         );
       }.bind(this));
     }

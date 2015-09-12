@@ -508,7 +508,7 @@ var ParallaxContainer = React.createClass({
   },
   getDefaultProps: function() {
     return {
-      height: "100%",
+      height: "auto",
       img_h: 100,
       img_w: 100,
       imgSrc: null,
@@ -530,7 +530,7 @@ var ParallaxContainer = React.createClass({
       var percent = (parseInt(this.props.height) / 100);
       return Math.ceil(percent * this.state.windowHeight);
     }else{
-      return this.props.height;
+      return this.props.height=="auto" ? "auto" : parseInt(this.props.height);
     }
     // return (this.props.height.indexOf("%") > -1) ? this.state.windowHeight : this.props.height; 
   },
@@ -540,12 +540,9 @@ var ParallaxContainer = React.createClass({
       offsetLeft: 0,
       offsetTop: 0
     };
-    //var variance = 100;
     if(this.checkImageHorizontal()){
       var newH = containH;
       var newW = Math.round( (containH / this.props.img_h) * this.props.img_w );
-
-      console.log("w"+newW+ "--h" + newH);
 
       var widthDiff = containW - newW;
       var heightDiff;
@@ -559,9 +556,6 @@ var ParallaxContainer = React.createClass({
         returnDimensions.width = newW;
         returnDimensions.offsetLeft = Math.floor( widthDiff/2 );
       }
-
-      console.log(returnDimensions);
-
     }else{
       console.log("todo")
     }
@@ -569,23 +563,54 @@ var ParallaxContainer = React.createClass({
 
   },
   componentDidMount: function() {
-    this.handleResize(false);
+    this.handleResize();
     ST_windowResize(function(){
-      this.handleResize(true);
+      this.handleResize();
     }.bind(this));
     ST_windowScroll(function(){
       this.handleWindowScroll();
     }.bind(this));
   },
-  handleResize: function(get_data){
+  handleResize: function(){
+    var el = this.getDOMNode();
+    if(this.props.height=="auto"){
+      $(el).find(".ParaBG").height(1);
+      $(el).find(".ParaContent").css("top", "-1px");
+    }
+
     var h = this.getWindowHeight();
     if( h!==this.state.windowHeight){
       this.setState({ windowHeight: h });
+      return;
     }
     var w = this.getWindowWidth();
     if( w!==this.state.windowWidth){
       this.setState({ windowWidth: w });
+      return;
     }
+
+    var h = $(el).height();
+    $(el).find(".ParaBG").height(h);
+    $(el).find(".ParaContent").css("top", "-"+h+"px");
+    var imgDimensions = this.calcImageDimensions( this.state.windowWidth, h );
+    $(el).find(".ParaBG img").css(this.imgStyle(imgDimensions));
+
+  },
+  imgStyle: function(imgDimensions){
+    var style = {
+      display: "block", 
+      width: imgDimensions.width, 
+      height: imgDimensions.height, 
+      position: "relative", 
+      left: imgDimensions.offsetLeft+"px"
+    };
+
+    if(Modernizr && Modernizr.csstransforms3d){
+      style.transform = "translate3d(0px, -"+imgDimensions.offsetTop+"px, 0px)";
+    }else{
+      style.top = imgDimensions.offsetTop+"px";
+    }
+    return style;
   },
   handleWindowScroll: function(){
     var el = this.getDOMNode();
@@ -602,37 +627,34 @@ var ParallaxContainer = React.createClass({
       }else{
         elimg.css("top", change);
       }
-      
-
-      console.log(diff)
     }
-
   },
   render: function() {
     var setHeight = this.calcPaneHeight();
-    var imgDimensions = this.calcImageDimensions( this.state.windowWidth, setHeight );
-    
-    //var imgOffset = this.calcImageOffset();
-    var imgStyle = {
-      display: "block", 
-      width: imgDimensions.width, 
-      height: imgDimensions.height, 
-      position: "relative", 
-      left: imgDimensions.offsetLeft+"px"
-    }
-    if(Modernizr && Modernizr.csstransforms3d){
-      imgStyle.transform = "translate3d(0px, -"+imgDimensions.offsetTop+"px, 0px)";
+    var imgDimensions;
+    var imageContainHeight;
+    if(setHeight!="auto"){
+      imageContainHeight = setHeight;
     }else{
-      imgStyle.top = imgDimensions.offsetTop+"px";
+      imageContainHeight = 1;
+    }
+    
+    var bgimg;
+    if(!setHeight.isNaN){
+      imgDimensions = this.calcImageDimensions( this.state.windowWidth, imageContainHeight );
+      var imgStyle = this.imgStyle(imgDimensions);
+      bgimg = <img className="ParaBGImg" data-topoffset={imgDimensions.offsetTop} src={this.props.imgSrc} style={imgStyle} />
     }
 
     return (
       <div className="ParaMain" style={{ position: "relative", width: "100%", height: setHeight, margin: 0, padding: 0, backgroundColor: this.props.backgroundColor }} >
-        <div className="ParaBG" style={{ position: "relative", overflow: "hidden", width: "100%", height: setHeight, margin: 0, padding: 0}}>
-          <img className="ParaBGImg" data-topoffset={imgDimensions.offsetTop} src={this.props.imgSrc} style={imgStyle} />
+        <div className="ParaBG" style={{ position: "relative", overflow: "hidden", width: "100%", height: imageContainHeight, margin: 0, padding: 0}}>
+          {bgimg}
         </div>
-        <div className="ParaContent" style={{ position: "relative", width: "100%", top: "-"+setHeight, height: setHeight, margin: 0, padding: 0}}>
-        { this.props.children }
+        <div className="ParaContent" style={{ position: "relative", width: "100%", top: "-"+imageContainHeight, height: setHeight, margin: 0, padding: 0}}>
+          <div>
+          { this.props.children }
+          </div>
         </div>
       </div>
     );
@@ -645,11 +667,20 @@ var Stuff = React.createClass({
   render: function() {
     return (
       <TopContainer>
-        <ParallaxContainer imgSrc="/images/section_top_1.jpg" img_h={800} img_w={2310} height="90%" >
-        hifd
+        <ParallaxContainer imgSrc="/images/section_top_1.jpg" img_h={800} img_w={2310} height="100%" >
+        
+          <div id="test" style={{height: "50%", marginTop: "10%" }} >
+            <img src="/images/logo.svg" className="DropShadowed" style={{display: "block", height: "80%", margin: "0 auto"}} /> 
+            <div className="DropShadowed" style={{display: "block", height: "20%", textAlign: "center", color: "#fff"}} ><h1>FAMILIAR&nbsp;WILD</h1></div>
+          </div>
+
         </ParallaxContainer>
-        <ParallaxContainer backgroundColor="#ff9900" height="auto" >
-        test
+        <ParallaxContainer backgroundColor="#ff9900" height="auto" imgSrc="/images/section_top_1.jpg" img_h={800} img_w={2310} >
+        <div>test
+        fdslkajfskla
+        <br />
+        fdsa
+        </div>
         </ParallaxContainer>
       </TopContainer>
     );

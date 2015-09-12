@@ -684,36 +684,54 @@ var Stuff = React.createClass({
     this.setState({loaded: true});
   },
   render: function() {
+    var text = <span>loading...</span>;
     if(this.state.loaded){
-      return (
-        <TopContainer>
-          <ParallaxContainer imgSrc="/images/section_top_1.jpg" img_h={800} img_w={2310} height="100%" >
-          
-            <div id="test" style={{position: "relative", top: "50%", height: "50%" }} >
-              <img src="/images/logo.svg" className="DropShadowed" style={{display: "block", height: "80%", margin: "0 auto"}} /> 
-              <div className="DropShadowed" style={{display: "block", height: "20%", textAlign: "center", color: "#fff", fontWeight: "200", fontSize: "36px", fontFamily: "Raleway, Helvettica, Arial, sans-serif"}} ><span>FAMILIAR&nbsp;WILD</span></div>
-            </div>
+      text = <span>FAMILIAR&nbsp;WILD</span>;
+    } 
 
-          </ParallaxContainer>
-          <Blog tag="fwvideo" title="Videos" onLoaded={this.handleLoaded} />
-          
-        </TopContainer>
-      );
-    } else{
-      return (
-        <TopContainer>
-          <ParallaxContainer imgSrc="/images/section_top_1.jpg" img_h={800} img_w={2310} height="100%" >
-          
-            <div id="test" style={{position: "relative", top: "25%", height: "50%" }} >
-            
-                <img src="/images/logo.svg" className="DropShadowed" style={{display: "block", height: "80%", margin: "0 auto"}} /> 
-                <div className="DropShadowed" style={{display: "block", height: "20%", textAlign: "center", color: "#fff", fontWeight: "200", fontSize: "36px", fontFamily: "Raleway, Helvettica, Arial, sans-serif"}} ><span>LOADING...</span></div>
+    return (
+      <TopContainer>
+        <ParallaxContainer imgSrc="/images/section_top_1.jpg" img_h={800} img_w={2310} height="100%" >
+        
+          <div id="test" style={{position: "relative", top: "20%", height: "50%" }} >
+            <img src="/images/logo.svg" className="DropShadowed" style={{display: "block", height: "80%", margin: "0 auto"}} /> 
+            <div className="DropShadowed" style={{display: "block", height: "20%", textAlign: "center", color: "#fff", fontWeight: "200", fontSize: "36px", fontFamily: "Raleway, Helvettica, Arial, sans-serif"}} >
+            {text}
             </div>
+          </div>
 
-          </ParallaxContainer>
-        </TopContainer>
-      );
+        </ParallaxContainer>
+        <StuffBlogs onLoaded={this.handleLoaded} isHidden={!this.state.loaded}/>
+        
+      </TopContainer>
+    );
+  
+  }
+});
+
+
+var StuffBlogs = React.createClass({
+  getInitialState: function() {
+    return {
+      loaded: false
+    };
+  },
+  handleLoaded: function(){
+    this.countLoad++;
+    if(this.countLoad==this.loadnumber){
+      this.setState({loaded: true});
+      this.props.onLoaded();
     }
+  },
+  render: function() {
+    this.countLoad=0;
+    this.loadnumber=1;
+    return (
+      <div style={{display: (this.props.isHidden ? "none": "block") }}>
+        <Blog tag="fwvideo" title="Videos" onLoaded={this.handleLoaded} />
+        <Blog tag="fwshows" title="Shows" onLoaded={this.handleLoaded} />
+      </div>
+    );
   }
 });
 

@@ -1,0 +1,11 @@
+react tools
+
+npm install react-tools -g
+
+jsx   --watch   src/    out/
+
+
+jsx --watch js/react/ /js/reactout/
+
+
+

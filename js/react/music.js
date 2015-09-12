@@ -164,7 +164,6 @@ var Blog = React.createClass({
   componentDidMount: function() {
     this.handleResize(false);
     this.getStateData(function(){
-      //console.log(this.state.items[0])
       this.setState({ item: this.state.items[0] })
     }.bind(this));
 
@@ -183,8 +182,6 @@ var Blog = React.createClass({
   },
   getStateData: function(callback){
     this.getItems(function(data){
-      //console.log(data)
-      //this.state.items = data.response.posts
       this.setState({items: data.response.posts});
       if(typeof callback==='function'){
         callback();
@@ -198,7 +195,7 @@ var Blog = React.createClass({
       dataType:'jsonp',
       data: {
           api_key : "cm1eEmrZgqEcevWcnGhO6yCdhSgaNQyNKB1pLRnFOaIgRrZZsG",
-          tag: "",
+          tag: this.props.tag ? this.props.tag : "",
           limit: 10,
           offset: this.state.offset
       },
@@ -218,10 +215,8 @@ var Blog = React.createClass({
     this.setState({ item: item_c })
   },
   handlePrev: function(){
-    alert("p")
   },
   handleNext: function(){
-
   },
 
   render: function() {
@@ -229,7 +224,7 @@ var Blog = React.createClass({
     var active_id = null;
     if(this.state.item){
       var item = this.state.item
-      blog = <BlogItem key={item.id} data={item} onSelect={this.handleSelect} />
+      blog = <BlogItem width={500} key={item.id} data={item} onSelect={this.handleSelect} />
       var active_id = item.id;
     }
     
@@ -237,7 +232,7 @@ var Blog = React.createClass({
       <div className="Blog" onClick={this.handleClick}>
       <LayoutRow id="blog_nav" row_data={{color: "#c6e3ec", url: "/images/bg_every.jpg"}}>
         <LayoutContainer>
-          <LayoutContainerHeading>Shows</LayoutContainerHeading>
+          <LayoutContainerHeading>{this.props.title}</LayoutContainerHeading>
           <BlogList prev={this.state.prev} next={this.state.next} onPrev={this.handlePrev} onNext={this.handleNext} active_id={active_id} isSmall={this.state.isSmall} items={this.state.items} onItemSelect={this.handleItemSelect} />
         </LayoutContainer>
       </LayoutRow>
@@ -323,10 +318,11 @@ var BlogList = React.createClass({
     var width = (this.props.isSmall ? 50 : 75)
     var fontsize = (this.props.isSmall ? 2 : 3)
 
+    var count = this.props.items.length;
     var prevW = (this.props.prev) ? width*3 : width*1;
     var nextW = (this.props.next) ? width*3 : width*1;
-    var contW = (width*10);
-    var totW = (width*11);
+    var contW = (width*count);
+    var totW = (width*(count+1));
     var totWInner = contW+prevW+nextW;
 
     var items = this.props.items.map(function(item, i) {
@@ -417,8 +413,6 @@ var BlogItem = React.createClass({
       class_name += " full";
     }
     
-    
-
     var content;
     if(this.props.data.type=="photo"){
       var imgs = null;
@@ -434,6 +428,22 @@ var BlogItem = React.createClass({
       content = <div className="BIContent" style={{overflow: "hidden" }}>
           <div style={{fontSize: this.props.font_size}} dangerouslySetInnerHTML={{__html: "<h1>"+this.props.data.title+"</h1>" + this.props.data.body }} />
         </div>
+    } 
+    if(this.props.data.type=="video"){
+      if(this.props.isNav){
+        var vidsrc = this.props.data.permalink_url.replace("https://www.youtube.com/watch?v=", "");
+        vidsrc = "http://img.youtube.com/vi/"+vidsrc+"/mqdefault.jpg"
+        console.log(this.props.data)
+        content = <div className="BIContent" style={{overflow: "hidden" }}>
+          <img src={vidsrc} width="100%" />
+        </div>
+      }else{
+        var vidw = this.props.width-40;
+        var vidh = Math.round(vidw*0.6);
+        content = <div className="BIContent" style={{overflow: "hidden" }}>
+          <div style={{fontSize: this.props.font_size}} dangerouslySetInnerHTML={{__html: this.props.data.player[0].embed_code.replace("width=\"250", "width=\""+vidw).replace("height=\"141", "height=\""+vidh) }} />
+        </div>
+      }
     } 
 
 
@@ -454,10 +464,9 @@ var BlogItem = React.createClass({
   }
 });
 
+  React.render( <Blog tag="fwshows" title="Shows" /> , document.getElementById('shows'));
+  React.render( <Blog tag="fwvideo" title="Videos" /> , document.getElementById('videos'));
 
-//function load_components(){
-  React.render( <Blog /> , document.getElementById('blog'));
-//}
 
 
 

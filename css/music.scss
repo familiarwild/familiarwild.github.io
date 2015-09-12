@@ -147,7 +147,8 @@
 .BlogList{
   margin: 0px auto;
   background: blue;
-  overflow: scroll;
+  overflow: hidden;
+  overflow-x: scroll;
   border: solid 1px black;
 }
 

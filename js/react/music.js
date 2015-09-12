@@ -444,7 +444,7 @@ var BlogItem = React.createClass({
         onMouseOut={this.handleMouseOut} 
         onClick={this.handleClick} style={{width: this.props.width, padding: this.props.padding }}>
         <div className="BIOverlay" style={{width: this.props.width }} >&nbsp;</div>
-        <div className="BIContent" style={{overflow: "hidden", overflowX: "scroll" }}>
+        <div className="BIContent" style={{overflow: "hidden" }}>
         { content}
         </div>
         {arrow}

@@ -257,65 +257,77 @@ var Blog = React.createClass({
 var BlogList = React.createClass({
   getInitialState: function() {
     return {
-      loading: false
+      loading: false,
+      isScrollingForced: false
     };
   },
-
   handleSelect: function(item){
     this.props.onItemSelect(item);
   },
   handleScroll: function(e){
-    var el = this.getDOMNode();
-    var width = (this.props.isSmall ? 50 : 75)
-    var scrollbase = (this.props.prev) ? 3 : 0;
+    window.clearTimeout(window.timeoutBloglist);
+
+    var width = (this.props.isSmall ? 50 : 75);
+    var scrollbase = (this.props.prev) ? 3 : 0.5;
     var scrollTo = (width*scrollbase);
-    var scrollNext = (this.props.prev) ? 3 : 0;
+    var scrollbaseNext = (this.props.prev) ? (this.props.next ? 3 : 0.5): 0.5;
+    var scrollNext = (width*scrollbaseNext);
+    var el = this.getDOMNode();
+    var currentScrollPos=$(el).scrollLeft();
 
-
-    if(this.state.loading){
+    if(this.state.loading || this.isScrollingForced){
       e.preventDefault();
       e.stopPropagation();
       return;
     }
-    // return;
-    window.clearTimeout(window.timeoutBloglist);
-    if(this.props.prev==false && $(el).scrollLeft()<(width*3) ){
-      window.timeoutBloglist = window.setTimeout(function(){
-        $(el).animate({scrollLeft: (width*scrollbase) }, 50);
-      }, 400);
-      return;
+    
+    if(currentScrollPos >= scrollNext-1 ){
+      if(this.props.next){
+        this.setState({ loading: true });
+        this.props.onNext();
+        return;
+      }
+    }else if(currentScrollPos <= 1 ){
+      if(this.props.prev){
+        this.setState({ loading: true });
+        this.props.onPrev();
+        return;
+      } 
     }
-    // if(this.props.next==false && $(el).scrollLeft()>(width*3) ){
-    //   e.preventDefault();
-    //   $(el).scrollLeft(width*3);
-    //   return;
-    // }
 
-    if($(el).scrollLeft() >= ((width*3)*2) ){
-      this.setState({ loading: true });
-      this.props.onNext();
-    }else if($(el).scrollLeft() <=1 ){
-      this.setState({ loading: true });
-      this.props.onPrev();
-    }else{
-      window.timeoutBloglist = window.setTimeout(function(){
-        $(el).animate({scrollLeft: scrollTo }, 100);
-      }, 400);
-    }
+    window.timeoutBloglist = window.setTimeout(function(){
+      this.isScrollingForced=true;
+      //console.log('isScrollingForced 1')
+      $(el).animate({scrollLeft: scrollTo }, 100, function(){
+        //console.log('isScrollingForced 0')
+        this.isScrollingForced=false;
+        // window.setTimeout(function(){
+        //   $(el).scrollLeft( _scrollto );
+        //   this.isScrollingForced=false;
+        // }.bind(this), 1000);
+        //this.state.isScrollingForced=false;
+      }.bind(this));
+    }.bind(this), 800);
 
   },
   componentDidMount: function() {
     window.timeoutBloglist=null;
-
     var el = this.getDOMNode();
     var width = (this.props.isSmall ? 50 : 75)
-    var scrollbase = (this.props.prev) ? 3 : 0;
-    var scrollTo = (width*scrollbase);
+    var scrollbase = (this.props.prev) ? 3 : 0.5;
+    var scrollTo = (width * scrollbase);
     $(el).scrollLeft( scrollTo );
   },
   render: function() {
+
     var width = (this.props.isSmall ? 50 : 75)
     var fontsize = (this.props.isSmall ? 2 : 3)
+
+    var prevW = (this.props.prev) ? width*3 : width*1;
+    var nextW = (this.props.next) ? width*3 : width*1;
+    var contW = (width*10);
+    var totW = (width*11);
+    var totWInner = contW+prevW+nextW;
 
     var items = this.props.items.map(function(item, i) {
       return (
@@ -335,13 +347,13 @@ var BlogList = React.createClass({
     }
     
     return (
-        <div className="BlogList" onScroll={this.handleScroll} style={{width: (width*items.length)+"px"}}>
-          <div className="BlogListInner" style={{width: (width*(10+6))+"px"}}>
-           <div className={prev_classname} style={{width: (width*3)+"px"}} ><div className="BIOverlay"></div><div className="BIContent">Previous</div></div>
-             <div style={{display: "inline-block", width: (width*(10))+"px"}}>
+        <div className="BlogList" onScroll={this.handleScroll} style={{width: (totW)+"px"}}>
+          <div className="BlogListInner" style={{width: (totWInner)+"px"}}>
+           <div className={prev_classname} style={{width: (prevW)+"px"}} ><div className="BIOverlay"></div><div className="BIContent">Previous</div></div>
+             <div style={{display: "inline-block", width: (contW)+"px"}}>
              {items}
              </div>
-           <div className={next_classname} style={{width: (width*3)+"px"}} ><div className="BIOverlay"></div><div className="BIContent">Next</div></div>
+           <div className={next_classname} style={{width: (nextW)+"px"}} ><div className="BIOverlay"></div><div className="BIContent">Next</div></div>
           </div>
         </div>
     );

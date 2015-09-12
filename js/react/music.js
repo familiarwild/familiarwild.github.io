@@ -572,13 +572,6 @@ var ParallaxContainer = React.createClass({
     }.bind(this));
   },
   handleResize: function(){
-    
-    if(this.props.height=="auto"){
-      var el = this.getDOMNode();
-      $(el).find(".ParaBG").height(1);
-      $(el).find(".ParaContent").css("top", "-1px");
-    }
-
     var h = this.getWindowHeight();
     if( h!==this.state.windowHeight){
       this.setState({ windowHeight: h });
@@ -588,14 +581,6 @@ var ParallaxContainer = React.createClass({
     if( w!==this.state.windowWidth){
       this.setState({ windowWidth: w });
       return;
-    }
-
-    if(this.props.height=="auto"){
-      var h = $(el).height();
-      $(el).find(".ParaBG").height(h);
-      $(el).find(".ParaContent").css("top", "-"+h+"px");
-      var imgDimensions = this.calcImageDimensions( this.state.windowWidth, h );
-      $(el).find(".ParaBG img").css(this.imgStyle(imgDimensions));
     }
 
   },
@@ -643,7 +628,7 @@ var ParallaxContainer = React.createClass({
     }
     
     var bgimg;
-    if(!setHeight.isNaN){
+    if(this.props.height!="auto" && !setHeight.isNaN ){
       imgDimensions = this.calcImageDimensions( this.state.windowWidth, imageContainHeight );
       var imgStyle = this.imgStyle(imgDimensions);
       bgimg = <img className="ParaBGImg" data-topoffset={imgDimensions.offsetTop} src={this.props.imgSrc} style={imgStyle} />

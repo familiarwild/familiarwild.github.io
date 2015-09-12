@@ -655,7 +655,7 @@ var ParallaxContainer = React.createClass({
           {bgimg}
         </div>
         <div className="ParaContent" style={{ position: "relative", width: "100%", top: "-"+imageContainHeight, height: setHeight, margin: 0, padding: 0}}>
-          <div>
+          <div style={{ position: "absolute", width: "100%", height: "100%"}}>
           { this.props.children }
           </div>
         </div>

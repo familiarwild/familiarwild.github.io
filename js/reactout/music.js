@@ -925,7 +925,7 @@ var BlogList = React.createClass({displayName: "BlogList",
 
     var countItems = this.props.items.length;
     var width = Math.floor( docW / (countItems + 1) );
-    width = (width>150) ? 150 : width;
+    width = (width>100) ? 100 : width;
     this.renderedWidth = width;
 
     var prevW = (this.props.prev) ? width*3 : width*1;

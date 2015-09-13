@@ -25,12 +25,19 @@ var ALBUMDATA = { albums: [
 
 var IMGS = { 
   none: {url: null, img_w: null, img_h: null, color: "#fff"},
+  main: {url:  "/images/section_top_1.jpg", img_w: 2310, img_h: 800, color: "#ff9900"},
   bgice: {url: "/images/bg_ice.jpg", img_w: 1000, img_h: 679, color: "#d4f1fe"},
   bgrock: {url: "/images/bg_rock.jpg", img_w: 1000, img_h: 679, color: "#e5dac3"},
   bghorizon: {url: "/images/bg_horizon_a.jpg", img_w: 1280, img_h: 258, color: "#ff9900"},
   bgblurvid: {url: "/images/bg_vidblur.jpg", img_w: 800, img_h: 40, color: "#ff9900"},
+
 }
 
+var DATABLOG = [
+  {id: "vid", tag: "fwvideo", title:"Videos", height: "600", titleIMG: IMGS.none, backgroundIMG: IMGS.bgrock},
+  {id: "show", tag: "fwshows", title:"Shows", height: "auto", titleIMG: IMGS.none, backgroundIMG: IMGS.bgice},
+  {id: "quote", tag: "fwquote", title:"Quotes", height: "100%", titleIMG: IMGS.none, backgroundIMG: IMGS.bgrock}
+];
 
 
 
@@ -759,6 +766,12 @@ var ParallaxContainer = React.createClass({
 
 
 
+
+
+
+//==================
+
+
 var Stuff = React.createClass({
   getInitialState: function() {
     return {
@@ -774,17 +787,11 @@ var Stuff = React.createClass({
       text = <span>FAMILIAR&nbsp;WILD</span>;
     } 
 
-    var datablog = [
-      {id: "vid", tag: "fwvideo", title:"Videos", height: "100%", titleIMG: IMGS.none, backgroundIMG: IMGS.bgrock},
-      {id: "show", tag: "fwshows", title:"Shows", height: "auto", titleIMG: IMGS.none, backgroundIMG: IMGS.bgice},
-      {id: "quote", tag: "fwquote", title:"Quotes", height: "100%", titleIMG: IMGS.none, backgroundIMG: IMGS.bgrock}
-    ];
-
     return (
       <TopContainer>
 
-        <ParallaxContainer imgSrc="/images/section_top_1.jpg" img_h={800} img_w={2310} height="100%" >
-        
+        <ParallaxContainer backgroundColor={IMGS.main.color} height="100%" imgSrc={IMGS.main.url} img_h={IMGS.main.img_h} img_w={IMGS.main.img_w} >
+test
           <div id="test" style={{position: "relative", top: "20%", height: "50%" }} >
             <img src="/images/logo.svg" className="DropShadowed" style={{display: "block", height: "80%", margin: "0 auto"}} /> 
             <div className="DropShadowed" style={{display: "block", height: "20%", textAlign: "center", color: "#fff", fontWeight: "200", fontSize: "36px", fontFamily: "Raleway, Helvettica, Arial, sans-serif"}} >
@@ -793,7 +800,7 @@ var Stuff = React.createClass({
           </div>
 
         </ParallaxContainer>
-        <StuffBlogs onLoaded={this.handleLoaded} data={datablog} isHidden={!this.state.loaded}/>
+        <StuffBlogs onLoaded={this.handleLoaded} data={DATABLOG} isHidden={!this.state.loaded}/>
         
       </TopContainer>
     );

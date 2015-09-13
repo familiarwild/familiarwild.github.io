@@ -25,7 +25,7 @@ var ALBUMDATA = { albums: [
 
 var IMGS = { 
   none: {url: null, img_w: null, img_h: null, color: "#fff"},
-  main: {url:  "/images/section_top_1.jpg", img_w: 2310, img_h: 800, color: "#ff9900"},
+  main: {url:  "/images/section_top_1.jpg", img_w: 2310, img_h: 800, color: "#eee"},
   bgice: {url: "/images/bg_ice.jpg", img_w: 1000, img_h: 679, color: "#d4f1fe"},
   bgrock: {url: "/images/bg_rock.jpg", img_w: 1000, img_h: 679, color: "#e5dac3"},
   bghorizon: {url: "/images/bg_horizon_a.jpg", img_w: 1280, img_h: 258, color: "#fff"},
@@ -35,7 +35,7 @@ var IMGS = {
 
 var DATABLOG = [
   {id: "vid", ratioW: 40, ratioH: 18, tag: "fwvideo", title:"Videos", height: "620", titleIMG: IMGS.none, backgroundIMG: IMGS.bgrock},
-  {id: "show", ratioW: 40, ratioH: 25, tag: "fwshows", title:"Shows", height: "auto", titleIMG: IMGS.none, backgroundIMG: IMGS.bgice}
+  {id: "show", ratioW: 40, ratioH: 25, tag: "fwshows", title:"Shows", height: "auto", titleColor: "#000", titleIMG: IMGS.none, backgroundIMG: IMGS.bgice}
 ];
 
 
@@ -231,8 +231,10 @@ var Blog = React.createClass({displayName: "Blog",
   getDefaultProps: function() {
     return {
       ratioW: 40,
-      ratioH: 25
+      ratioH: 25,
+      titleColor: "#fff"
     };
+
   },
   componentDidMount: function() {
     this.handleResize(false);
@@ -356,7 +358,7 @@ var Blog = React.createClass({displayName: "Blog",
     return (
       React.createElement("div", {className: "Blog"}, 
       React.createElement(ParallaxContainer, {backgroundColor: this.props.data.backgroundIMG.color, height: this.props.data.height, imgSrc: this.props.data.backgroundIMG.url, img_h: this.props.data.backgroundIMG.img_h, img_w: this.props.data.backgroundIMG.img_w}, 
-        React.createElement(LayoutRow, {className: "BlogNav", row_data: { fontColor: "#fff", backgroundColor: "transparent", backgroundImage: this.props.data.titleIMG.url}}, 
+        React.createElement(LayoutRow, {className: "BlogNav", row_data: { fontColor: this.props.titleColor, backgroundColor: "transparent", backgroundImage: this.props.data.titleIMG.url}}, 
           React.createElement(LayoutContainer, null, 
             React.createElement(LayoutContainerHeading, null, this.props.data.title), 
             React.createElement(BlogList, {ratioW: this.props.data.ratioW, ratioH: this.props.data.ratioH, prev: this.state.prev, next: this.state.next, onPrev: this.handlePrev, onNext: this.handleNext, active_id: active_id, isSmall: this.state.isSmall, items: this.state.items, onItemSelect: this.handleItemSelect})
@@ -1084,10 +1086,12 @@ var Stuff = React.createClass({displayName: "Stuff",
           )
         ), 
         
-        React.createElement(Quotes, {onLoaded: this.handleLoaded, data: {id: "vid", ratioW: 40, ratioH: 18, title:"Quotes", height: "350", titleIMG: IMGS.none, backgroundIMG: IMGS.bgmountsm}}), 
         
         React.createElement(StuffBlogs, {onLoaded: this.handleLoaded, blogdata: DATABLOG, isHidden: !this.state.loaded}), 
         
+        React.createElement(Quotes, {onLoaded: this.handleLoaded, data: {id: "vid", ratioW: 40, ratioH: 18, title:"Quotes", height: "350", titleIMG: IMGS.none, backgroundIMG: IMGS.bgmountsm}}), 
+        
+
         React.createElement(LayoutRow, {className: "BlogNav", row_data: { fontColor: "#fff", backgroundColor: "#444"}}, 
           React.createElement(LayoutContainer, null, 
             React.createElement(LayoutContainerHeading, null, "Booking+Press+Contact"), 
@@ -1148,7 +1152,7 @@ var StuffBlogsList = React.createClass({displayName: "StuffBlogsList",
     if(this.props.data.length>0){
       blogs = this.props.data.map(function(item, i) {
         return (
-          React.createElement(Blog, {key: item.id, data: item, onLoaded: this.handleLoaded, ratioW: this.ratioW, ratioH: this.ratioH})
+          React.createElement(Blog, {key: item.id, data: item, titleColor: item.titleColor, onLoaded: this.handleLoaded, ratioW: this.ratioW, ratioH: this.ratioH})
         );
       }.bind(this));
     }

@@ -34,7 +34,7 @@ var IMGS = {
 }
 
 var DATABLOG = [
-  {id: "vid", ratioW: 40, ratioH: 18, tag: "fwvideo", title:"Videos", height: "600", titleIMG: IMGS.none, backgroundIMG: IMGS.bgrock},
+  {id: "vid", ratioW: 40, ratioH: 18, tag: "fwvideo", title:"Videos", height: "620", titleIMG: IMGS.none, backgroundIMG: IMGS.bgrock},
   {id: "show", ratioW: 40, ratioH: 25, tag: "fwshows", title:"Shows", height: "auto", titleIMG: IMGS.none, backgroundIMG: IMGS.bgice}
 ];
 
@@ -342,12 +342,13 @@ var Blog = React.createClass({
     }
   },
   render: function() {
+    var docW = $(".ParaMain").width()-50;
     var blog = null;
     var active_id = null;
 
     if(this.state.item){
       var item = this.state.item
-      blog = <BlogItem width={500} key={"full"+item.id} data={item} nav_height={null} onSelect={this.handleSelect} onScrollTo={this.handleScrollTo} />
+      blog = <BlogItem width={docW} key={"full"+item.id} data={item} nav_height={null} onSelect={this.handleSelect} onScrollTo={this.handleScrollTo} />
       var active_id = item.id;
     }
     //console.log(this.props.data)
@@ -625,8 +626,8 @@ var BlogItem = React.createClass({
           <img src={vidsrc} width="100%" />
         </div>
       }else{
-        var vidw = this.props.width-40;
-        var vidh = Math.round(vidw*0.6);
+        var vidw = "100%";
+        var vidh = "350";
         content = <div className="BIContent" style={{overflow: "hidden" }}>
           <div style={{fontSize: this.props.font_size}} dangerouslySetInnerHTML={{__html: this.props.data.player[0].embed_code.replace("width=\"250", "width=\""+vidw).replace("height=\"141", "height=\""+vidh) }} />
         </div>
@@ -887,7 +888,8 @@ var Quotes = React.createClass({
       offset: 0,
       isSmall: false,
       prevActive: false,
-      nextActive: false
+      nextActive: false,
+      paused: false,
     };
   },
   componentDidMount: function() {
@@ -929,8 +931,10 @@ var Quotes = React.createClass({
     if(this.intervalS!=null){
       window.clearInterval(this.intervalS)
       this.intervalS = null;
+      this.setState({paused: true});
     }else{
       this.handlePlay();
+      this.setState({paused: false});
     } 
   },
   getItems: function(callback){
@@ -1011,7 +1015,7 @@ var Quotes = React.createClass({
             </div>
             <div className="ButtonContain clearfix" style={{height: "80px", padding: "20px"}}>
               <div className="Button Prev" onClick={this.handlePrev}>Prev</div>
-              <div className="Button Pause" onClick={this.handlePauseToggle}>Pause</div>
+              <div className="Button Pause" onClick={this.handlePauseToggle}>{(this.state.paused ? "Play" : "Pause")}</div>
               <div className="Button Next" onClick={this.handleNext}>Next</div>
             </div>
           </LayoutContainer>
@@ -1080,7 +1084,7 @@ var Stuff = React.createClass({
           </div>
         </ParallaxContainer>
         
-        <Quotes onLoaded={this.handleLoaded} data={{id: "vid", ratioW: 40, ratioH: 18, title:"Quotes", height: "300", titleIMG: IMGS.none, backgroundIMG: IMGS.bgmountsm}} />
+        <Quotes onLoaded={this.handleLoaded} data={{id: "vid", ratioW: 40, ratioH: 18, title:"Quotes", height: "350", titleIMG: IMGS.none, backgroundIMG: IMGS.bgmountsm}} />
         
         <StuffBlogs onLoaded={this.handleLoaded} blogdata={DATABLOG} isHidden={!this.state.loaded}/>
         

@@ -232,6 +232,13 @@
     font-style: italic;
   }
   a{ color: #fff; font-weight: bold;}
+
+  @media screen and (max-width: 901px) {
+    font-size: 1.4em;
+  }
+  @media screen and (max-width: 651px) {
+    font-size: 1.1em;
+  }
 }
 
 
@@ -242,6 +249,11 @@
     text-align: center;
     padding: 10px;
     border: solid 1px #ccc;
+    cursor: pointer;
+    &:hover {
+      background: #fff;
+      color: #222;
+    }
   }
 }
 

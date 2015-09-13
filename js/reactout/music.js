@@ -574,14 +574,6 @@ var BlogItem = React.createClass({displayName: "BlogItem",
   }
 });
 
-  // React.render( <Blog tag="fwshows" title="Shows" /> , document.getElementById('shows'));
-  // React.render( <Blog tag="fwvideo" title="Videos" /> , document.getElementById('videos'));
-
-
-
-
-
-
 
 var TopContainer = React.createClass({displayName: "TopContainer",
   render: function() {

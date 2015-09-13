@@ -160,7 +160,7 @@
   position: relative;
   margin: 0px auto;
   overflow: hidden;
-  overflow-x: auto;
+  overflow-x: hidden;
   -ms-overflow-style: none;
 }
 
@@ -218,14 +218,14 @@
 
 .LayoutHeading{
   font-size: 1.6em;
-  text-shadow: 0px 0px 2px #666;
+  text-shadow: 0px 0px 1px #666;
 }
 
 .QuoteText{
   height: 160px;
-  padding: 0px 40px;
+  padding: 10px 40px;
   width: 100%;
-  font-weight: 200;
+  font-weight: 100;
   font-size: 1.8em;
   line-height: 1.3em;
   .QuoteSource{
@@ -271,6 +271,42 @@
 
 
 
+.IMTactive .ITM{
+  border: solid 1px #bc0787;
+  border-bottom: none;
+  background: #000;
+  opacity: 0.1;
+}
+
+.IMTactive.ITMhover .ITM{
+  opacity: 0.1;
+  background: #444;
+}
+.ITMhover .ITM{
+  background-color: #444;
+  opacity: 0.4;
+  transition: background-color .5s ease-in;
+  transition: opacity .2s ease-in;
+}
+
+
+.AlbumShadow{
+  -webkit-box-shadow: 0px 0px 30px 0px rgba(0,0,0,1);
+  -moz-box-shadow: 0px 0px 30px 0px rgba(0,0,0,1);
+  box-shadow: 0px 0px 30px 0px rgba(0,0,0,1);
+}
+
+.AlbumLayoutPart{
+  float: left;
+  width: 50%;
+  padding: 20px;
+  @media screen and (max-width: 601px) {
+    width: 100%;
+  }
+}
+
+
+
 
 
   * {
@@ -300,11 +336,7 @@
     background: #fff;
   }
 
-  .albumbg{
-    -webkit-box-shadow: 0px 0px 38px 0px rgba(0,0,0,1);
-    -moz-box-shadow: 0px 0px 38px 0px rgba(0,0,0,1);
-    box-shadow: 0px 0px 38px 0px rgba(0,0,0,1);
-  }
+
 
 
   

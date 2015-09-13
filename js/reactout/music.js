@@ -1,26 +1,8 @@
 
 
-var ALBUMDATA = { albums: [
-  {
-    id: 1,
-    name: "adin", 
-    artwork_url: "http://41.media.tumblr.com/5141270ad8c9859401bee264af9aa864/tumblr_nsn3khpYnE1spncn8o1_1280.jpg",
-    link_url: "http://www.google.com"
-  },
-  {
-    id: 2,
-    name: "john", 
-    artwork_url: "http://41.media.tumblr.com/5141270ad8c9859401bee264af9aa864/tumblr_nsn3khpYnE1spncn8o1_1280.jpg",
-    link_url: "http://www.google.com"
-  },
-  {
-    id: 3,
-    name: "hello", 
-    artwork_url: "http://40.media.tumblr.com/66ae8777fdf58bbd975df9b040110661/tumblr_nsn3a35DWr1spncn8o1_500.jpg",
-    link_url: "http://www.google.com"
-  }
 
-]};
+
+
 
 
 
@@ -30,6 +12,7 @@ var IMGS = {
   none: {url: null, img_w: null, img_h: null, color: "#fff"},
   main: {url:  "/images/bg_main3.jpg", img_w: 2190, img_h: 800, color: "#eee"},
   mainback: {url:  "/images/section_top_1.jpg", img_w: 2310, img_h: 800, color: "#eee"},
+  musicback: {url:  "/images/bg_album.jpg", img_w: 833, img_h: 526, color: "#eee"},
   bgice: {url: "/images/bg_ice.jpg", img_w: 1000, img_h: 679, color: "#d4f1fe"},
   bgrock: {url: "/images/bg_rock.jpg", img_w: 1000, img_h: 679, color: "#e5dac3"},
   bghorizon: {url: "/images/bg_horizon_a.jpg", img_w: 1280, img_h: 258, color: "#fff"},
@@ -37,12 +20,12 @@ var IMGS = {
   bgmountsm:  {url: "/images/bg_mountsm.jpg", img_w: 1000, img_h: 260, color: "#fff"},
 }
 
+
+
 var DATABLOG = [
   {id: "vid", ratioW: 40, ratioH: 18, tag: "fwvideo", title:"Videos", height: "620", titleIMG: IMGS.none, backgroundIMG: IMGS.bgrock},
   {id: "show", ratioW: 40, ratioH: 25, tag: "fwshows", title:"Shows", height: "auto", titleColor: "#000", titleIMG: IMGS.none, backgroundIMG: IMGS.bgice}
 ];
-
-
 
 
 
@@ -116,78 +99,519 @@ var LayoutContainerHeading = React.createClass({displayName: "LayoutContainerHea
 
 
 
-var Album = React.createClass({displayName: "Album",
 
-  getInitialState: function() {
-    return {
-      hasShadow: true,
-      showDetails: true,
-      linkAlbum: true
-    };
-  },
+//--------======================================================================================
+//--------======================================================================================
+//--------======================================================================================
+//--------======================================================================================
+
+var AlbumsView = React.createClass({displayName: "AlbumsView",
   render: function() {
     return (
-      React.createElement("div", {className: "Album"}, 
-        this.props.data.name, 
-        React.createElement(AlbumCover, {artwork_url: this.props.data.artwork_url, hasShadow: this.state.hasShadow, link_url: this.state.linkAlbum ? this.props.data.link_url : null})
+      React.createElement("div", {className: "AlbumsView", style: {display: "block", margin: "0px auto"}}, 
+      React.createElement(ParallaxContainer, {backgroundColor: this.props.data.backgroundIMG.color, height: this.props.data.height, imgSrc: this.props.data.backgroundIMG.url, img_h: this.props.data.backgroundIMG.img_h, img_w: this.props.data.backgroundIMG.img_w}, 
+        React.createElement(LayoutRow, {className: "AlbumTitle", row_data: { fontColor: "#fff", backgroundColor: "transparent"}}, 
+          React.createElement(LayoutContainer, null, 
+            React.createElement(LayoutContainerHeading, null, this.props.data.title)
+          )
+        ), 
+
+        React.createElement("div", {className: "AlbumsViewMain"}, 
+          React.createElement(Albums, {albums_type: "current_albums", data: { title: this.props.data.title}})
+        )
+
       )
-    );
+      )
+    )
   }
 });
-
-var AlbumCover = React.createClass({displayName: "AlbumCover",
-  handleClick: function(){
-    if(this.props.link_url){
-      document.location.href=this.props.link_url;
-    }
-  },
-  render: function() {
-    var class_name = "AlbumArt";
-    if(this.props.hasShadow){
-      class_name += " shadow";
-    }
-    if(this.props.link_url){
-      class_name += " linked";
-    }
-    return (
-      React.createElement("div", {className: class_name}, 
-        React.createElement("img", {src: this.props.artwork_url, onClick: this.handleClick})
-      )
-    );
-  }
-});
-
-
-
 
 var Albums = React.createClass({displayName: "Albums",
-
   getInitialState: function() {
     return {
-      albums: ALBUMDATA.albums
+      items: [],
+      item: null,
+      toScroll: false,
+      offset: 0,
+      isSmall: false,
+      prevActive: false,
+      nextActive: false
     };
   },
-
-  componentDidMount: function() {
-  //this.state
-  //this.setState({})
+  getDefaultProps: function() {
+    return {
+      ratioW: 40,
+      ratioH: 25,
+      titleColor: "#fff",
+      albums_type: "current_albums"
+    };
   },
+  componentDidMount: function() {
+    this.handleResize(false);
+    this.getStateData(function(){
+      //this.props.onLoaded();
+    }.bind(this));
 
-  render: function() {
+    ST_windowResize(function(){
+      this.handleResize(true);
+    }.bind(this));
 
-    var albums = [];
-    for (var i=0; i < this.state.albums.length; i++) {
-      var a = this.state.albums[i];
-      albums.push(React.createElement(Album, {key: a.id, data: a}));
+    // var el = this.getDOMNode();
+    // $(el).find(".AlbumBodyInnerC").fadeIn(5000);
+  },
+  handleResize: function(get_data){
+    if( ST_windowWidth()<=800){
+      this.setState({ isSmall: true});
+    }else{
+      this.setState({ isSmall: false});
     }
+  },
+  getStateData: function(callback){
+    this.getItems(function(data){
+
+      var selectedindex = 0;
+      for(var i=0; i<data.length; i++){
+        if(data[i].selected==true){
+          selectedindex = i;
+          break;
+        }
+      }
+      this.setState({item: data[selectedindex]});
+      this.setState({items: data});
+      
+      if(typeof callback==='function'){
+        callback();
+      }
+    }.bind(this));
+  },
+  getItems: function(callback){
+    //console.log(this.props.albums_type)
+    var data = ALBUMDATA[this.props.albums_type];
+    callback( data );
+  },
+  handleItemSelect: function(item){
+    var item_c = item;
+    this.setState({ item: item_c, toScroll: true })
+  },
+  handleScrollTo: function(){
+    if(this.state.toScroll){
+      var el = this.getDOMNode();
+      var ts = $(el).offset().top;
+      ST_setScrollPos(ts);
+    }
+  },
+  handlePrev: function(){
+    this.handleScrollTo();
+    var index = 0;
+    for(var i=0; i<this.state.items.length;i++){
+      if(this.state.items[i]===this.state.item){
+        index=i;
+        break;
+      }
+    }
+    var el = this.getDOMNode();
+    var h = $(el).find(".BlogBodyInner").height();
+    $(el).find(".AlbumBodyInner").css({height: h, overflow: "hidden"});
+    
+    window.setTimeout(function(){
+      $(el).find(".AlbumBodyInner").css({height: "auto", overflow: "hidden"});
+    }, 500);
+
+    index = ((index-1) >= 0) ? (index-1) : 0;
+    this.setState({ item: this.state.items[index], toScroll: true });
+  },
+  handleNext: function(){
+    this.handleScrollTo();
+    var index = 0;
+    for(var i=0; i<this.state.items.length;i++){
+      if(this.state.items[i]===this.state.item){
+        index=i;
+        break;
+      }
+    }
+
+    if ((index+1) < this.state.items.length){
+      this.setState({ item: this.state.items[index+1], toScroll: true });
+    }else{
+      //this.setState({ item: this.state.items[index], toScroll: true });
+    }
+  },
+  render: function() {
+    var docW = $(".ParaMain").width()-50;
+    var alb = null;
+    var active_id = null;
+
+    if(this.state.item){
+      alb = React.createElement(AlbumLayout, {key: "album"+this.state.item.id, width: docW, data: this.state.item})
+      var active_id = this.state.item.id;
+    }
+
     return (
-      React.createElement("div", {className: "Albums"}, 
-        albums
+      React.createElement("div", {className: "Albums", style: {display: "block", margin: "0px auto"}}, 
+        React.createElement(LayoutRow, {className: "AlbumNav", row_data: { fontColor: "#fff", backgroundColor: "transparent"}}, 
+          React.createElement(LayoutContainer, null, 
+            React.createElement(AlbumList, {ratioW: 100, ratioH: 100, prev: this.state.prev, next: this.state.next, onPrev: this.handlePrev, onNext: this.handleNext, active_id: active_id, isSmall: this.state.isSmall, items: this.state.items, onItemSelect: this.handleItemSelect})
+          )
+        ), 
+      
+
+        React.createElement(LayoutRow, {className: "AlbumBody", row_data: { fontColor: "#fff", backgroundColor: "transparent"}}, 
+          React.createElement(LayoutContainer, null, 
+            React.createElement("div", {className: "AlbumBodyInner", style: { minHeight: "100px"}}, 
+              React.createElement("div", {className: "AlbumBodyInnerC"}, 
+              alb
+              )
+            ), 
+            React.createElement("div", {className: "ButtonContain clearfix", style: {height: "80px", padding: "20px"}}, 
+              React.createElement("div", {className: "Button Prev", onClick: this.handlePrev}, "Newer"), 
+              React.createElement("div", {className: "Button Next", onClick: this.handleNext}, "Older")
+            )
+          )
+        )
       )
     );
   }
-
 });
+
+
+
+
+
+
+
+
+var AlbumList = React.createClass({displayName: "AlbumList",
+  getInitialState: function() {
+    return {
+      loading: false,
+      isScrollingForced: false
+    };
+  },
+  getDefaultProps: function() {
+    return {
+      ratioW: 40,
+      ratioH: 40
+    };
+  },
+  handleSelect: function(item){
+    this.props.onItemSelect(item);
+  },
+  componentDidMount: function() {
+  },
+  componentDidUpdate: function(){
+  },
+  render: function() {
+    var docW = $(".ParaMain").width()-50;
+
+    var fontSize600 = 3;
+    var fontSize = (docW / 600) * fontSize600;
+
+    var maxPerRow = 10;
+
+    var countItems = this.props.items.length;
+    var width = Math.floor( docW / (countItems) );
+    width = (width>100) ? 100 : width;
+
+    this.renderedWidth = width;
+
+    var w_ratio = (width / this.props.ratioW);
+    var heightRate = Math.floor(w_ratio * (this.props.ratioH * 1.2));
+
+    var totW = (width*(countItems-1)+heightRate);
+    var totWInner = totW;
+
+    var items = this.props.items.map(function(item, i) {
+      var isActive = false;
+      var newheight = Math.floor(w_ratio * this.props.ratioH);
+      var newwidth = width;
+      if(this.props.active_id==item.id){
+        isActive = true;
+        newheight = heightRate;
+        newwidth = heightRate;
+      }
+      return (
+          React.createElement(AlbumItem, {isActive: isActive, key: item.id, data: item, width: newwidth+"px", nav_height: newheight, font_size: fontSize+"px", alt_size: 3, padding: "0px", isNav: true, onSelect: this.handleSelect})
+      );
+    }.bind(this));
+    
+    return (
+      React.createElement("div", {className: "AlbumList", onScroll: this.handleScroll, style: {width: (totW)+"px", margin: "0px auto"}}, 
+        React.createElement("div", {className: "AlbumListInner", style: {width: (totWInner)+"px"}}, 
+          items
+        )
+      )
+    );
+  }
+});
+
+
+
+
+
+
+
+var AlbumItem = React.createClass({displayName: "AlbumItem",
+  getInitialState: function() {
+    return {
+      isHover: false
+    };
+  },
+  getDefaultProps: function() {
+    return {
+      isActive: false,
+      alt_size: 1,
+      padding: "20px",
+      font_size: "16px",
+      nav_height: 40
+    };
+  },
+  handleClick: function(){
+    if(typeof this.props.onSelect == "function"){
+      this.props.onSelect(this.props.data);
+    }
+  },
+  componentDidMount: function(){
+    window.setTimeout(this.setOverlayHeight, 1000);
+    if(typeof this.props.onScrollTo == "function"){
+      this.props.onScrollTo();
+    }
+  },
+  componentDidUpdate: function(){
+    this.setOverlayHeight();
+    //$("blog_"+this.props.data.id+" .BIOverlay").hide();
+    //$("blog_"+this.props.data.id+" .BIOverlay").height( $("blog_"+this.props.data.id+" .BIContent").height() );
+  },
+  setOverlayHeight: function(){
+    // var h = $("#blog_"+this.props.data.id+" .BIContent").height();
+    // $("#blog_"+this.props.data.id+" .BIOverlay").height(h);
+  },
+  handleHover: function(){
+    this.setState({isHover: true});
+  },
+  handleMouseOut: function(){
+    this.setState({isHover: false});
+  },
+  render: function() {
+    var sizeInfo;
+    var class_name = "ALB";
+
+    if(this.props.isNav){
+      class_name += " nav";
+      if(this.props.isActive){
+        class_name += " ITMactive";
+      }
+      if(this.state.isHover){
+        //console.log('this.props.data.id')
+        class_name += " ITMhover";
+      }
+    }else{
+      class_name += " full";
+    }
+
+    var content = React.createElement("div", {className: "ALBContent", style: {overflow: "hidden", margin: "5px"}}, React.createElement("img", {src: this.props.data.artwork_thumb, style: {width: this.props.width-10, height: this.props.nav_height-10}}))
+    
+    return (
+       React.createElement("div", {id: "art_"+this.props.data.id, className: class_name, unselectable: "on", 
+        onMouseOver: this.handleHover, 
+        onMouseOut: this.handleMouseOut, 
+        onClick: this.handleClick, style: {display: "inline-block", width: this.props.width, padding: this.props.padding}}, 
+
+        React.createElement("div", {className: "ITM ALBOverlay", style: {width: this.props.width, height: (this.props.nav_height ? this.props.nav_height : "auto"), marginBottom: (this.props.nav_height ? "-"+this.props.nav_height+"px" : "0px")}}, " "), 
+        content
+
+       )
+
+    );
+  }
+});
+
+
+var AlbumLayout = React.createClass({displayName: "AlbumLayout",
+  render: function() {
+    var width = this.props.width > 800 ? 800 : this.props.width;
+
+    var purcase;
+    var listen;
+    if(this.props.data.purchase_url){
+      purcase = React.createElement("div", {style: { margin: "10px auto"}}, React.createElement("a", {href: this.props.data.purchase_url, style: {display: "inline-block", margin: "10px", padding: "10px", border: "solid 1px #eee", background: "#fff", color:"#333"}}, "Purchase on Bandcamp"));
+      if(this.props.data.bandcamp_listen_id){
+        listen = React.createElement("div", {style: { margin: "10px auto"}}, React.createElement("iframe", {style: { border: "0", width: "100%", height: "42px"}, src: "http://bandcamp.com/EmbeddedPlayer/album="+this.props.data.bandcamp_listen_id+"/size=small/bgcol=333333/linkcol=0f91ff/artwork=none/transparent=true/", seamless: true}, React.createElement("a", {href: "http://familiarwild.bandcamp.com/album/dark-dreams"}, "Dark Dreams by Familiar Wild")))
+      }
+    } else if(this.props.data.preorder_url) {
+      purcase = React.createElement("div", {style: { width: "100", margin: "20px auto"}}, React.createElement("a", {href: this.props.data.preorder_url}, "Pre Order Now"));
+    }
+
+    
+    
+
+    return (
+      React.createElement("div", {className: "AlbumLayout clearfix", style: {width: width, margin: "0px auto"}}, 
+        React.createElement("div", {className: "AlbumLayoutPart"}, 
+          React.createElement("div", null, 
+            React.createElement("img", {className: "AlbumShadow", src: this.props.data.artwork_img, style: { width: "100%"}})
+          )
+        ), 
+        React.createElement("div", {className: "AlbumLayoutPart"}, 
+          React.createElement("div", {style: { padding: "0px 10px", textAlign: "center"}}, 
+            React.createElement("div", {style: { fontSize: "1.6em", marginBottom: "1em"}}, this.props.data.name), 
+            listen, 
+
+            purcase
+
+           
+          )
+        )
+
+      )
+
+    );
+  }
+});
+
+
+
+
+var ALBUMDATA = { 
+  current_albums: [
+  // {
+  //   id: 3,
+  //   selected: true,
+  //   year: "2015", 
+  //   name: "Every Cloud ( Single )", 
+  //   artwork_img: "/images/cd_everycloud.jpg",
+  //   artwork_thumb: "/images/cd_everycloud_thumb.jpg",
+  //   bandcamp_listen_id: null,
+  //   purchase_url: "http://familiarwild.bandcamp.com/"
+  // },
+  {
+    id: 2,
+    selected: true,
+    year: "2015", 
+    name: "Every Cloud ( Single )", 
+    artwork_img: "/images/cd_everycloud.jpg",
+    artwork_thumb: "/images/cd_everycloud_thumb.jpg",
+    bandcamp_listen_id: "1342195243",
+    purchase_url: "http://familiarwild.bandcamp.com/"
+  },
+  {
+    id: 1,
+    selected: true,
+    name: "Dark Dreams", 
+    year: "2013", 
+    artwork_img: "/images/cd_darkdreams.jpg",
+    artwork_thumb: "/images/cd_darkdreams_thumb.jpg",
+    purchase_url: "http://familiarwild.bandcamp.com/album/dark-dreams",
+    bandcamp_listen_id: "3869561879",
+    itunes_url: "https://itunes.apple.com/ca/album/dark-dreams/id722391559"
+  }
+  ]
+
+};
+
+
+
+
+
+
+
+
+//--------======================================================================================
+//--------======================================================================================
+//--------======================================================================================
+//--------======================================================================================
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// var Album = React.createClass({
+
+//   getInitialState: function() {
+//     return {
+//       hasShadow: true,
+//       showDetails: true,
+//       linkAlbum: true
+//     };
+//   },
+//   render: function() {
+//     return (
+//       <div className="Album" >
+//         {this.props.data.name}
+//         <AlbumCover artwork_url={this.props.data.artwork_url} hasShadow={this.state.hasShadow} link_url={this.state.linkAlbum ? this.props.data.link_url : null} />
+//       </div>
+//     );
+//   }
+// });
+
+// var AlbumCover = React.createClass({
+//   handleClick: function(){
+//     if(this.props.link_url){
+//       document.location.href=this.props.link_url;
+//     }
+//   },
+//   render: function() {
+//     var class_name = "AlbumArt";
+//     if(this.props.hasShadow){
+//       class_name += " shadow";
+//     }
+//     if(this.props.link_url){
+//       class_name += " linked";
+//     }
+//     return (
+//       <div className={class_name} >
+//         <img src={this.props.artwork_url} onClick={this.handleClick} />
+//       </div>
+//     );
+//   }
+// });
+
+
+
+
+// var Albums = React.createClass({
+
+//   getInitialState: function() {
+//     return {
+//       albums: ALBUMDATA.albums
+//     };
+//   },
+
+//   componentDidMount: function() {
+//   //this.state
+//   //this.setState({})
+//   },
+
+//   render: function() {
+
+//     var albums = [];
+//     for (var i=0; i < this.state.albums.length; i++) {
+//       var a = this.state.albums[i];
+//       albums.push(<Album key={a.id} data={a} />);
+//     }
+//     return (
+//       <div className="Albums">
+//         {albums}
+//       </div>
+//     );
+//   }
+
+// });
 
 
 
@@ -505,6 +929,7 @@ var BlogList = React.createClass({displayName: "BlogList",
 
     var countItems = this.props.items.length;
     var width = Math.floor( docW / (countItems + 1) );
+    width = (width>150) ? 150 : width;
     this.renderedWidth = width;
 
     var prevW = (this.props.prev) ? width*3 : width*1;
@@ -1105,16 +1530,18 @@ var Stuff = React.createClass({displayName: "Stuff",
           )
         ), 
         
-        
-        React.createElement(StuffBlogs, {onLoaded: this.handleLoaded, blogdata: DATABLOG, isHidden: !this.state.loaded}), 
-        
-        React.createElement(Quotes, {onLoaded: this.handleLoaded, data: {id: "vid", ratioW: 40, ratioH: 18, title:"Quotes", height: "350", titleIMG: IMGS.none, backgroundIMG: IMGS.bgmountsm}}), 
-        
+        React.createElement("div", {style: {display: (this.state.loaded ? "block" : "none")}}, 
+          React.createElement(AlbumsView, {data: {id: "albums", ratioW: 40, ratioH: 18, title:"Albums", height: "auto", titleIMG: IMGS.none, backgroundIMG: IMGS.musicback}}), 
 
-        React.createElement(LayoutRow, {className: "BlogNav", row_data: { fontColor: "#fff", backgroundColor: "#444"}}, 
-          React.createElement(LayoutContainer, null, 
-            React.createElement(LayoutContainerHeading, null, "Booking+Press+Contact"), 
-            "hel"
+          React.createElement(StuffBlogs, {onLoaded: this.handleLoaded, blogdata: DATABLOG, isHidden: !this.state.loaded}), 
+          
+          React.createElement(Quotes, {onLoaded: this.handleLoaded, data: {id: "vid", ratioW: 40, ratioH: 18, title:"Quotes", height: "350", titleIMG: IMGS.none, backgroundIMG: IMGS.bgmountsm}}), 
+
+          React.createElement(LayoutRow, {className: "BlogNav", row_data: { fontColor: "#fff", backgroundColor: "#444"}}, 
+            React.createElement(LayoutContainer, null, 
+              React.createElement(LayoutContainerHeading, null, "Booking+Press+Contact"), 
+              "hel"
+            )
           )
         )
       )
@@ -1190,6 +1617,39 @@ var StuffBlogsList = React.createClass({displayName: "StuffBlogsList",
 
 
 React.render( React.createElement(Stuff, null) , document.getElementById('ppp'));
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

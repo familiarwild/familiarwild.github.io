@@ -23,9 +23,13 @@ var ALBUMDATA = { albums: [
 ]};
 
 
+
+
+
 var IMGS = { 
   none: {url: null, img_w: null, img_h: null, color: "#fff"},
-  main: {url:  "/images/section_top_1.jpg", img_w: 2310, img_h: 800, color: "#eee"},
+  main: {url:  "/images/bg_main3.jpg", img_w: 2190, img_h: 800, color: "#eee"},
+  mainback: {url:  "/images/section_top_1.jpg", img_w: 2310, img_h: 800, color: "#eee"},
   bgice: {url: "/images/bg_ice.jpg", img_w: 1000, img_h: 679, color: "#d4f1fe"},
   bgrock: {url: "/images/bg_rock.jpg", img_w: 1000, img_h: 679, color: "#e5dac3"},
   bghorizon: {url: "/images/bg_horizon_a.jpg", img_w: 1280, img_h: 258, color: "#fff"},
@@ -91,6 +95,8 @@ var LayoutContainerHeading = React.createClass({displayName: "LayoutContainerHea
     );
   }
 });
+
+
 
 
 var Album = React.createClass({displayName: "Album",
@@ -474,7 +480,6 @@ var BlogList = React.createClass({displayName: "BlogList",
   },
   render: function() {
     var docW = $(".ParaMain").width()-50;
-    //this.docW = docW;
 
     var fontSize600 = 3;
     var fontSize = (docW / 600) * fontSize600;
@@ -484,9 +489,6 @@ var BlogList = React.createClass({displayName: "BlogList",
     var countItems = this.props.items.length;
     var width = Math.floor( docW / (countItems + 1) );
     this.renderedWidth = width;
-    //alert(docW + "="+countItems)
-    // console.log(docW)
-    // console.log("-"+width)
 
     var prevW = (this.props.prev) ? width*3 : width*1;
     var nextW = (this.props.next) ? width*3 : width*1;

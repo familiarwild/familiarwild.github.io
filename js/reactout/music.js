@@ -1566,7 +1566,7 @@ var Stuff = React.createClass({displayName: "Stuff",
           ), 
           
 
-          React.createElement(ParallaxContainer, {backgroundColor: "#33ccff", height: "200", imgSrc: IMGS.bgblurvid.url, img_h: IMGS.bgblurvid.img_h, img_w: IMGS.bgblurvid.img_w}, 
+          React.createElement(ParallaxContainer, {backgroundColor: "#33ccff", height: "250", imgSrc: IMGS.bgblurvid.url, img_h: IMGS.bgblurvid.img_h, img_w: IMGS.bgblurvid.img_w}, 
             React.createElement("div", {style: {display: "block", overflow: "hidden"}}, 
             React.createElement(LayoutRow, {row_data: { fontColor: "#fff", backgroundColor: "transparent"}}, 
               React.createElement(LayoutContainer, null, 

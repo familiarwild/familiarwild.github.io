@@ -1566,7 +1566,7 @@ var Stuff = React.createClass({
           </ParallaxContainer>
           
 
-          <ParallaxContainer backgroundColor={"#33ccff"} height={"200"} imgSrc={IMGS.bgblurvid.url} img_h={IMGS.bgblurvid.img_h} img_w={IMGS.bgblurvid.img_w} >
+          <ParallaxContainer backgroundColor={"#33ccff"} height={"250"} imgSrc={IMGS.bgblurvid.url} img_h={IMGS.bgblurvid.img_h} img_w={IMGS.bgblurvid.img_w} >
             <div style={{display: "block", overflow: "hidden" }}>
             <LayoutRow row_data={{ fontColor: "#fff", backgroundColor: "transparent" }}>
               <LayoutContainer>

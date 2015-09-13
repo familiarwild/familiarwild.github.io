@@ -28,15 +28,14 @@ var IMGS = {
   main: {url:  "/images/section_top_1.jpg", img_w: 2310, img_h: 800, color: "#ff9900"},
   bgice: {url: "/images/bg_ice.jpg", img_w: 1000, img_h: 679, color: "#d4f1fe"},
   bgrock: {url: "/images/bg_rock.jpg", img_w: 1000, img_h: 679, color: "#e5dac3"},
-  bghorizon: {url: "/images/bg_horizon_a.jpg", img_w: 1280, img_h: 258, color: "#ff9900"},
-  bgblurvid: {url: "/images/bg_vidblur.jpg", img_w: 800, img_h: 40, color: "#ff9900"},
-
+  bghorizon: {url: "/images/bg_horizon_a.jpg", img_w: 1280, img_h: 258, color: "#fff"},
+  bgblurvid: {url: "/images/bg_vidblur.jpg", img_w: 800, img_h: 40, color: "#fff"},
+  bgmountsm:  {url: "/images/bg_mountsm.jpg", img_w: 1000, img_h: 260, color: "#fff"},
 }
 
 var DATABLOG = [
-  {id: "vid", tag: "fwvideo", title:"Videos", height: "600", titleIMG: IMGS.none, backgroundIMG: IMGS.bgrock},
-  {id: "show", tag: "fwshows", title:"Shows", height: "auto", titleIMG: IMGS.none, backgroundIMG: IMGS.bgice},
-  {id: "quote", tag: "fwquote", title:"Quotes", height: "100%", titleIMG: IMGS.none, backgroundIMG: IMGS.bgrock}
+  {id: "vid", ratioW: 40, ratioH: 18, tag: "fwvideo", title:"Videos", height: "600", titleIMG: IMGS.none, backgroundIMG: IMGS.bgrock},
+  {id: "show", ratioW: 40, ratioH: 25, tag: "fwshows", title:"Shows", height: "auto", titleIMG: IMGS.none, backgroundIMG: IMGS.bgice}
 ];
 
 
@@ -76,7 +75,7 @@ var LayoutContainer = React.createClass({
   },
   render: function() {
     return (
-      <div className="container">
+      <div className="LayoutContainer">
         { this.props.children }
       </div>
     );
@@ -86,7 +85,7 @@ var LayoutContainer = React.createClass({
 var LayoutContainerHeading = React.createClass({
   render: function() {
     return (
-      <h1 className="heading">
+      <h1 className="LayoutHeading">
         { this.props.children }
       </h1>
     );
@@ -229,6 +228,12 @@ var Blog = React.createClass({
       nextActive: false
     };
   },
+  getDefaultProps: function() {
+    return {
+      ratioW: 40,
+      ratioH: 25
+    };
+  },
   componentDidMount: function() {
     this.handleResize(false);
     this.getStateData(function(){
@@ -243,7 +248,6 @@ var Blog = React.createClass({
   },
   handleResize: function(get_data){
     if( ST_windowWidth()<=800){
-      this.state.isSmall=true;
       this.setState({ isSmall: true});
     }else{
       this.setState({ isSmall: false});
@@ -311,7 +315,7 @@ var Blog = React.createClass({
         break;
       }
     }
-    index = ((index-1) >= 0) ? (index-1) : 0;
+    index = ((index-1) >= 0) ? (index-1) : this.state.items.length-1;
     this.setState({ item: this.state.items[index], toScroll: true });
   },
   handleNext: function(){
@@ -323,16 +327,27 @@ var Blog = React.createClass({
         break;
       }
     }
-    if ((index+1) <= this.state.items.length){
+    
+    var el = this.getDOMNode();
+    var h = $(el).find(".BlogBodyInner").height();
+    $(el).find(".BlogBodyInner").css({height: h, overflow: "hidden"});
+    window.setTimeout(function(){
+      $(el).find(".BlogBodyInner").css({height: "auto", overflow: "hidden"});
+    }, 500);
+    
+    if ((index+1) < this.state.items.length){
       this.setState({ item: this.state.items[index+1], toScroll: true });
+    }else{
+      this.setState({ item: this.state.items[0], toScroll: true });
     }
   },
   render: function() {
     var blog = null;
     var active_id = null;
+
     if(this.state.item){
       var item = this.state.item
-      blog = <BlogItem width={500} key={item.id} data={item} onSelect={this.handleSelect} onScrollTo={this.handleScrollTo} />
+      blog = <BlogItem width={500} key={"full"+item.id} data={item} nav_height={null} onSelect={this.handleSelect} onScrollTo={this.handleScrollTo} />
       var active_id = item.id;
     }
     //console.log(this.props.data)
@@ -343,19 +358,19 @@ var Blog = React.createClass({
         <LayoutRow className="BlogNav" row_data={{ fontColor: "#fff", backgroundColor: "transparent", backgroundImage: this.props.data.titleIMG.url }}>
           <LayoutContainer>
             <LayoutContainerHeading>{this.props.data.title}</LayoutContainerHeading>
-            <BlogList prev={this.state.prev} next={this.state.next} onPrev={this.handlePrev} onNext={this.handleNext} active_id={active_id} isSmall={this.state.isSmall} items={this.state.items} onItemSelect={this.handleItemSelect} />
+            <BlogList ratioW={this.props.data.ratioW} ratioH={this.props.data.ratioH} prev={this.state.prev} next={this.state.next} onPrev={this.handlePrev} onNext={this.handleNext} active_id={active_id} isSmall={this.state.isSmall} items={this.state.items} onItemSelect={this.handleItemSelect} />
           </LayoutContainer>
         </LayoutRow>
       
 
         <LayoutRow className="BlogBody" row_data={{ fontColor: "#fff", backgroundColor: "transparent" }}>
           <LayoutContainer>
-            <div style={{minHeight: "100px"}}>
+            <div className="BlogBodyInner" style={{minHeight: "100px"}}>
             {blog}
             </div>
-            <div style={{height: "80px", padding: "20px"}}>
-              <span onClick={this.handlePrev}>Prev</span>
-              <span onClick={this.handleNext}>Next</span>
+            <div className="ButtonContain clearfix" style={{height: "80px", padding: "20px"}}>
+              <div className="Button Prev" onClick={this.handlePrev}>Prev</div>
+              <div className="Button Next" onClick={this.handleNext}>Next</div>
             </div>
           </LayoutContainer>
         </LayoutRow>
@@ -373,13 +388,27 @@ var BlogList = React.createClass({
       isScrollingForced: false
     };
   },
+  getDefaultProps: function() {
+    return {
+      ratioW: 40,
+      ratioH: 25
+    };
+  },
   handleSelect: function(item){
     this.props.onItemSelect(item);
   },
   handleScroll: function(e){
     window.clearTimeout(window.timeoutBloglist);
 
-    var width = (this.props.isSmall ? 50 : 75);
+    
+    // var fontSize600 = 3;
+    // var fontSize = (this.docW / 600) * fontSize600;
+    // var maxPerRow = 10;
+    // var countItems = this.props.items.length;
+    // var width = Math.floor( this.docW / (countItems + 1) );
+
+
+    var width = this.renderedWidth;
     var scrollbase = (this.props.prev) ? 3 : 0.5;
     var scrollTo = (width*scrollbase);
     var scrollbaseNext = (this.props.prev) ? (this.props.next ? 3 : 0.5): 0.5;
@@ -411,7 +440,7 @@ var BlogList = React.createClass({
       this.isScrollingForced=true;
       //console.log('isScrollingForced 1')
       $(el).animate({scrollLeft: scrollTo }, 100, function(){
-        //console.log('isScrollingForced 0')
+        // console.log('isScrollingForced 0')
         this.isScrollingForced=false;
         // window.setTimeout(function(){
         //   $(el).scrollLeft( _scrollto );
@@ -419,32 +448,60 @@ var BlogList = React.createClass({
         // }.bind(this), 1000);
         //this.state.isScrollingForced=false;
       }.bind(this));
-    }.bind(this), 800);
+    }.bind(this), 400);
 
   },
   componentDidMount: function() {
+    //console.log("me");
     window.timeoutBloglist=null;
     var el = this.getDOMNode();
-    var width = (this.props.isSmall ? 50 : 75)
+    var width = this.renderedWidth;
+    var scrollbase = (this.props.prev) ? 3 : 0.5;
+    var scrollTo = (width * scrollbase);
+    //console.log(this.renderedWidth);
+
+    $(el).scrollLeft( scrollTo );
+  },
+  componentDidUpdate: function(){
+    var el = this.getDOMNode();
+    var width = this.renderedWidth;
     var scrollbase = (this.props.prev) ? 3 : 0.5;
     var scrollTo = (width * scrollbase);
     $(el).scrollLeft( scrollTo );
   },
   render: function() {
+    var docW = $(".ParaMain").width()-50;
+    //this.docW = docW;
 
-    var width = (this.props.isSmall ? 50 : 75)
-    var fontsize = (this.props.isSmall ? 2 : 3)
+    var fontSize600 = 3;
+    var fontSize = (docW / 600) * fontSize600;
 
-    var count = this.props.items.length;
+    var maxPerRow = 10;
+
+    var countItems = this.props.items.length;
+    var width = Math.floor( docW / (countItems + 1) );
+    this.renderedWidth = width;
+    //alert(docW + "="+countItems)
+    // console.log(docW)
+    // console.log("-"+width)
+
     var prevW = (this.props.prev) ? width*3 : width*1;
     var nextW = (this.props.next) ? width*3 : width*1;
-    var contW = (width*count);
-    var totW = (width*(count+1));
+    var contW = (width*countItems);
+    var totW = (width*(countItems+1));
     var totWInner = contW+prevW+nextW;
 
+    var w_ratio = (width / this.props.ratioW);
+
     var items = this.props.items.map(function(item, i) {
+      var isActive = false;
+      var newheight = Math.floor(w_ratio * this.props.ratioH);
+      if(this.props.active_id==item.id){
+        isActive = true;
+        newheight = Math.floor(w_ratio * (this.props.ratioH * 1.2));
+      }
       return (
-          <BlogItem isActive={this.props.active_id==item.id} key={item.id} data={item} width={width+"px"} font_size={fontsize+"px"} alt_size={3} padding="0px" isNav={true} onSelect={this.handleSelect}/>
+          <BlogItem isActive={isActive} key={item.id} data={item} width={width+"px"} nav_height={newheight} font_size={fontSize+"px"} alt_size={3} padding="0px" isNav={true} onSelect={this.handleSelect}/>
       );
     }.bind(this));
 
@@ -474,6 +531,16 @@ var BlogList = React.createClass({
 });
 
 
+
+
+
+
+
+
+
+
+
+
 var BlogItem = React.createClass({
   getInitialState: function() {
     return {
@@ -485,7 +552,8 @@ var BlogItem = React.createClass({
       isActive: false,
       alt_size: 1,
       padding: "20px",
-      font_size: "16px"
+      font_size: "16px",
+      nav_height: 40
     };
   },
   handleClick: function(){
@@ -505,8 +573,8 @@ var BlogItem = React.createClass({
     //$("blog_"+this.props.data.id+" .BIOverlay").height( $("blog_"+this.props.data.id+" .BIContent").height() );
   },
   setOverlayHeight: function(){
-    var h = $("#blog_"+this.props.data.id+" .BIContent").height();
-    $("#blog_"+this.props.data.id+" .BIOverlay").height(h);
+    // var h = $("#blog_"+this.props.data.id+" .BIContent").height();
+    // $("#blog_"+this.props.data.id+" .BIOverlay").height(h);
   },
   handleHover: function(){
     this.setState({isHover: true});
@@ -539,7 +607,7 @@ var BlogItem = React.createClass({
       if(this.props.data.photos && this.props.data.photos.length>0){
         imgs = <img src={this.props.data.photos[0].alt_sizes[this.props.alt_size].url} />
       }
-      content = <div className="BIContent" style={{overflow: "hidden" }}>
+      content = <div className="BIContent" style={{overflow: "hidden"}}>
           {imgs}
           <div style={{fontSize: this.props.font_size}} dangerouslySetInnerHTML={{__html: this.props.data.caption }} />
         </div>
@@ -570,8 +638,9 @@ var BlogItem = React.createClass({
         onMouseOver={this.handleHover} 
         onMouseOut={this.handleMouseOut} 
         onClick={this.handleClick} style={{width: this.props.width, padding: this.props.padding }}>
-        <div className="BIOverlay" style={{width: this.props.width }} >&nbsp;</div>
-        <div className="BIContent" style={{overflow: "hidden" }}>
+
+        <div className="BIOverlay" style={{width: this.props.width, height: (this.props.nav_height ? this.props.nav_height : "auto"), marginBottom: (this.props.nav_height ? "-"+this.props.nav_height+"px" : "0px") }} >&nbsp;</div>
+        <div className="BIContent" style={{overflow: "hidden", height: (this.props.nav_height ? this.props.nav_height : "auto") }}>
         { content}
         </div>
         {arrow}
@@ -580,6 +649,15 @@ var BlogItem = React.createClass({
     );
   }
 });
+
+
+
+
+
+
+
+
+
 
 
 var TopContainer = React.createClass({
@@ -769,6 +847,209 @@ var ParallaxContainer = React.createClass({
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+var Quotes = React.createClass({
+  getInitialState: function() {
+    return {
+      items: [],
+      item: null,
+      toScroll: false,
+      offset: 0,
+      isSmall: false,
+      prevActive: false,
+      nextActive: false
+    };
+  },
+  componentDidMount: function() {
+    this.getStateData(function(){
+      this.setState({ item: this.state.items[0] })
+      this.props.onLoaded();
+      this.handlePlay();
+    }.bind(this));
+  },
+  getStateData: function(callback){
+    this.getItems(function(data){
+
+      //console.log(data.response.posts)
+      var posts = [];
+      var count = 0;
+      for(var i=0; i<data.response.posts.length; i++){
+        var post = data.response.posts[i];
+        if(post.status=="published"){
+          posts.push(post);
+          count++;
+        }
+        if(count==40){
+          break;
+        }
+      }
+
+      this.setState({items: data.response.posts});
+      if(typeof callback==='function'){
+        callback();
+      }
+    }.bind(this));
+  },
+  handlePlay: function(){
+    this.intervalS = window.setInterval(function(){
+      this.handleNext();
+    }.bind(this), 6000);
+  },
+  handlePauseToggle: function(){
+    if(this.intervalS!=null){
+      window.clearInterval(this.intervalS)
+      this.intervalS = null;
+    }else{
+      this.handlePlay();
+    } 
+  },
+  getItems: function(callback){
+    $.ajax({
+      type:'GET',
+      url: "http://api.tumblr.com/v2/blog/familiarwild.tumblr.com/posts",
+      dataType:'jsonp',
+      data: {
+          api_key : "cm1eEmrZgqEcevWcnGhO6yCdhSgaNQyNKB1pLRnFOaIgRrZZsG",
+          tag: "fwquoteshow",
+          limit: 100,
+          offset: this.state.offset
+      },
+      success: function(data){
+        if(typeof callback==='function'){
+          callback(data);
+        }
+      }.bind(this)
+    });
+  },
+  handleItemSelect: function(item){
+    var item_c = item;
+    this.setState({ item: item_c, toScroll: true })
+  },
+  handleScrollTo: function(){
+    // if(this.state.toScroll){
+    //   var el = this.getDOMNode();
+    //   var ts = $(el).offset().top;
+    //   ST_setScrollPos(ts);
+    // }
+  },
+  handlePrev: function(){
+    this.handleScrollTo();
+    var index = 0;
+    for(var i=0; i<this.state.items.length;i++){
+      if(this.state.items[i]===this.state.item){
+        index=i;
+        break;
+      }
+    }
+    index = ((index-1) >= 0) ? (index-1) : 0;
+    this.setState({ item: this.state.items[index], toScroll: true });
+  },
+  handleNext: function(){
+    this.handleScrollTo();
+    var index = 0;
+    for(var i=0; i<this.state.items.length;i++){
+      if(this.state.items[i]===this.state.item){
+        index=i;
+        break;
+      }
+    }
+    var el = this.getDOMNode();
+    $(el).find(".QuoteText").fadeOut(200, function(){
+      if ((index+1) < this.state.items.length){
+        this.setState({ item: this.state.items[index+1], toScroll: true });
+      }else{
+        this.setState({ item: this.state.items[0], toScroll: true });
+      }
+      $(el).find(".QuoteText").fadeIn(200);
+    }.bind(this));
+  },
+  render: function() {
+    var quote = null;
+    if(this.state.item){
+      var item = this.state.item
+      quote = <div className="QuoteText"><span dangerouslySetInnerHTML={{__html: item.text }} /><div className="QuoteSource"><span dangerouslySetInnerHTML={{__html: "- "+item.source }} /></div></div>
+    }
+
+    return (
+      <div className="Quotes">
+      <ParallaxContainer backgroundColor={this.props.data.backgroundIMG.color} height={this.props.data.height} imgSrc={this.props.data.backgroundIMG.url} img_h={this.props.data.backgroundIMG.img_h} img_w={this.props.data.backgroundIMG.img_w} >
+        <LayoutRow className="QuoteBody" row_data={{ fontColor: "#fff", backgroundColor: "transparent" }}>
+          <LayoutContainer>
+            <LayoutContainerHeading>{this.props.data.title}</LayoutContainerHeading>
+            <div style={{minHeight: "100px"}}>
+            {quote}
+            </div>
+            <div className="ButtonContain clearfix" style={{height: "80px", padding: "20px"}}>
+              <div className="Button Prev" onClick={this.handlePrev}>Prev</div>
+              <div className="Button Pause" onClick={this.handlePauseToggle}>Pause</div>
+              <div className="Button Next" onClick={this.handleNext}>Next</div>
+            </div>
+          </LayoutContainer>
+        </LayoutRow>
+      </ParallaxContainer>
+      </div>
+    );
+  }
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 //==================
 
 
@@ -791,22 +1072,32 @@ var Stuff = React.createClass({
       <TopContainer>
 
         <ParallaxContainer backgroundColor={IMGS.main.color} height="100%" imgSrc={IMGS.main.url} img_h={IMGS.main.img_h} img_w={IMGS.main.img_w} >
-test
           <div id="test" style={{position: "relative", top: "20%", height: "50%" }} >
             <img src="/images/logo.svg" className="DropShadowed" style={{display: "block", height: "80%", margin: "0 auto"}} /> 
             <div className="DropShadowed" style={{display: "block", height: "20%", textAlign: "center", color: "#fff", fontWeight: "200", fontSize: "36px", fontFamily: "Raleway, Helvettica, Arial, sans-serif"}} >
             {text}
             </div>
           </div>
-
         </ParallaxContainer>
-        <StuffBlogs onLoaded={this.handleLoaded} data={DATABLOG} isHidden={!this.state.loaded}/>
         
+        <Quotes onLoaded={this.handleLoaded} data={{id: "vid", ratioW: 40, ratioH: 18, title:"Quotes", height: "300", titleIMG: IMGS.none, backgroundIMG: IMGS.bgmountsm}} />
+        
+        <StuffBlogs onLoaded={this.handleLoaded} blogdata={DATABLOG} isHidden={!this.state.loaded}/>
+        
+        <LayoutRow className="BlogNav" row_data={{ fontColor: "#fff", backgroundColor: "#444" }}>
+          <LayoutContainer>
+            <LayoutContainerHeading>Booking+Press+Contact</LayoutContainerHeading>
+            hel
+          </LayoutContainer>
+        </LayoutRow>
       </TopContainer>
     );
   
   }
 });
+
+
+
 
 
 
@@ -821,19 +1112,19 @@ var StuffBlogs = React.createClass({
   },
   handleLoaded: function(){
     this.setState({ countLoad: this.state.countLoad+1 });
-    var loadNumber = this.props.data.length-1;
+    var totalItems = this.props.blogdata.length + 1; //Quotes
+    var loadNumber = totalItems-1;
     if(this.state.countLoad==loadNumber){
       this.setState({ loaded: true });
       this.props.onLoaded();
     }
   },
   render: function() {
-
-    var loadNumber = (this.state.countLoad < this.props.data.length) ? this.state.countLoad : this.props.data.length-1;
+    var loadNumber = (this.state.countLoad < this.props.blogdata.length) ? this.state.countLoad : this.props.blogdata.length-1;
 
     var showBlogs = [];
     for(var i=0; i<=loadNumber; i++){
-      showBlogs.push(this.props.data[i]);
+      showBlogs.push(this.props.blogdata[i]);
     }
 
     return (
@@ -853,7 +1144,7 @@ var StuffBlogsList = React.createClass({
     if(this.props.data.length>0){
       blogs = this.props.data.map(function(item, i) {
         return (
-          <Blog key={item.id} data={item} onLoaded={this.handleLoaded} />
+          <Blog key={item.id} data={item} onLoaded={this.handleLoaded} ratioW={this.ratioW} ratioH={this.ratioH} />
         );
       }.bind(this));
     }
@@ -865,6 +1156,9 @@ var StuffBlogsList = React.createClass({
     );
   }
 });
+
+
+
 
 
 
@@ -962,6 +1256,16 @@ $(document).on("selectstart", ".BlogItem", function(){
 //     $("#top-para-img").css({transform: "translate3d(0px, -"+( percent_h * change_h )+"px, 0px)"});
 
 //   });
+
+
+
+
+
+
+
+
+
+
 
 
 

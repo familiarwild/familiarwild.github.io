@@ -51,7 +51,7 @@
 
 
 .Blog{
-  margin-top: -50px;
+  /*margin-top: -50px;*/
   display: block;
   margin: 0px auto;
 }
@@ -89,14 +89,13 @@
 
   .BIContent{
     background: #fff;
-    min-height: 40px;
+/*    min-height: 40px;*/
     z-index: 1;
     overflow: hidden;
   }
   &.nav {
     .BIContent {
-      height: 40px;
-      min-height: 40px;
+      /*height: 40px;*/
       z-index: 1;
       overflow: hidden;
       h1 {
@@ -106,7 +105,7 @@
     .BIOverlay{
       z-index: 10;
       position: relative;
-      margin-bottom: -40px;
+      /*margin-bottom: -40px;*/
       background: #eee;
       opacity: 0.2;
       cursor: pointer;
@@ -114,11 +113,11 @@
 
     &.active {
       .BIOverlay{
-        margin-bottom: -60px;
+        /*margin-bottom: -60px;*/
       }
       .BIContent{
-        height: 60px;
-        min-height: 60px;
+        /*height: 60px;
+        min-height: 60px;*/
       }
     }
   }
@@ -213,12 +212,44 @@
 
 
 
+.LayoutContainer{
+  padding: 0px 15px;
+}
+
+.LayoutHeading{
+  text-shadow: 0px 0px 2px #666;
+}
+
+.QuoteText{
+  height: 160px;
+  padding: 0px 40px;
+  width: 100%;
+  font-weight: 200;
+  font-size: 1.8em;
+  line-height: 1.3em;
+  .QuoteSource{
+    font-size: 0.5em;
+    font-style: italic;
+  }
+}
 
 
+.ButtonContain{
+  .Button{
+    float: left;
+    width: 50%;
+    text-align: center;
+    padding: 10px;
+    border: solid 1px #ccc;
+  }
+}
 
 
-
-
+.Quotes{
+  .Button{
+    width: 33%;
+  }
+}
 
 
 
@@ -256,13 +287,6 @@
     -webkit-box-shadow: 0px 0px 38px 0px rgba(0,0,0,1);
     -moz-box-shadow: 0px 0px 38px 0px rgba(0,0,0,1);
     box-shadow: 0px 0px 38px 0px rgba(0,0,0,1);
-  }
-
-  body{
-    min-width: 600px;
-  }
-  #sc-body{
-    min-width: 600px;
   }
 
 

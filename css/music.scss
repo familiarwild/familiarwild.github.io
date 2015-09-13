@@ -68,7 +68,7 @@
   color: #444;
   &.full{
     background: #fff;
-    width: 500px;
+    max-width: 500px;
     margin-top: 30px;
     .BIOverlay{
       display: none;

@@ -10,7 +10,7 @@
 
 var IMGS = { 
   none: {url: null, img_w: null, img_h: null, color: "#fff"},
-  main: {url:  "/images/bg_main3.jpg", img_w: 2190, img_h: 800, color: "#eee"},
+  main: {url:  "/images/bg_main3.jpg", img_w: 2190, img_h: 800, color: "#444"},
   mainback: {url:  "/images/section_top_1.jpg", img_w: 2310, img_h: 800, color: "#eee"},
   musicback: {url:  "/images/bg_album.jpg", img_w: 833, img_h: 526, color: "#eee"},
   bgice: {url: "/images/bg_ice.jpg", img_w: 1000, img_h: 679, color: "#d4f1fe"},
@@ -237,7 +237,7 @@ var Albums = React.createClass({displayName: "Albums",
     window.setTimeout(function(){
       $(el).find(".AlbumBodyInner").css({height: "auto", overflow: "hidden"});
     }, 500);
-    
+
     if ((index+1) < this.state.items.length){
       this.setState({ item: this.state.items[index+1], toScroll: true });
     }else{

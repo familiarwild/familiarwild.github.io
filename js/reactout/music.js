@@ -1577,7 +1577,7 @@ var Stuff = React.createClass({displayName: "Stuff",
               React.createElement(LayoutContainer, null, 
                 React.createElement("p", null, "If you purchased a download card from one of our events you can redeem your code here. Once you have downloaded your music simply drag the files into your itunes or your favorite player. "), 
                 React.createElement("div", {className: "ButtonContain"}, 
-                React.createElement("a", {className: "Button", href: "https://bandcode.familiarwild.com"}, "Redeem Code")
+                React.createElement("a", {className: "Button", href: "http://bandcode.familiarwild.com"}, "Redeem Code")
                 )
               )
             )

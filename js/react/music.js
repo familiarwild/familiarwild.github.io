@@ -1577,7 +1577,7 @@ var Stuff = React.createClass({
               <LayoutContainer>
                 <p>{"If you purchased a download card from one of our events you can redeem your code here. Once you have downloaded your music simply drag the files into your itunes or your favorite player. "}</p>
                 <div className="ButtonContain">
-                <a className="Button" href="https://bandcode.familiarwild.com" >Redeem Code</a>
+                <a className="Button" href="http://bandcode.familiarwild.com" >Redeem Code</a>
                 </div>
               </LayoutContainer>
             </LayoutRow>

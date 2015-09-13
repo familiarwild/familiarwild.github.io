@@ -15,9 +15,9 @@ var IMGS = {
   musicback: {url:  "/images/bg_album.jpg", img_w: 833, img_h: 526, color: "#eee"},
   bgice: {url: "/images/bg_ice.jpg", img_w: 1000, img_h: 679, color: "#d4f1fe"},
   bgrock: {url: "/images/bg_rock.jpg", img_w: 1000, img_h: 679, color: "#e5dac3"},
-  bghorizon: {url: "/images/bg_horizon_a.jpg", img_w: 1280, img_h: 258, color: "#fff"},
-  bgblurvid: {url: "/images/bg_vidblur.jpg", img_w: 800, img_h: 40, color: "#fff"},
-  bgmountsm:  {url: "/images/bg_mountsm.jpg", img_w: 1000, img_h: 260, color: "#fff"},
+  bghorizon: {url: "/images/bg_horizon_a.jpg", img_w: 1280, img_h: 258, color: "#ddd"},
+  bgblurvid: {url: "/images/bg_every.jpg", img_w: 833, img_h: 526, color: "#e13251"},
+  bgmountsm:  {url: "/images/bg_mountsm.jpg", img_w: 1000, img_h: 260, color: "#ddd"},
 }
 
 
@@ -95,11 +95,6 @@ var LayoutContainerHeading = React.createClass({displayName: "LayoutContainerHea
 
 
 
-
-
-
-
-
 //--------======================================================================================
 //--------======================================================================================
 //--------======================================================================================
@@ -156,8 +151,16 @@ var Albums = React.createClass({displayName: "Albums",
       this.handleResize(true);
     }.bind(this));
 
+    var el = this.getDOMNode();
+    var h = $(el).find(".AlbumBodyInnerC").height();
+    $(el).find(".AlbumBodyInnerC").css({height: h, overflow: "hidden"});
+
     // var el = this.getDOMNode();
     // $(el).find(".AlbumBodyInnerC").fadeIn(5000);
+  },
+  componentDidUpdate: function(){
+    var el = this.getDOMNode();
+    $(el).find(".AlbumBodyInnerC").css({height: "auto"});
   },
   handleResize: function(get_data){
     if( ST_windowWidth()<=800){
@@ -209,13 +212,6 @@ var Albums = React.createClass({displayName: "Albums",
         break;
       }
     }
-    var el = this.getDOMNode();
-    var h = $(el).find(".BlogBodyInner").height();
-    $(el).find(".AlbumBodyInner").css({height: h, overflow: "hidden"});
-    
-    window.setTimeout(function(){
-      $(el).find(".AlbumBodyInner").css({height: "auto", overflow: "hidden"});
-    }, 500);
 
     index = ((index-1) >= 0) ? (index-1) : 0;
     this.setState({ item: this.state.items[index], toScroll: true });
@@ -229,14 +225,6 @@ var Albums = React.createClass({displayName: "Albums",
         break;
       }
     }
-
-    var el = this.getDOMNode();
-    var h = $(el).find(".BlogBodyInner").height();
-    $(el).find(".AlbumBodyInner").css({height: h, overflow: "hidden"});
-    
-    window.setTimeout(function(){
-      $(el).find(".AlbumBodyInner").css({height: "auto", overflow: "hidden"});
-    }, 500);
 
     if ((index+1) < this.state.items.length){
       this.setState({ item: this.state.items[index+1], toScroll: true });
@@ -1515,10 +1503,19 @@ var Stuff = React.createClass({displayName: "Stuff",
   getInitialState: function() {
     return {
       loaded: false,
+      countLoad: 0
     };
   },
   handleLoaded: function(){
     this.setState({loaded: true});
+  },
+
+  handleLoaded: function(){
+    this.setState({ countLoad: this.state.countLoad+1 });
+    var loadNumber = 3 - 1;
+    if(this.state.countLoad==loadNumber){
+      this.setState({ loaded: true });
+    }
   },
   render: function() {
     var text = React.createElement("span", null, "loading...");
@@ -1538,26 +1535,62 @@ var Stuff = React.createClass({displayName: "Stuff",
           )
         ), 
         
-        React.createElement("div", {style: {display: (this.state.loaded ? "block" : "none")}}, 
-          React.createElement(AlbumsView, {data: {id: "albums", ratioW: 40, ratioH: 18, title:"Albums", height: "auto", titleIMG: IMGS.none, backgroundIMG: IMGS.musicback}}), 
+        React.createElement("div", {style: {display: (this.state.loaded ? "block" : "none"), overflow: "hidden"}}, 
+          React.createElement(AlbumsView, {onLoaded: this.handleLoaded, data: {id: "albums", ratioW: 40, ratioH: 18, title:"Albums", height: "auto", titleIMG: IMGS.none, backgroundIMG: IMGS.musicback}}), 
 
           React.createElement(StuffBlogs, {onLoaded: this.handleLoaded, blogdata: DATABLOG, isHidden: !this.state.loaded}), 
           
           React.createElement(Quotes, {onLoaded: this.handleLoaded, data: {id: "vid", ratioW: 40, ratioH: 18, title:"Quotes", height: "350", titleIMG: IMGS.none, backgroundIMG: IMGS.bgmountsm}}), 
 
-          React.createElement(LayoutRow, {className: "BlogNav", row_data: { fontColor: "#fff", backgroundColor: "#444"}}, 
-            React.createElement(LayoutContainer, null, 
-              React.createElement(LayoutContainerHeading, null, "Booking+Press+Contact"), 
-              "hel"
+
+
+          
+          React.createElement(ParallaxContainer, {backgroundColor: IMGS.musicback.color, height: "250", imgSrc: IMGS.musicback.url, img_h: IMGS.musicback.img_h, img_w: IMGS.musicback.img_w}, 
+            React.createElement("div", {style: {display: "block", overflow: "hidden"}}, 
+            React.createElement(LayoutRow, {row_data: { fontColor: "#fff", backgroundColor: "transparent"}}, 
+              React.createElement(LayoutContainer, null, 
+                React.createElement(LayoutContainerHeading, null, "Booking Press Contact")
+              )
+            ), 
+
+            React.createElement(LayoutRow, {className: "DownloadCodes", row_data: { fontColor: "#fff", backgroundColor: "transparent"}}, 
+              React.createElement(LayoutContainer, null, 
+                React.createElement("div", {className: "ButtonContain"}, 
+                  React.createElement("a", {className: "Button", target: "_blank", href: "http://blog.familiarwild.com/bookingform"}, "Booking Form"), 
+                  React.createElement("a", {className: "Button", target: "_blank", href: "http://blog.familiarwild.com/biography"}, "Biography"), 
+                  React.createElement("a", {className: "Button", target: "_blank", href: "https://drive.google.com/file/d/0Bxg43wLZ5kd8V1pSTGUtN3NUS2s/edit?usp=sharing"}, "Press Kit")
+                )
+              )
+            )
+            )
+          ), 
+          
+
+          React.createElement(ParallaxContainer, {backgroundColor: "#33ccff", height: "200", imgSrc: IMGS.bgblurvid.url, img_h: IMGS.bgblurvid.img_h, img_w: IMGS.bgblurvid.img_w}, 
+            React.createElement("div", {style: {display: "block", overflow: "hidden"}}, 
+            React.createElement(LayoutRow, {row_data: { fontColor: "#fff", backgroundColor: "transparent"}}, 
+              React.createElement(LayoutContainer, null, 
+                React.createElement(LayoutContainerHeading, null, "Download Codes")
+              )
+            ), 
+            React.createElement(LayoutRow, {className: "DownloadCodes", row_data: { fontColor: "#fff", backgroundColor: "transparent"}}, 
+              React.createElement(LayoutContainer, null, 
+                React.createElement("p", null, "If you purchased a download card from one of our events you can redeem your code here. Once you have downloaded your music simply drag the files into your itunes or your favorite player. "), 
+                React.createElement("div", {className: "ButtonContain"}, 
+                React.createElement("a", {className: "Button", href: "https://bandcode.familiarwild.com"}, "Redeem Code")
+                )
+              )
+            )
             )
           )
+          
+          
         )
       )
     );
   
   }
 });
-
 
 
 
@@ -1624,43 +1657,6 @@ var StuffBlogsList = React.createClass({displayName: "StuffBlogsList",
 
 
 
-React.render( React.createElement(Stuff, null) , document.getElementById('ppp'));
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -1703,54 +1699,11 @@ function ST_setScrollPos(number){
   //return $(window).scrollTop(number, 200);
 }
 
-
-
-// (function($){
-//     $.fn.disableSelection = function() {
-//         return this
-//                  .attr('unselectable', 'on')
-//                  .css('user-select', 'none')
-//                  .on('selectstart', false);
-//     };
-// })(jQuery);
-
 $(document).on("selectstart", ".BlogItem", function(){
   return false
 });
 
 
-// $(document).ready(function(){
-//   $(window).resize(function(){
-//       setViewportMeta();
-//   });
-//   setViewportMeta()
-// })
-
-
-// function setViewportMeta(){
-//   var winW = $(window).width();
-//   if(winW < 600){
-//     //var times = winW / 600;
-//     alert('d')
-//     $('meta[name=viewport]').attr('content','width=600');
-//   }else{
-//     $('meta[name=viewport]').attr('content','width=device-width, initial-scale=1');
-//   }
-// }
-
-
-
-
-// $(window).scroll(function(){
-
-//     var scroll_h = $(window).scrollTop();
-//     var diff = t_h - scroll_h;
-//     diff = (diff < 0) ? t_h : t_h - diff;
-//     var percent_h = ( diff / t_h  );
-//     //$("#top-para-img").css({top: "-"+( percent_h * change_h )+"px"}, 0);
-//     $("#top-para-img").css({transform: "translate3d(0px, -"+( percent_h * change_h )+"px, 0px)"});
-
-//   });
 
 
 
@@ -1758,11 +1711,5 @@ $(document).on("selectstart", ".BlogItem", function(){
 
 
 
-
-
-
-
-
-
-
+React.render( React.createElement(Stuff, null) , document.getElementById('FamiliarWildApp'));
 

@@ -230,6 +230,14 @@ var Albums = React.createClass({
       }
     }
 
+    var el = this.getDOMNode();
+    var h = $(el).find(".BlogBodyInner").height();
+    $(el).find(".AlbumBodyInner").css({height: h, overflow: "hidden"});
+    
+    window.setTimeout(function(){
+      $(el).find(".AlbumBodyInner").css({height: "auto", overflow: "hidden"});
+    }, 500);
+    
     if ((index+1) < this.state.items.length){
       this.setState({ item: this.state.items[index+1], toScroll: true });
     }else{

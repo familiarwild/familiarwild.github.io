@@ -14,6 +14,7 @@ var IMGS = {
   main2: {url:  "/images/bg_main4.jpg", img_w: 2092, img_h: 800, color: "#444"},
   main3: {url:  "/images/bg_main5.jpg", img_w: 1885, img_h: 800, color: "#444"},
   main4: {url:  "/images/bg_main6.jpg", img_w: 1986, img_h: 800, color: "#444"},
+  main5: {url:  "/images/bg_main7.jpg", img_w: 2233, img_h: 1100, color: "#444"},
   mainback: {url:  "/images/section_top_1.jpg", img_w: 2310, img_h: 800, color: "#eee"},
   musicback: {url:  "/images/bg_album.jpg", img_w: 833, img_h: 526, color: "#eee"},
   bgice: {url: "/images/bg_ice.jpg", img_w: 1000, img_h: 679, color: "#d4f1fe"},
@@ -23,7 +24,7 @@ var IMGS = {
   bgmountsm:  {url: "/images/bg_mountsm.jpg", img_w: 1000, img_h: 260, color: "#ddd"},
 }
 
-maintypes = ["main", "main2", "main3", "main4"];
+maintypes = ["main", "main2", "main3", "main4", "main5"];
 
 
 var DATABLOG = [

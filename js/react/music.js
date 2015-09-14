@@ -1454,8 +1454,7 @@ var Quotes = React.createClass({
       }
     }
     var el = this.getDOMNode();
-    var index = ((index+1) <= this.state.items.length) ? (index+1) : 0;
-
+    var index = ((index+1) < this.state.items.length) ? (index+1) : 0;
 
     $(el).find(".QuoteText").fadeOut(200, function(){
       this.setState({ item: this.state.items[index], toScroll: true });
@@ -1740,7 +1739,7 @@ function ST_setScrollPos(number){
 }
 
 $(document).on("selectstart", ".BlogItem, .Logo, .Button", function(){
-  //return false
+  return false
 });
 
 

@@ -417,12 +417,13 @@ var AlbumItem = React.createClass({
       class_name += " full";
     }
 
-    var content = <div className="ALBContent" style={{overflow: "hidden", margin: "5px"}}><img src={this.props.data.artwork_thumb} style={{width: this.props.width-10, height: this.props.nav_height-10 }} /></div>
+    var content = <div onClick={this.handleClick} className="ALBContent" style={{overflow: "hidden", margin: "5px"}}><img src={this.props.data.artwork_thumb} style={{width: this.props.width-10, height: this.props.nav_height-10 }} /></div>
     
     return (
        <div className={class_name}  
         onMouseOver={this.handleHover} 
         onMouseOut={this.handleMouseOut} 
+        onClick={this.handleClick}
         style={{position: "relative", display: "inline-block", width: this.props.width, padding: this.props.padding }}>
 
         <div className="ITM ALBOverlay" onClick={this.handleClick} style={{ display: "block", width: this.props.width, height: (this.props.nav_height ? this.props.nav_height : "auto"), marginBottom: (this.props.nav_height ? "-"+this.props.nav_height+"px" : "0px") }} >&nbsp;</div>

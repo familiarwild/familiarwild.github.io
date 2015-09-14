@@ -11,6 +11,9 @@
 var IMGS = { 
   none: {url: null, img_w: null, img_h: null, color: "#fff"},
   main: {url:  "/images/bg_main3.jpg", img_w: 2190, img_h: 800, color: "#444"},
+  main2: {url:  "/images/bg_main4.jpg", img_w: 2092, img_h: 800, color: "#444"},
+  main3: {url:  "/images/bg_main5.jpg", img_w: 1885, img_h: 800, color: "#444"},
+  main4: {url:  "/images/bg_main6.jpg", img_w: 1986, img_h: 800, color: "#444"},
   mainback: {url:  "/images/section_top_1.jpg", img_w: 2310, img_h: 800, color: "#eee"},
   musicback: {url:  "/images/bg_album.jpg", img_w: 833, img_h: 526, color: "#eee"},
   bgice: {url: "/images/bg_ice.jpg", img_w: 1000, img_h: 679, color: "#d4f1fe"},
@@ -20,6 +23,7 @@ var IMGS = {
   bgmountsm:  {url: "/images/bg_mountsm.jpg", img_w: 1000, img_h: 260, color: "#ddd"},
 }
 
+maintypes = ["main", "main2", "main3", "main4"];
 
 
 var DATABLOG = [
@@ -1532,13 +1536,13 @@ var Stuff = React.createClass({displayName: "Stuff",
   getInitialState: function() {
     return {
       loaded: false,
-      countLoad: 0
+      countLoad: 0,
+      IMG: this.getImgMain()
     };
   },
   handleLoaded: function(){
     this.setState({loaded: true});
   },
-
   handleLoaded: function(){
     this.setState({ countLoad: this.state.countLoad+1 });
     var loadNumber = 3 - 1;
@@ -1546,18 +1550,25 @@ var Stuff = React.createClass({displayName: "Stuff",
       this.setState({ loaded: true });
     }
   },
+  getImgMain: function(){
+    var type = maintypes[Math.floor(Math.random()*maintypes.length)];
+    return IMGS[type];
+  },
   render: function() {
     var text = React.createElement("span", null, "loading...");
     if(this.state.loaded){
       text = React.createElement("span", null, "FAMILIAR WILD");
     } 
 
+    var imgm = 
+    maintypes
+
     return (
       React.createElement(TopContainer, null, 
 
-        React.createElement(ParallaxContainer, {backgroundColor: IMGS.main.color, height: "100%", imgSrc: IMGS.main.url, img_h: IMGS.main.img_h, img_w: IMGS.main.img_w}, 
+        React.createElement(ParallaxContainer, {backgroundColor: this.state.IMG.color, height: "100%", imgSrc: this.state.IMG.url, img_h: this.state.IMG.img_h, img_w: this.state.IMG.img_w}, 
           React.createElement("div", {id: "test", style: {position: "relative", top: "20%", height: "50%"}}, 
-            React.createElement("img", {src: "/images/logo.svg", className: "DropShadowed", style: {display: "block", height: "80%", margin: "0 auto"}}), 
+            React.createElement("img", {src: "/images/logo_w.svg", className: "DropShadowed", style: {display: "block", height: "80%", margin: "0 auto"}}), 
             React.createElement("div", {className: "DropShadowed", style: {display: "block", height: "20%", textAlign: "center", color: "#fff", fontWeight: "200", fontSize: "36px", fontFamily: "Raleway, Helvettica, Arial, sans-serif"}}, 
             text
             )

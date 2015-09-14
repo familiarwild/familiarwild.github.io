@@ -426,7 +426,7 @@ var AlbumItem = React.createClass({displayName: "AlbumItem",
         
         style: {position: "relative", display: "inline-block", width: this.props.width, padding: this.props.padding}}, 
 
-        React.createElement("div", {className: "ITM ALBOverlay", onClick: this.handleAlbumSelect, style: {position: "relative", zIndex: "10", display: "block", width: this.props.width, height: (this.props.nav_height ? this.props.nav_height : "auto"), marginBottom: (this.props.nav_height ? "-"+this.props.nav_height+"px" : "0px")}}, " "), 
+        React.createElement("a", {className: "ITM ALBOverlay", onClick: this.handleAlbumSelect, style: {position: "relative", zIndex: "10", display: "block", width: this.props.width, height: (this.props.nav_height ? this.props.nav_height : "auto"), marginBottom: (this.props.nav_height ? "-"+this.props.nav_height+"px" : "0px")}}, " "), 
         content
 
        )

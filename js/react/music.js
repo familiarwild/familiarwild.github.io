@@ -130,7 +130,8 @@ var Albums = React.createClass({
       offset: 0,
       isSmall: false,
       prevActive: false,
-      nextActive: false
+      nextActive: false,
+      innerHeight: "auto",
     };
   },
   getDefaultProps: function() {
@@ -151,16 +152,24 @@ var Albums = React.createClass({
       this.handleResize(true);
     }.bind(this));
 
-    var el = this.getDOMNode();
-    var h = $(el).find(".AlbumBodyInnerC").height();
-    $(el).find(".AlbumBodyInnerC").css({height: h, overflow: "hidden"});
+    
+    // var el = this.getDOMNode();
+    // var h = $(el).find(".AlbumBodyInnerC").height();
+    // $(el).find(".AlbumBodyInnerC").css({height: h, overflow: "hidden"});
 
     // var el = this.getDOMNode();
     // $(el).find(".AlbumBodyInnerC").fadeIn(5000);
   },
-  componentDidUpdate: function(){
+  componentWillUpdate: function(){
     var el = this.getDOMNode();
-    $(el).find(".AlbumBodyInnerC").css({height: "auto"});
+    var h = $(el).find(".AlbumBodyInner").height();
+    $(el).find(".AlbumBodyInner").height(h).css({overflow: "hidden"});
+    //this.setState({ innerHeight: $(this.getDOMNode()).height() });
+  },
+  componentDidUpdate: function(){
+    //this.setState({ innerHeight: "auto" });
+    var el = this.getDOMNode();
+    $(el).find(".AlbumBodyInner").css({height: "auto", overflow: "visible"});
   },
   handleResize: function(get_data){
     if( ST_windowWidth()<=800){
@@ -253,10 +262,8 @@ var Albums = React.createClass({
 
         <LayoutRow className="AlbumBody" row_data={{ fontColor: "#fff", backgroundColor: "transparent" }}>
           <LayoutContainer>
-            <div className="AlbumBodyInner" style={{ minHeight: "100px" }}>
-              <div className="AlbumBodyInnerC">
+            <div className="AlbumBodyInner" style={{ minHeight: "100px", height: this.state.innerHeight }}>
               {alb}
-              </div>
             </div>
             <div className="ButtonContain clearfix" style={{height: "80px", padding: "20px"}}>
               <div className="Button Prev" onClick={this.handlePrev}>Newer</div>
@@ -691,6 +698,18 @@ var Blog = React.createClass({
     }.bind(this));
     
   },
+  componentWillUpdate: function(){
+    var el = this.getDOMNode();
+    var h = $(el).find(".BlogBodyInner").height();
+    $(el).find(".BlogBodyInner").height(h).css({overflow: "hidden"});
+    //this.setState({ innerHeight: $(this.getDOMNode()).height() });
+  },
+  componentDidUpdate: function(){
+    //this.setState({ innerHeight: "auto" });
+    var el = this.getDOMNode();
+    $(el).find(".BlogBodyInner").css({height: "auto", overflow: "visible"});
+  },
+
   handleResize: function(get_data){
     if( ST_windowWidth()<=800){
       this.setState({ isSmall: true});
@@ -773,12 +792,12 @@ var Blog = React.createClass({
       }
     }
     
-    var el = this.getDOMNode();
-    var h = $(el).find(".BlogBodyInner").height();
-    $(el).find(".BlogBodyInner").css({height: h, overflow: "hidden"});
-    window.setTimeout(function(){
-      $(el).find(".BlogBodyInner").css({height: "auto", overflow: "hidden"});
-    }, 500);
+    // var el = this.getDOMNode();
+    // var h = $(el).find(".BlogBodyInner").height();
+    // $(el).find(".BlogBodyInner").css({height: h, overflow: "hidden"});
+    // window.setTimeout(function(){
+    //   $(el).find(".BlogBodyInner").css({height: "auto", overflow: "hidden"});
+    // }, 500);
     
     if ((index+1) < this.state.items.length){
       this.setState({ item: this.state.items[index+1], toScroll: true });
@@ -1695,7 +1714,7 @@ function ST_getScrollPos(){
 }
 function ST_setScrollPos(number){
   var body = $("html, body");
-  body.stop().animate({scrollTop:number}, '500', 'swing');
+  body.stop().animate({scrollTop:number}, 200, 'swing');
   //return $(window).scrollTop(number, 200);
 }
 

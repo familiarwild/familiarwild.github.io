@@ -1447,7 +1447,6 @@ var Quotes = React.createClass({displayName: "Quotes",
   },
   handleNext: function(){
     this.handleScrollTo();
-    this.handlePause();
     var index = 0;
     for(var i=0; i<this.state.items.length;i++){
       if(this.state.items[i]===this.state.item){
@@ -1463,6 +1462,10 @@ var Quotes = React.createClass({displayName: "Quotes",
       this.setState({ item: this.state.items[index], toScroll: true });
       $(el).find(".QuoteText").fadeIn(200);
     }.bind(this));
+  },
+  handleNextClick: function(){
+    this.handlePause();
+    this.handleNext();
   },
   render: function() {
     var quote = null;
@@ -1483,7 +1486,7 @@ var Quotes = React.createClass({displayName: "Quotes",
             React.createElement("div", {className: "ButtonContain clearfix", style: {height: "80px", padding: "20px"}}, 
               React.createElement("div", {className: "Button Prev", onClick: this.handlePrev}, "Prev"), 
               React.createElement("div", {className: "Button Pause", onClick: this.handlePauseToggle}, (this.state.paused ? "Play" : "Pause")), 
-              React.createElement("div", {className: "Button Next", onClick: this.handleNext}, "Next")
+              React.createElement("div", {className: "Button Next", onClick: this.handleNextClick}, "Next")
             )
           )
         )

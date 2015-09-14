@@ -374,6 +374,7 @@ var AlbumItem = React.createClass({
     };
   },
   handleClick: function(){
+    alert('d')
     if(typeof this.props.onSelect == "function"){
       this.props.onSelect(this.props.data);
     }
@@ -419,7 +420,7 @@ var AlbumItem = React.createClass({
     var content = <div className="ALBContent" style={{overflow: "hidden", margin: "5px"}}><img src={this.props.data.artwork_thumb} style={{width: this.props.width-10, height: this.props.nav_height-10 }} /></div>
     
     return (
-       <div id={"art_"+this.props.data.id} className={class_name}  
+       <div className={class_name}  
         onMouseOver={this.handleHover} 
         onMouseOut={this.handleMouseOut} 
         onClick={this.handleClick}

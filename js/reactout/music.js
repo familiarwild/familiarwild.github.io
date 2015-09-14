@@ -1387,15 +1387,18 @@ var Quotes = React.createClass({displayName: "Quotes",
     this.intervalS = window.setInterval(function(){
       this.handleNext();
     }.bind(this), 6000);
+    this.setState({paused: false});
+  },
+  handlePause: function(){
+    window.clearInterval(this.intervalS)
+    this.intervalS = null;
+    this.setState({paused: true});
   },
   handlePauseToggle: function(){
     if(this.intervalS!=null){
-      window.clearInterval(this.intervalS)
-      this.intervalS = null;
-      this.setState({paused: true});
+      this.handlePause();
     }else{
       this.handlePlay();
-      this.setState({paused: false});
     } 
   },
   getItems: function(callback){
@@ -1429,18 +1432,7 @@ var Quotes = React.createClass({displayName: "Quotes",
   },
   handlePrev: function(){
     this.handleScrollTo();
-    var index = 0;
-    for(var i=0; i<this.state.items.length;i++){
-      if(this.state.items[i]===this.state.item){
-        index=i;
-        break;
-      }
-    }
-    index = ((index-1) >= 0) ? (index-1) : 0;
-    this.setState({ item: this.state.items[index], toScroll: true });
-  },
-  handleNext: function(){
-    this.handleScrollTo();
+    this.handlePause();
     var index = 0;
     for(var i=0; i<this.state.items.length;i++){
       if(this.state.items[i]===this.state.item){
@@ -1449,12 +1441,30 @@ var Quotes = React.createClass({displayName: "Quotes",
       }
     }
     var el = this.getDOMNode();
+    var index = ((index-1) >= 0) ? (index-1) : this.state.items.length-1;
+
     $(el).find(".QuoteText").fadeOut(200, function(){
-      if ((index+1) < this.state.items.length){
-        this.setState({ item: this.state.items[index+1], toScroll: true });
-      }else{
-        this.setState({ item: this.state.items[0], toScroll: true });
+      this.setState({ item: this.state.items[index], toScroll: true });
+      $(el).find(".QuoteText").fadeIn(200);
+    }.bind(this));
+
+  },
+  handleNext: function(){
+    this.handleScrollTo();
+    this.handlePause();
+    var index = 0;
+    for(var i=0; i<this.state.items.length;i++){
+      if(this.state.items[i]===this.state.item){
+        index=i;
+        break;
       }
+    }
+    var el = this.getDOMNode();
+    var index = ((index+1) <= this.state.items.length) ? (index+1) : 0;
+
+
+    $(el).find(".QuoteText").fadeOut(200, function(){
+      this.setState({ item: this.state.items[index], toScroll: true });
       $(el).find(".QuoteText").fadeIn(200);
     }.bind(this));
   },

@@ -1565,7 +1565,7 @@ var Stuff = React.createClass({
         <ParallaxContainer backgroundColor={this.state.IMG.color} height="100%" imgSrc={this.state.IMG.url} img_h={this.state.IMG.img_h} img_w={this.state.IMG.img_w} >
           <div className="Logo" style={{position: "relative", top: "20%", height: "50%" }} >
             <img src="/images/logo_w.svg" className="DropShadowed" style={{display: "block", height: "80%", margin: "0 auto"}} /> 
-            <div onClick={this.handleClick} className="DropShadowed" style={{display: "block", height: "20%", textAlign: "center", color: "#fff", fontWeight: "200", fontSize: "36px", fontFamily: "Raleway, Helvettica, Arial, sans-serif"}} >
+            <div className="DropShadowed" style={{display: "block", height: "20%", textAlign: "center", color: "#fff", fontWeight: "200", fontSize: "36px", fontFamily: "Raleway, Helvettica, Arial, sans-serif"}} >
             {text}
             </div>
           </div>

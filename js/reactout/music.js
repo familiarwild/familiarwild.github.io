@@ -1565,7 +1565,7 @@ var Stuff = React.createClass({displayName: "Stuff",
         React.createElement(ParallaxContainer, {backgroundColor: this.state.IMG.color, height: "100%", imgSrc: this.state.IMG.url, img_h: this.state.IMG.img_h, img_w: this.state.IMG.img_w}, 
           React.createElement("div", {className: "Logo", style: {position: "relative", top: "20%", height: "50%"}}, 
             React.createElement("img", {src: "/images/logo_w.svg", className: "DropShadowed", style: {display: "block", height: "80%", margin: "0 auto"}}), 
-            React.createElement("div", {onClick: this.handleClick, className: "DropShadowed", style: {display: "block", height: "20%", textAlign: "center", color: "#fff", fontWeight: "200", fontSize: "36px", fontFamily: "Raleway, Helvettica, Arial, sans-serif"}}, 
+            React.createElement("div", {className: "DropShadowed", style: {display: "block", height: "20%", textAlign: "center", color: "#fff", fontWeight: "200", fontSize: "36px", fontFamily: "Raleway, Helvettica, Arial, sans-serif"}}, 
             text
             )
           )

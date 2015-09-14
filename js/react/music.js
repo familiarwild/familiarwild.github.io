@@ -374,7 +374,6 @@ var AlbumItem = React.createClass({
     };
   },
   handleAlbumSelect: function(){
-    alert('d')
     if(typeof this.props.onSelect == "function"){
       this.props.onSelect(this.props.data);
     }
@@ -398,7 +397,7 @@ var AlbumItem = React.createClass({
     //this.setState({isHover: true});
   },
   handleMouseOut: function(){
-    this.setState({isHover: false});
+    //this.setState({isHover: false});
   },
   render: function() {
     var sizeInfo;

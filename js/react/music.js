@@ -419,12 +419,13 @@ var AlbumItem = React.createClass({
     var content = <div className="ALBContent" style={{overflow: "hidden", margin: "5px"}}><img src={this.props.data.artwork_thumb} style={{width: this.props.width-10, height: this.props.nav_height-10 }} /></div>
     
     return (
-       <div id={"art_"+this.props.data.id} className={class_name} unselectable="on" 
+       <div id={"art_"+this.props.data.id} className={class_name}  
         onMouseOver={this.handleHover} 
         onMouseOut={this.handleMouseOut} 
+        onClick={this.handleClick}
         style={{display: "inline-block", width: this.props.width, padding: this.props.padding }}>
 
-        <a className="ITM ALBOverlay" onClick={this.handleClick} style={{ display: "block", width: this.props.width, height: (this.props.nav_height ? this.props.nav_height : "auto"), marginBottom: (this.props.nav_height ? "-"+this.props.nav_height+"px" : "0px") }} >&nbsp;</a>
+        <div className="ITM ALBOverlay" style={{ display: "block", width: this.props.width, height: (this.props.nav_height ? this.props.nav_height : "auto"), marginBottom: (this.props.nav_height ? "-"+this.props.nav_height+"px" : "0px") }} >&nbsp;</div>
         {content}
 
        </div>
@@ -1737,7 +1738,7 @@ function ST_setScrollPos(number){
 }
 
 $(document).on("selectstart", ".BlogItem, .Logo, .Button", function(){
-  return false
+  //return false
 });
 
 

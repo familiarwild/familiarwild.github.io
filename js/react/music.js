@@ -395,7 +395,7 @@ var AlbumItem = React.createClass({
     // $("#blog_"+this.props.data.id+" .BIOverlay").height(h);
   },
   handleHover: function(){
-    this.setState({isHover: true});
+    //this.setState({isHover: true});
   },
   handleMouseOut: function(){
     this.setState({isHover: false});
@@ -423,10 +423,10 @@ var AlbumItem = React.createClass({
        <div className={class_name}  
         onMouseOver={this.handleHover} 
         onMouseOut={this.handleMouseOut} 
-        
+        onClick={this.handleAlbumSelect}
         style={{position: "relative", display: "inline-block", width: this.props.width, padding: this.props.padding }}>
 
-        <a className="ITM ALBOverlay" onClick={this.handleAlbumSelect} style={{position: "relative", zIndex: "10", display: "block", width: this.props.width, height: (this.props.nav_height ? this.props.nav_height : "auto"), marginBottom: (this.props.nav_height ? "-"+this.props.nav_height+"px" : "0px") }} >&nbsp;</a>
+        <a className="ITM ALBOverlay" style={{position: "relative", zIndex: "10", display: "block", width: this.props.width, height: (this.props.nav_height ? this.props.nav_height : "auto"), marginBottom: (this.props.nav_height ? "-"+this.props.nav_height+"px" : "0px") }} >&nbsp;</a>
         {content}
 
        </div>

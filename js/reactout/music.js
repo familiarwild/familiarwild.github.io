@@ -374,7 +374,6 @@ var AlbumItem = React.createClass({displayName: "AlbumItem",
     };
   },
   handleAlbumSelect: function(){
-    alert('d')
     if(typeof this.props.onSelect == "function"){
       this.props.onSelect(this.props.data);
     }
@@ -395,10 +394,10 @@ var AlbumItem = React.createClass({displayName: "AlbumItem",
     // $("#blog_"+this.props.data.id+" .BIOverlay").height(h);
   },
   handleHover: function(){
-    this.setState({isHover: true});
+    //this.setState({isHover: true});
   },
   handleMouseOut: function(){
-    this.setState({isHover: false});
+    //this.setState({isHover: false});
   },
   render: function() {
     var sizeInfo;
@@ -423,10 +422,10 @@ var AlbumItem = React.createClass({displayName: "AlbumItem",
        React.createElement("div", {className: class_name, 
         onMouseOver: this.handleHover, 
         onMouseOut: this.handleMouseOut, 
-        
+        onClick: this.handleAlbumSelect, 
         style: {position: "relative", display: "inline-block", width: this.props.width, padding: this.props.padding}}, 
 
-        React.createElement("a", {className: "ITM ALBOverlay", onClick: this.handleAlbumSelect, style: {position: "relative", zIndex: "10", display: "block", width: this.props.width, height: (this.props.nav_height ? this.props.nav_height : "auto"), marginBottom: (this.props.nav_height ? "-"+this.props.nav_height+"px" : "0px")}}, " "), 
+        React.createElement("a", {className: "ITM ALBOverlay", style: {position: "relative", zIndex: "10", display: "block", width: this.props.width, height: (this.props.nav_height ? this.props.nav_height : "auto"), marginBottom: (this.props.nav_height ? "-"+this.props.nav_height+"px" : "0px")}}, " "), 
         content
 
        )

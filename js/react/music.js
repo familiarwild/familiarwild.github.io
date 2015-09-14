@@ -1541,8 +1541,8 @@ var Stuff = React.createClass({
       IMG: this.getImgMain()
     };
   },
-  handleLoaded: function(){
-    this.setState({loaded: true});
+  handleClick: function(){
+    this.setState({IMG: this.getImgMain()});
   },
   handleLoaded: function(){
     this.setState({ countLoad: this.state.countLoad+1 });
@@ -1553,7 +1553,14 @@ var Stuff = React.createClass({
   },
   getImgMain: function(){
     var type = maintypes[Math.floor(Math.random()*maintypes.length)];
-    return IMGS[type];
+    var retIMG = IMGS[type];
+    if(this.state!=null){
+      while (retIMG==this.state.IMG) {
+        type = maintypes[Math.floor(Math.random()*maintypes.length)];
+        retIMG = IMGS[type];
+      }
+    }
+    return retIMG;
   },
   render: function() {
     var text = <span>loading...</span>;
@@ -1561,16 +1568,13 @@ var Stuff = React.createClass({
       text = <span>FAMILIAR&nbsp;WILD</span>;
     } 
 
-    var imgm = 
-    maintypes
-
     return (
       <TopContainer>
 
         <ParallaxContainer backgroundColor={this.state.IMG.color} height="100%" imgSrc={this.state.IMG.url} img_h={this.state.IMG.img_h} img_w={this.state.IMG.img_w} >
-          <div id="test" style={{position: "relative", top: "20%", height: "50%" }} >
+          <div className="Logo" style={{position: "relative", top: "20%", height: "50%" }} >
             <img src="/images/logo_w.svg" className="DropShadowed" style={{display: "block", height: "80%", margin: "0 auto"}} /> 
-            <div className="DropShadowed" style={{display: "block", height: "20%", textAlign: "center", color: "#fff", fontWeight: "200", fontSize: "36px", fontFamily: "Raleway, Helvettica, Arial, sans-serif"}} >
+            <div onClick={this.handleClick} className="DropShadowed" style={{display: "block", height: "20%", textAlign: "center", color: "#fff", fontWeight: "200", fontSize: "36px", fontFamily: "Raleway, Helvettica, Arial, sans-serif"}} >
             {text}
             </div>
           </div>
@@ -1742,7 +1746,7 @@ function ST_setScrollPos(number){
   //return $(window).scrollTop(number, 200);
 }
 
-$(document).on("selectstart", ".BlogItem", function(){
+$(document).on("selectstart", ".BlogItem, .Logo, .Button", function(){
   return false
 });
 

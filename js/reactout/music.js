@@ -1559,9 +1559,7 @@ var Stuff = React.createClass({displayName: "Stuff",
 
           React.createElement(StuffBlogs, {onLoaded: this.handleLoaded, blogdata: DATABLOG, isHidden: !this.state.loaded}), 
           
-          React.createElement(Quotes, {onLoaded: this.handleLoaded, data: {id: "vid", ratioW: 40, ratioH: 18, title:"Quotes", height: "350", titleIMG: IMGS.none, backgroundIMG: IMGS.bgmountsm}}), 
-
-
+          
 
           
           React.createElement(ParallaxContainer, {backgroundColor: IMGS.musicback.color, height: "250", imgSrc: IMGS.musicback.url, img_h: IMGS.musicback.img_h, img_w: IMGS.musicback.img_w}, 
@@ -1584,6 +1582,10 @@ var Stuff = React.createClass({displayName: "Stuff",
             )
           ), 
           
+
+          React.createElement(Quotes, {onLoaded: this.handleLoaded, data: {id: "vid", ratioW: 40, ratioH: 18, title:"Quotes", height: "350", titleIMG: IMGS.none, backgroundIMG: IMGS.bgmountsm}}), 
+
+
 
           React.createElement(ParallaxContainer, {backgroundColor: "#33ccff", height: "250", imgSrc: IMGS.bgblurvid.url, img_h: IMGS.bgblurvid.img_h, img_w: IMGS.bgblurvid.img_w}, 
             React.createElement("div", {style: {display: "block", overflow: "hidden"}}, 

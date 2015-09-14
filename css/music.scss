@@ -249,7 +249,7 @@
     width: 50%;
     text-align: center;
     padding: 10px;
-    border: solid 1px #ccc;
+    border: solid 1px #aaa;
     cursor: pointer;
     
     &:hover {
@@ -265,6 +265,11 @@
   }
 }
 
+.Blog{
+  .Button{
+    border: solid 1px #aaa;
+  }
+}
 
 .Quotes{
   .Button{
@@ -274,7 +279,8 @@
 
 .DownloadCodes{
   .Button{
-    width: 80%;
+    border: solid 1px #444;
+    width: 33%;
     margin: 0 10%;
   }
 }

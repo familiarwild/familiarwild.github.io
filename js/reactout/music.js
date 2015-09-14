@@ -424,7 +424,7 @@ var AlbumItem = React.createClass({displayName: "AlbumItem",
         onMouseOut: this.handleMouseOut, 
         style: {display: "inline-block", width: this.props.width, padding: this.props.padding}}, 
 
-        React.createElement("div", {className: "ITM ALBOverlay", onClick: this.handleClick, style: {width: this.props.width, height: (this.props.nav_height ? this.props.nav_height : "auto"), marginBottom: (this.props.nav_height ? "-"+this.props.nav_height+"px" : "0px")}}, " "), 
+        React.createElement("a", {className: "ITM ALBOverlay", onClick: this.handleClick, style: { display: "block", width: this.props.width, height: (this.props.nav_height ? this.props.nav_height : "auto"), marginBottom: (this.props.nav_height ? "-"+this.props.nav_height+"px" : "0px")}}, " "), 
         content
 
        )
@@ -797,18 +797,8 @@ var Blog = React.createClass({displayName: "Blog",
       }
     }
     
-    // var el = this.getDOMNode();
-    // var h = $(el).find(".BlogBodyInner").height();
-    // $(el).find(".BlogBodyInner").css({height: h, overflow: "hidden"});
-    // window.setTimeout(function(){
-    //   $(el).find(".BlogBodyInner").css({height: "auto", overflow: "hidden"});
-    // }, 500);
-    
-    if ((index+1) < this.state.items.length){
-      this.setState({ item: this.state.items[index+1], toScroll: true });
-    }else{
-      this.setState({ item: this.state.items[0], toScroll: true });
-    }
+    index = ((index+1) < this.state.items.length) ? (index+1) : 0;
+    this.setState({ item: this.state.items[index+1], toScroll: true });
   },
   render: function() {
     var docW = $(".ParaMain").width()-50;

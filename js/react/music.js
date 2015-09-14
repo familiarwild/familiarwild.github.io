@@ -422,9 +422,9 @@ var AlbumItem = React.createClass({
        <div id={"art_"+this.props.data.id} className={class_name} unselectable="on" 
         onMouseOver={this.handleHover} 
         onMouseOut={this.handleMouseOut} 
-        onClick={this.handleClick} style={{display: "inline-block", width: this.props.width, padding: this.props.padding }}>
+        style={{display: "inline-block", width: this.props.width, padding: this.props.padding }}>
 
-        <div className="ITM ALBOverlay" style={{width: this.props.width, height: (this.props.nav_height ? this.props.nav_height : "auto"), marginBottom: (this.props.nav_height ? "-"+this.props.nav_height+"px" : "0px") }} >&nbsp;</div>
+        <div className="ITM ALBOverlay" onClick={this.handleClick} style={{width: this.props.width, height: (this.props.nav_height ? this.props.nav_height : "auto"), marginBottom: (this.props.nav_height ? "-"+this.props.nav_height+"px" : "0px") }} >&nbsp;</div>
         {content}
 
        </div>

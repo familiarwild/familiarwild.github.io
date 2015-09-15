@@ -1,6 +1,4 @@
 
-
-alert('d')
 var FamiliarLayout = React.createClass({displayName: "FamiliarLayout",
   getInitialState: function() {
     return {
@@ -31,7 +29,7 @@ var FamiliarLayout = React.createClass({displayName: "FamiliarLayout",
     return retIMG;
   },
   render: function() {
-    var text = React.createElement("span", null, "loading...");
+    var text = React.createElement("span", null, "Loading...");
     if(this.state.loaded){
       logoText = React.createElement("span", null, "FAMILIAR WILD");
     } 

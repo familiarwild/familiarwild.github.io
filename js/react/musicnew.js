@@ -295,16 +295,13 @@ var ParallaxContainer = React.createClass({
       style_top.background = "transparent url('"+this.props.imgSrc+"') no-repeat center center";
       style_top.backgroundSize = "cover";
     }
-
     return (
       <div className="ParaContainer" style={style_top} >
         <div className="ParaBG" style={{ position: "relative", overflow: "hidden", width: "100%", height: imageContainHeight, margin: 0, padding: 0}}>
           {bgimg}
         </div>
-        <div className="ParaContent" style={{ position: "relative", width: "100%", top: "-"+imageContainHeight, height: setHeight, margin: 0, padding: 0}}>
-          <div style={{ position: "relative", width: "100%", height: "100%", zoom: "1"}}>
-            { this.props.children }
-          </div>
+        <div className="ParaContent" style={{ position: "relative", overflow: "hidden", width: "100%", top: "-"+imageContainHeight, height: setHeight, margin: 0, padding: 0}}>
+          { this.props.children }
         </div>
       </div>
     );

@@ -46,56 +46,51 @@ var FamiliarLayout = React.createClass({
           </div>
         </ParallaxContainer>
         
-        <div style={{display: (this.state.loaded ? "block" : "none"), overflow: "hidden" }}>
-          <AlbumsView onLoaded={this.handleLoaded} data={{id: "albums", ratioW: 40, ratioH: 18, title:"Albums", height: "auto", titleIMG: IMGS.none, backgroundIMG: IMGS.musicback}}  />
-          <Blog data={{id: "vid", ratioW: 40, ratioH: 18, tag: "fwvideo", title:"Videos", height: "620", titleIMG: IMGS.none, backgroundIMG: IMGS.bgrock}} onLoaded={this.handleLoaded} ratioW={40} ratioH={18} />
-          <Blog data={{id: "show", ratioW: 40, ratioH: 25, tag: "fwshows", title:"Shows", height: "auto", titleColor: "#000", titleIMG: IMGS.none, backgroundIMG: IMGS.bgice}} titleColor={"#000"} onLoaded={this.handleLoaded} ratioW={40} ratioH={25} />
-          
-          <ParallaxContainer backgroundColor={IMGS.musicback.color} height={"250"} imgSrc={IMGS.musicback.url} img_h={IMGS.musicback.img_h} img_w={IMGS.musicback.img_w} >
-            <div style={{display: "block", overflow: "hidden" }}>
-            <LayoutRow row_data={{ fontColor: "#fff", backgroundColor: "transparent" }}>
-              <LayoutContainer>
-                <LayoutContainerHeading>{"Booking Press Contact"}</LayoutContainerHeading>
-              </LayoutContainer>
-            </LayoutRow>
+        <AlbumsView onLoaded={this.handleLoaded} data={{id: "albums", ratioW: 40, ratioH: 18, title:"Albums", height: "auto", titleIMG: IMGS.none, backgroundIMG: IMGS.musicback}}  />
+        <Blog data={{id: "vid", ratioW: 40, ratioH: 18, tag: "fwvideo", title:"Videos", height: "620", titleIMG: IMGS.none, backgroundIMG: IMGS.bgrock}} onLoaded={this.handleLoaded} ratioW={40} ratioH={18} />
+        <Blog data={{id: "show", ratioW: 40, ratioH: 25, tag: "fwshows", title:"Shows", height: "auto", titleColor: "#000", titleIMG: IMGS.none, backgroundIMG: IMGS.bgice}} titleColor={"#000"} onLoaded={this.handleLoaded} ratioW={40} ratioH={25} />
+        
+        <ParallaxContainer backgroundColor={IMGS.musicback.color} height={"250"} imgSrc={IMGS.musicback.url} img_h={IMGS.musicback.img_h} img_w={IMGS.musicback.img_w} >
+          <div style={{display: "block", overflow: "hidden" }}>
+          <LayoutRow row_data={{ fontColor: "#fff", backgroundColor: "transparent" }}>
+            <LayoutContainer>
+              <LayoutContainerHeading>{"Booking Press Contact"}</LayoutContainerHeading>
+            </LayoutContainer>
+          </LayoutRow>
 
-            <LayoutRow className="DownloadCodes" row_data={{ fontColor: "#fff", backgroundColor: "transparent" }}>
-              <LayoutContainer>
-                <div className="ButtonContain">
-                  <a className="Button" target="_blank" href="http://blog.familiarwild.com/bookingform" >Booking Form</a>
-                  <a className="Button" target="_blank" href="http://blog.familiarwild.com/biography" >Biography</a>
-                  <a className="Button" target="_blank" href="https://drive.google.com/file/d/0Bxg43wLZ5kd8V1pSTGUtN3NUS2s/edit?usp=sharing" >Press Kit</a>
-                </div>
-              </LayoutContainer>
-            </LayoutRow>
-            </div>
-          </ParallaxContainer>
-          
+          <LayoutRow className="DownloadCodes" row_data={{ fontColor: "#fff", backgroundColor: "transparent" }}>
+            <LayoutContainer>
+              <div className="ButtonContain">
+                <a className="Button" target="_blank" href="http://blog.familiarwild.com/bookingform" >Booking Form</a>
+                <a className="Button" target="_blank" href="http://blog.familiarwild.com/biography" >Biography</a>
+                <a className="Button" target="_blank" href="https://drive.google.com/file/d/0Bxg43wLZ5kd8V1pSTGUtN3NUS2s/edit?usp=sharing" >Press Kit</a>
+              </div>
+            </LayoutContainer>
+          </LayoutRow>
+          </div>
+        </ParallaxContainer>
+        
 
-          <Quotes onLoaded={this.handleLoaded} data={{id: "vid", ratioW: 40, ratioH: 18, title:"Quotes", height: "350", titleIMG: IMGS.none, backgroundIMG: IMGS.bgmountsm}} />
+        <Quotes onLoaded={this.handleLoaded} data={{id: "vid", ratioW: 40, ratioH: 18, title:"Quotes", height: "350", titleIMG: IMGS.none, backgroundIMG: IMGS.bgmountsm}} />
 
-
-
-          <ParallaxContainer backgroundColor={"#33ccff"} height={"250"} imgSrc={IMGS.bgblurvid.url} img_h={IMGS.bgblurvid.img_h} img_w={IMGS.bgblurvid.img_w} >
-            <div style={{display: "block", overflow: "hidden" }}>
-            <LayoutRow row_data={{ fontColor: "#fff", backgroundColor: "transparent" }}>
-              <LayoutContainer>
-                <LayoutContainerHeading>Download Codes</LayoutContainerHeading>
-              </LayoutContainer>
-            </LayoutRow>
-            <LayoutRow className="DownloadCodes" row_data={{ fontColor: "#fff", backgroundColor: "transparent" }}>
-              <LayoutContainer>
-                <p>{"If you purchased a download card from one of our events you can redeem your code here. Once you have downloaded your music simply drag the files into your itunes or your favorite player. "}</p>
-                <div className="ButtonContain">
-                <a className="Button" href="http://bandcode.familiarwild.com" >Redeem Code</a>
-                </div>
-              </LayoutContainer>
-            </LayoutRow>
-            </div>
-          </ParallaxContainer>
-          
-          
-        </div>
+        <ParallaxContainer backgroundColor={"#33ccff"} height={"250"} imgSrc={IMGS.bgblurvid.url} img_h={IMGS.bgblurvid.img_h} img_w={IMGS.bgblurvid.img_w} >
+          <div style={{display: "block", overflow: "hidden" }}>
+          <LayoutRow row_data={{ fontColor: "#fff", backgroundColor: "transparent" }}>
+            <LayoutContainer>
+              <LayoutContainerHeading>Download Codes</LayoutContainerHeading>
+            </LayoutContainer>
+          </LayoutRow>
+          <LayoutRow className="DownloadCodes" row_data={{ fontColor: "#fff", backgroundColor: "transparent" }}>
+            <LayoutContainer>
+              <p>{"If you purchased a download card from one of our events you can redeem your code here. Once you have downloaded your music simply drag the files into your itunes or your favorite player. "}</p>
+              <div className="ButtonContain">
+              <a className="Button" href="http://bandcode.familiarwild.com" >Redeem Code</a>
+              </div>
+            </LayoutContainer>
+          </LayoutRow>
+          </div>
+        </ParallaxContainer>
+        
       </TopContainer>
     );
   

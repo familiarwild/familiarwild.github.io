@@ -46,56 +46,51 @@ var FamiliarLayout = React.createClass({displayName: "FamiliarLayout",
           )
         ), 
         
-        React.createElement("div", {style: {display: (this.state.loaded ? "block" : "none"), overflow: "hidden"}}, 
-          React.createElement(AlbumsView, {onLoaded: this.handleLoaded, data: {id: "albums", ratioW: 40, ratioH: 18, title:"Albums", height: "auto", titleIMG: IMGS.none, backgroundIMG: IMGS.musicback}}), 
-          React.createElement(Blog, {data: {id: "vid", ratioW: 40, ratioH: 18, tag: "fwvideo", title:"Videos", height: "620", titleIMG: IMGS.none, backgroundIMG: IMGS.bgrock}, onLoaded: this.handleLoaded, ratioW: 40, ratioH: 18}), 
-          React.createElement(Blog, {data: {id: "show", ratioW: 40, ratioH: 25, tag: "fwshows", title:"Shows", height: "auto", titleColor: "#000", titleIMG: IMGS.none, backgroundIMG: IMGS.bgice}, titleColor: "#000", onLoaded: this.handleLoaded, ratioW: 40, ratioH: 25}), 
-          
-          React.createElement(ParallaxContainer, {backgroundColor: IMGS.musicback.color, height: "250", imgSrc: IMGS.musicback.url, img_h: IMGS.musicback.img_h, img_w: IMGS.musicback.img_w}, 
-            React.createElement("div", {style: {display: "block", overflow: "hidden"}}, 
-            React.createElement(LayoutRow, {row_data: { fontColor: "#fff", backgroundColor: "transparent"}}, 
-              React.createElement(LayoutContainer, null, 
-                React.createElement(LayoutContainerHeading, null, "Booking Press Contact")
-              )
-            ), 
-
-            React.createElement(LayoutRow, {className: "DownloadCodes", row_data: { fontColor: "#fff", backgroundColor: "transparent"}}, 
-              React.createElement(LayoutContainer, null, 
-                React.createElement("div", {className: "ButtonContain"}, 
-                  React.createElement("a", {className: "Button", target: "_blank", href: "http://blog.familiarwild.com/bookingform"}, "Booking Form"), 
-                  React.createElement("a", {className: "Button", target: "_blank", href: "http://blog.familiarwild.com/biography"}, "Biography"), 
-                  React.createElement("a", {className: "Button", target: "_blank", href: "https://drive.google.com/file/d/0Bxg43wLZ5kd8V1pSTGUtN3NUS2s/edit?usp=sharing"}, "Press Kit")
-                )
-              )
-            )
+        React.createElement(AlbumsView, {onLoaded: this.handleLoaded, data: {id: "albums", ratioW: 40, ratioH: 18, title:"Albums", height: "auto", titleIMG: IMGS.none, backgroundIMG: IMGS.musicback}}), 
+        React.createElement(Blog, {data: {id: "vid", ratioW: 40, ratioH: 18, tag: "fwvideo", title:"Videos", height: "620", titleIMG: IMGS.none, backgroundIMG: IMGS.bgrock}, onLoaded: this.handleLoaded, ratioW: 40, ratioH: 18}), 
+        React.createElement(Blog, {data: {id: "show", ratioW: 40, ratioH: 25, tag: "fwshows", title:"Shows", height: "auto", titleColor: "#000", titleIMG: IMGS.none, backgroundIMG: IMGS.bgice}, titleColor: "#000", onLoaded: this.handleLoaded, ratioW: 40, ratioH: 25}), 
+        
+        React.createElement(ParallaxContainer, {backgroundColor: IMGS.musicback.color, height: "250", imgSrc: IMGS.musicback.url, img_h: IMGS.musicback.img_h, img_w: IMGS.musicback.img_w}, 
+          React.createElement("div", {style: {display: "block", overflow: "hidden"}}, 
+          React.createElement(LayoutRow, {row_data: { fontColor: "#fff", backgroundColor: "transparent"}}, 
+            React.createElement(LayoutContainer, null, 
+              React.createElement(LayoutContainerHeading, null, "Booking Press Contact")
             )
           ), 
-          
 
-          React.createElement(Quotes, {onLoaded: this.handleLoaded, data: {id: "vid", ratioW: 40, ratioH: 18, title:"Quotes", height: "350", titleIMG: IMGS.none, backgroundIMG: IMGS.bgmountsm}}), 
-
-
-
-          React.createElement(ParallaxContainer, {backgroundColor: "#33ccff", height: "250", imgSrc: IMGS.bgblurvid.url, img_h: IMGS.bgblurvid.img_h, img_w: IMGS.bgblurvid.img_w}, 
-            React.createElement("div", {style: {display: "block", overflow: "hidden"}}, 
-            React.createElement(LayoutRow, {row_data: { fontColor: "#fff", backgroundColor: "transparent"}}, 
-              React.createElement(LayoutContainer, null, 
-                React.createElement(LayoutContainerHeading, null, "Download Codes")
+          React.createElement(LayoutRow, {className: "DownloadCodes", row_data: { fontColor: "#fff", backgroundColor: "transparent"}}, 
+            React.createElement(LayoutContainer, null, 
+              React.createElement("div", {className: "ButtonContain"}, 
+                React.createElement("a", {className: "Button", target: "_blank", href: "http://blog.familiarwild.com/bookingform"}, "Booking Form"), 
+                React.createElement("a", {className: "Button", target: "_blank", href: "http://blog.familiarwild.com/biography"}, "Biography"), 
+                React.createElement("a", {className: "Button", target: "_blank", href: "https://drive.google.com/file/d/0Bxg43wLZ5kd8V1pSTGUtN3NUS2s/edit?usp=sharing"}, "Press Kit")
               )
-            ), 
-            React.createElement(LayoutRow, {className: "DownloadCodes", row_data: { fontColor: "#fff", backgroundColor: "transparent"}}, 
-              React.createElement(LayoutContainer, null, 
-                React.createElement("p", null, "If you purchased a download card from one of our events you can redeem your code here. Once you have downloaded your music simply drag the files into your itunes or your favorite player. "), 
-                React.createElement("div", {className: "ButtonContain"}, 
-                React.createElement("a", {className: "Button", href: "http://bandcode.familiarwild.com"}, "Redeem Code")
-                )
-              )
-            )
             )
           )
-          
-          
+          )
+        ), 
+        
+
+        React.createElement(Quotes, {onLoaded: this.handleLoaded, data: {id: "vid", ratioW: 40, ratioH: 18, title:"Quotes", height: "350", titleIMG: IMGS.none, backgroundIMG: IMGS.bgmountsm}}), 
+
+        React.createElement(ParallaxContainer, {backgroundColor: "#33ccff", height: "250", imgSrc: IMGS.bgblurvid.url, img_h: IMGS.bgblurvid.img_h, img_w: IMGS.bgblurvid.img_w}, 
+          React.createElement("div", {style: {display: "block", overflow: "hidden"}}, 
+          React.createElement(LayoutRow, {row_data: { fontColor: "#fff", backgroundColor: "transparent"}}, 
+            React.createElement(LayoutContainer, null, 
+              React.createElement(LayoutContainerHeading, null, "Download Codes")
+            )
+          ), 
+          React.createElement(LayoutRow, {className: "DownloadCodes", row_data: { fontColor: "#fff", backgroundColor: "transparent"}}, 
+            React.createElement(LayoutContainer, null, 
+              React.createElement("p", null, "If you purchased a download card from one of our events you can redeem your code here. Once you have downloaded your music simply drag the files into your itunes or your favorite player. "), 
+              React.createElement("div", {className: "ButtonContain"}, 
+              React.createElement("a", {className: "Button", href: "http://bandcode.familiarwild.com"}, "Redeem Code")
+              )
+            )
+          )
+          )
         )
+        
       )
     );
   

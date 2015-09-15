@@ -2,7 +2,7 @@
 var FamiliarLayout = React.createClass({displayName: "FamiliarLayout",
   getInitialState: function() {
     return {
-      loaded: true,
+      loaded: false,
       countLoad: 0,
       IMG: this.getImgMain()
     };
@@ -11,10 +11,10 @@ var FamiliarLayout = React.createClass({displayName: "FamiliarLayout",
     this.setState({IMG: this.getImgMain()});
   },
   handleLoaded: function(){
-    //this.setState({ countLoad: this.state.countLoad+1 });
-    var loadNumber = 3 - 1;
+    this.setState({ countLoad: this.state.countLoad+1 });
+    var loadNumber = 4 - 1;
     if(this.state.countLoad==loadNumber){
-      //this.setState({ loaded: true });
+      this.setState({ loaded: true });
     }
   },
   getImgMain: function(){
@@ -29,14 +29,10 @@ var FamiliarLayout = React.createClass({displayName: "FamiliarLayout",
     return retIMG;
   },
   render: function() {
-    var text = React.createElement("span", null, "Loading...");
+    var logoText = React.createElement("span", null, "Loading...");
     if(this.state.loaded){
       logoText = React.createElement("span", null, "FAMILIAR WILD");
     } 
-
-    return (
-      React.createElement("div", null, "hello")
-      )
 
     return (
       React.createElement(TopContainer, null, 
@@ -52,11 +48,8 @@ var FamiliarLayout = React.createClass({displayName: "FamiliarLayout",
         
         React.createElement("div", {style: {display: (this.state.loaded ? "block" : "none"), overflow: "hidden"}}, 
           React.createElement(AlbumsView, {onLoaded: this.handleLoaded, data: {id: "albums", ratioW: 40, ratioH: 18, title:"Albums", height: "auto", titleIMG: IMGS.none, backgroundIMG: IMGS.musicback}}), 
-
-          React.createElement(FamiliarWildBlogs, {onLoaded: this.handleLoaded, blogdata: DATABLOG, isHidden: !this.state.loaded}), 
-          
-          
-
+          React.createElement(Blog, {data: {id: "vid", ratioW: 40, ratioH: 18, tag: "fwvideo", title:"Videos", height: "620", titleIMG: IMGS.none, backgroundIMG: IMGS.bgrock}, onLoaded: this.handleLoaded, ratioW: 40, ratioH: 18}), 
+          React.createElement(Blog, {data: {id: "show", ratioW: 40, ratioH: 25, tag: "fwshows", title:"Shows", height: "auto", titleColor: "#000", titleIMG: IMGS.none, backgroundIMG: IMGS.bgice}, titleColor: "#000", onLoaded: this.handleLoaded, ratioW: 40, ratioH: 25}), 
           
           React.createElement(ParallaxContainer, {backgroundColor: IMGS.musicback.color, height: "250", imgSrc: IMGS.musicback.url, img_h: IMGS.musicback.img_h, img_w: IMGS.musicback.img_w}, 
             React.createElement("div", {style: {display: "block", overflow: "hidden"}}, 
@@ -114,67 +107,6 @@ var FamiliarLayout = React.createClass({displayName: "FamiliarLayout",
 
 
 
-var FamiliarWildBlogs = React.createClass({displayName: "FamiliarWildBlogs",
-  getInitialState: function() {
-    return {
-      loaded: false,
-      countLoad: 0
-    };
-  },
-  handleLoaded: function(){
-    this.setState({ countLoad: this.state.countLoad+1 });
-    var totalItems = this.props.blogdata.length + 1; //Quotes
-    var loadNumber = totalItems-1;
-    if(this.state.countLoad==loadNumber){
-      this.setState({ loaded: true });
-      this.props.onLoaded();
-    }
-  },
-  render: function() {
-    var loadNumber = (this.state.countLoad < this.props.blogdata.length) ? this.state.countLoad : this.props.blogdata.length-1;
-
-    var showBlogs = [];
-    for(var i=0; i<=loadNumber; i++){
-      showBlogs.push(this.props.blogdata[i]);
-    }
-
-    return (
-      React.createElement("div", {style: {display: (this.props.isHidden ? "block": "block")}}, 
-       React.createElement(StuffBlogsList, {data: showBlogs, onLoaded: this.handleLoaded})
-      )
-    );
-  }
-});
-
-var StuffBlogsList = React.createClass({displayName: "StuffBlogsList",
-  handleLoaded: function(){
-    this.props.onLoaded();
-  },
-  render: function() {
-    var blogs;
-    if(this.props.data.length>0){
-      blogs = this.props.data.map(function(item, i) {
-        return (
-          React.createElement(Blog, {key: item.id, data: item, titleColor: item.titleColor, onLoaded: this.handleLoaded, ratioW: this.ratioW, ratioH: this.ratioH})
-        );
-      }.bind(this));
-    }
-
-    return (
-      React.createElement("div", null, 
-       blogs
-      )
-    );
-  }
-});
-
-
-
-
-
-
-
-
 
 
 
@@ -185,13 +117,23 @@ var StuffBlogsList = React.createClass({displayName: "StuffBlogsList",
 
 var TopContainer = React.createClass({displayName: "TopContainer",
   render: function() {
+    var style={ 
+      display: "block", 
+      position: "relative", 
+      width: "100%", 
+      height: "auto", 
+      overflow: "hidden", 
+      margin: 0, 
+      padding: 0 
+    };
     return (
-      React.createElement("div", {className: "ParaMain", style: { width: "100%", height: "auto", margin: 0, padding: 0}}, 
+      React.createElement("div", {className: "ParaMain", style: style}, 
          this.props.children
       )
     );
   }
 });
+
 
 var ParallaxContainer = React.createClass({displayName: "ParallaxContainer",
   getInitialState: function() {
@@ -334,24 +276,28 @@ var ParallaxContainer = React.createClass({displayName: "ParallaxContainer",
     }else{
       imageContainHeight = 1;
     }
-    
-    var mainStyle = {
+    var style_top={ 
+      display: "block", 
       position: "relative", 
       width: "100%", 
-      height: setHeight, margin: 0, padding: 0, backgroundColor: this.props.backgroundColor };
-   
+      height: setHeight,
+      margin: 0, 
+      padding: 0,
+      backgroundColor: this.props.backgroundColor
+    };
+
     var bgimg;
     if(this.props.height!="auto" && !setHeight.isNaN ){
       imgDimensions = this.calcImageDimensions( this.state.paneWidth, imageContainHeight );
       var imgStyle = this.imgStyle(imgDimensions);
       bgimg = React.createElement("img", {className: "ParaBGImg", "data-topoffset": imgDimensions.offsetTop, src: this.props.imgSrc, style: imgStyle})
     }else{
-      mainStyle.background = "transparent url('"+this.props.imgSrc+"') no-repeat center center";
-      mainStyle.backgroundSize = "cover";
+      style_top.background = "transparent url('"+this.props.imgSrc+"') no-repeat center center";
+      style_top.backgroundSize = "cover";
     }
 
     return (
-      React.createElement("div", {className: "ParaContainer", style: mainStyle}, 
+      React.createElement("div", {className: "ParaContainer", style: style_top}, 
         React.createElement("div", {className: "ParaBG", style: { position: "relative", overflow: "hidden", width: "100%", height: imageContainHeight, margin: 0, padding: 0}}, 
           bgimg
         ), 
@@ -364,6 +310,94 @@ var ParallaxContainer = React.createClass({displayName: "ParallaxContainer",
     );
   }
 });
+
+
+
+
+
+
+
+
+
+
+// var DATABLOG = [
+//   {id: "vid", ratioW: 40, ratioH: 18, tag: "fwvideo", title:"Videos", height: "620", titleIMG: IMGS.none, backgroundIMG: IMGS.bgrock}
+//   {id: "show", ratioW: 40, ratioH: 25, tag: "fwshows", title:"Shows", height: "auto", titleColor: "#000", titleIMG: IMGS.none, backgroundIMG: IMGS.bgice}
+// ];
+
+
+
+
+
+var FamiliarWildBlogs = React.createClass({displayName: "FamiliarWildBlogs",
+  getInitialState: function() {
+    return {
+      loaded: false,
+      countLoad: 0
+    };
+  },
+  handleLoaded: function(){
+    this.setState({ countLoad: this.state.countLoad+1 });
+    var totalItems = this.props.blogdata.length + 1; //Quotes
+    var loadNumber = totalItems-1;
+    if(this.state.countLoad==loadNumber){
+      this.setState({ loaded: true });
+      this.props.onLoaded();
+    }
+  },
+  render: function() {
+    var loadNumber = (this.state.countLoad < this.props.blogdata.length) ? this.state.countLoad : this.props.blogdata.length-1;
+
+    var showBlogs = [];
+    for(var i=0; i<=loadNumber; i++){
+      showBlogs.push(this.props.blogdata[i]);
+    }
+
+    return (
+      React.createElement("div", {style: {display: (this.props.isHidden ? "block": "block")}}, 
+       React.createElement(StuffBlogsList, {data: showBlogs, onLoaded: this.handleLoaded})
+      )
+    );
+  }
+});
+
+var StuffBlogsList = React.createClass({displayName: "StuffBlogsList",
+  handleLoaded: function(){
+    this.props.onLoaded();
+  },
+  render: function() {
+    var blogs;
+    if(this.props.data.length>0){
+      blogs = this.props.data.map(function(item, i) {
+        return (
+          React.createElement(Blog, {key: item.id, data: item, titleColor: item.titleColor, onLoaded: this.handleLoaded, ratioW: this.ratioW, ratioH: this.ratioH})
+        );
+      }.bind(this));
+    }
+
+    return (
+      React.createElement("div", null, 
+       blogs
+      )
+    );
+  }
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -402,12 +436,6 @@ var IMGS = {
 }
 
 maintypes = ["main", "main2", "main3", "main4", "main5"];
-
-
-var DATABLOG = [
-  {id: "vid", ratioW: 40, ratioH: 18, tag: "fwvideo", title:"Videos", height: "620", titleIMG: IMGS.none, backgroundIMG: IMGS.bgrock},
-  {id: "show", ratioW: 40, ratioH: 25, tag: "fwshows", title:"Shows", height: "auto", titleColor: "#000", titleIMG: IMGS.none, backgroundIMG: IMGS.bgice}
-];
 
 
 

@@ -5,6 +5,385 @@
 
 
 
+var FamiliarLayout = React.createClass({
+  getInitialState: function() {
+    return {
+      loaded: true,
+      countLoad: 0,
+      IMG: this.getImgMain()
+    };
+  },
+  handleImageChange: function(){
+    this.setState({IMG: this.getImgMain()});
+  },
+  handleLoaded: function(){
+    this.setState({ countLoad: this.state.countLoad+1 });
+    var loadNumber = 3 - 1;
+    if(this.state.countLoad==loadNumber){
+      this.setState({ loaded: true });
+    }
+  },
+  getImgMain: function(){
+    var type = maintypes[Math.floor(Math.random()*maintypes.length)];
+    var retIMG = IMGS[type];
+    if(this.state!=null){
+      while (retIMG==this.state.IMG) {
+        type = maintypes[Math.floor(Math.random()*maintypes.length)];
+        retIMG = IMGS[type];
+      }
+    }
+    return retIMG;
+  },
+  render: function() {
+    var text = <span>loading...</span>;
+    if(this.state.loaded){
+      logoText = <span>FAMILIAR&nbsp;WILD</span>;
+    } 
+
+    return (
+      <TopContainer>
+
+        <ParallaxContainer backgroundColor={this.state.IMG.color} height="100%" imgSrc={this.state.IMG.url} img_h={this.state.IMG.img_h} img_w={this.state.IMG.img_w} >
+          <div onClick={this.handleImageChange} className="Logo" style={{position: "relative", top: "20%", height: "50%" }} >
+            <img src="/images/logo_w.svg" className="DropShadowed" style={{display: "block", height: "80%", margin: "0 auto"}} /> 
+            <div className="DropShadowed" style={{display: "block", height: "20%", textAlign: "center", color: "#fff", fontWeight: "200", fontSize: "36px", fontFamily: "Raleway, Helvettica, Arial, sans-serif"}} >
+            {logoText}
+            </div>
+          </div>
+        </ParallaxContainer>
+        
+        <div style={{display: (this.state.loaded ? "block" : "none"), overflow: "hidden" }}>
+          <AlbumsView onLoaded={this.handleLoaded} data={{id: "albums", ratioW: 40, ratioH: 18, title:"Albums", height: "auto", titleIMG: IMGS.none, backgroundIMG: IMGS.musicback}}  />
+
+          <FamiliarWildBlogs onLoaded={this.handleLoaded} blogdata={DATABLOG} isHidden={!this.state.loaded}/>
+          
+          
+
+          
+          <ParallaxContainer backgroundColor={IMGS.musicback.color} height={"250"} imgSrc={IMGS.musicback.url} img_h={IMGS.musicback.img_h} img_w={IMGS.musicback.img_w} >
+            <div style={{display: "block", overflow: "hidden" }}>
+            <LayoutRow row_data={{ fontColor: "#fff", backgroundColor: "transparent" }}>
+              <LayoutContainer>
+                <LayoutContainerHeading>{"Booking Press Contact"}</LayoutContainerHeading>
+              </LayoutContainer>
+            </LayoutRow>
+
+            <LayoutRow className="DownloadCodes" row_data={{ fontColor: "#fff", backgroundColor: "transparent" }}>
+              <LayoutContainer>
+                <div className="ButtonContain">
+                  <a className="Button" target="_blank" href="http://blog.familiarwild.com/bookingform" >Booking Form</a>
+                  <a className="Button" target="_blank" href="http://blog.familiarwild.com/biography" >Biography</a>
+                  <a className="Button" target="_blank" href="https://drive.google.com/file/d/0Bxg43wLZ5kd8V1pSTGUtN3NUS2s/edit?usp=sharing" >Press Kit</a>
+                </div>
+              </LayoutContainer>
+            </LayoutRow>
+            </div>
+          </ParallaxContainer>
+          
+
+          <Quotes onLoaded={this.handleLoaded} data={{id: "vid", ratioW: 40, ratioH: 18, title:"Quotes", height: "350", titleIMG: IMGS.none, backgroundIMG: IMGS.bgmountsm}} />
+
+
+
+          <ParallaxContainer backgroundColor={"#33ccff"} height={"250"} imgSrc={IMGS.bgblurvid.url} img_h={IMGS.bgblurvid.img_h} img_w={IMGS.bgblurvid.img_w} >
+            <div style={{display: "block", overflow: "hidden" }}>
+            <LayoutRow row_data={{ fontColor: "#fff", backgroundColor: "transparent" }}>
+              <LayoutContainer>
+                <LayoutContainerHeading>Download Codes</LayoutContainerHeading>
+              </LayoutContainer>
+            </LayoutRow>
+            <LayoutRow className="DownloadCodes" row_data={{ fontColor: "#fff", backgroundColor: "transparent" }}>
+              <LayoutContainer>
+                <p>{"If you purchased a download card from one of our events you can redeem your code here. Once you have downloaded your music simply drag the files into your itunes or your favorite player. "}</p>
+                <div className="ButtonContain">
+                <a className="Button" href="http://bandcode.familiarwild.com" >Redeem Code</a>
+                </div>
+              </LayoutContainer>
+            </LayoutRow>
+            </div>
+          </ParallaxContainer>
+          
+          
+        </div>
+      </TopContainer>
+    );
+  
+
+  }
+
+});
+
+
+
+
+var FamiliarWildBlogs = React.createClass({
+  getInitialState: function() {
+    return {
+      loaded: false,
+      countLoad: 0
+    };
+  },
+  handleLoaded: function(){
+    this.setState({ countLoad: this.state.countLoad+1 });
+    var totalItems = this.props.blogdata.length + 1; //Quotes
+    var loadNumber = totalItems-1;
+    if(this.state.countLoad==loadNumber){
+      this.setState({ loaded: true });
+      this.props.onLoaded();
+    }
+  },
+  render: function() {
+    var loadNumber = (this.state.countLoad < this.props.blogdata.length) ? this.state.countLoad : this.props.blogdata.length-1;
+
+    var showBlogs = [];
+    for(var i=0; i<=loadNumber; i++){
+      showBlogs.push(this.props.blogdata[i]);
+    }
+
+    return (
+      <div style={{display: (this.props.isHidden ? "block": "block") }}>
+       <StuffBlogsList data={showBlogs} onLoaded={this.handleLoaded} />
+      </div>
+    );
+  }
+});
+
+var StuffBlogsList = React.createClass({
+  handleLoaded: function(){
+    this.props.onLoaded();
+  },
+  render: function() {
+    var blogs;
+    if(this.props.data.length>0){
+      blogs = this.props.data.map(function(item, i) {
+        return (
+          <Blog key={item.id} data={item} titleColor={item.titleColor} onLoaded={this.handleLoaded} ratioW={this.ratioW} ratioH={this.ratioH} />
+        );
+      }.bind(this));
+    }
+
+    return (
+      <div>
+       {blogs}
+      </div>
+    );
+  }
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+var TopContainer = React.createClass({
+  render: function() {
+    return (
+      <div className="ParaMain" style={{ width: "100%", height: "auto", margin: 0, padding: 0 }} >
+        { this.props.children }
+      </div>
+    );
+  }
+});
+
+var ParallaxContainer = React.createClass({
+  getInitialState: function() {
+    return {
+      paneHeight: this.getWindowHeight(),
+      paneWidth: this.getDocumentWidth()
+    };
+  },
+  getDefaultProps: function() {
+    return {
+      parallax: true,
+      height: "auto",
+      img_h: 100,
+      img_w: 100,
+      imgSrc: null,
+      backgroundColor: "#ffffff"
+    };
+  },
+  getWindowHeight: function(){
+    return Math.ceil(ST_windowHeight());
+  },
+  getDocumentWidth: function(){
+    return Math.ceil(ST_docWidth());
+  },
+  checkImageHorizontal: function(){
+    return this.props.img_w >= this.props.img_h;
+  },
+  calcPaneHeight: function(){
+    if(this.props.height.indexOf("%") > -1) {
+      // console.log(this.props.height.replace("%"))
+      var percent = (parseInt(this.props.height) / 100);
+      return Math.ceil(percent * this.state.paneHeight);
+    }else{
+      return this.props.height=="auto" ? "auto" : parseInt(this.props.height);
+    }
+    // return (this.props.height.indexOf("%") > -1) ? this.state.windowHeight : this.props.height; 
+  },
+  calcImageDimensions: function(containW, containH){
+    var paneIsHorizontal = (containW >= containH);
+    var returnDimensions = {
+      offsetLeft: 0,
+      offsetTop: -10
+    };
+    if(this.checkImageHorizontal()){
+      var newH = containH+20;
+      var newW = Math.round( (containH / this.props.img_h) * this.props.img_w );
+
+      var widthDiff = containW - newW;
+      var heightDiff;
+      if(widthDiff>0){
+        returnDimensions.width = containW;
+        returnDimensions.height = Math.round((containW / newW) * newH);
+        heightDiff = containH - returnDimensions.height;
+        returnDimensions.offsetTop = Math.floor( heightDiff/2 );
+      }else{
+        returnDimensions.height = newH;
+        returnDimensions.width = newW;
+        returnDimensions.offsetLeft = Math.floor( widthDiff/2 );
+      }
+    }else{
+      console.log("todo")
+    }
+    return returnDimensions;
+
+  },
+  componentDidMount: function() {
+    this.handleResize();
+    ST_windowResize(function(){
+      this.handleResize();
+    }.bind(this));
+    if(this.props.parallax){
+      ST_windowScroll(function(){
+        this.handleWindowScroll();
+      }.bind(this));
+    }
+  },
+  handleResize: function(){
+    var h = this.getWindowHeight();
+    if( h!==this.state.paneHeight){
+      this.setState({ paneHeight: h });
+      return;
+    }
+    var w = this.getDocumentWidth();
+    if( w!==this.state.paneWidth){
+      this.setState({ paneWidth: w });
+      return;
+    }
+
+  },
+  imgStyle: function(imgDimensions){
+    var style = {
+      display: "block", 
+      width: imgDimensions.width, 
+      height: imgDimensions.height, 
+      position: "relative", 
+      left: imgDimensions.offsetLeft+"px"
+    };
+
+    if(Modernizr && Modernizr.csstransforms3d){
+      style.transform = "translate3d(0px, "+imgDimensions.offsetTop+"px, 0px)";
+    }else{
+      style.top = imgDimensions.offsetTop+"px";
+    }
+    return style;
+  },
+  handleWindowScroll: function(){
+    window.clearTimeout(this.timeoutScroll);
+    var el = this.getDOMNode();
+    var offsetTop =  $(el).offset().top;
+    var h = $(el).height();
+    var offsetH = offsetTop+h;
+    var element_img = $(el).find(".ParaBGImg");
+    var current_offset = parseInt( element_img.attr("data-topoffset") );
+    // console.log(current_offset)
+    if($(window).scrollTop()>=offsetTop &&  $(window).scrollTop()<=offsetH){
+      var diff = $(window).scrollTop() - offsetTop;
+      var change = current_offset+(diff*0.5);
+      if(Modernizr && Modernizr.csstransforms3d){
+        element_img.css({transform: "translate3d(0px, "+change+"px, 0px)"});
+      }else{
+        element_img.css("top", change);
+      }
+    }else{
+      this.timeoutScroll = window.setTimeout(function(){
+        if(Modernizr && Modernizr.csstransforms3d){
+          element_img.css({transform: "translate3d(0px, "+current_offset+"px, 0px)"});
+        }else{
+          element_img.css("top", current_offset);
+        }
+      }, 300);
+      
+    }
+  },
+  render: function() {
+    var setHeight = this.calcPaneHeight();
+    var imgDimensions;
+    var imageContainHeight;
+    if(setHeight!="auto"){
+      imageContainHeight = setHeight;
+    }else{
+      imageContainHeight = 1;
+    }
+    
+    var mainStyle = {
+      position: "relative", 
+      width: "100%", 
+      height: setHeight, margin: 0, padding: 0, backgroundColor: this.props.backgroundColor };
+   
+    var bgimg;
+    if(this.props.height!="auto" && !setHeight.isNaN ){
+      imgDimensions = this.calcImageDimensions( this.state.paneWidth, imageContainHeight );
+      var imgStyle = this.imgStyle(imgDimensions);
+      bgimg = <img className="ParaBGImg" data-topoffset={imgDimensions.offsetTop} src={this.props.imgSrc} style={imgStyle} />
+    }else{
+      mainStyle.background = "transparent url('"+this.props.imgSrc+"') no-repeat center center";
+      mainStyle.backgroundSize = "cover";
+    }
+
+    return (
+      <div className="ParaContainer" style={mainStyle} >
+        <div className="ParaBG" style={{ position: "relative", overflow: "hidden", width: "100%", height: imageContainHeight, margin: 0, padding: 0}}>
+          {bgimg}
+        </div>
+        <div className="ParaContent" style={{ position: "relative", width: "100%", top: "-"+imageContainHeight, height: setHeight, margin: 0, padding: 0}}>
+          <div style={{ position: "relative", width: "100%", height: "100%", zoom: "1"}}>
+            { this.props.children }
+          </div>
+        </div>
+      </div>
+    );
+  }
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1117,187 +1496,7 @@ var BlogItem = React.createClass({
 
 
 
-var TopContainer = React.createClass({
-  render: function() {
-    return (
-      <div className="ParaMain" style={{ width: "100%", height: "auto", margin: 0, padding: 0 }} >
-        { this.props.children }
-      </div>
-    );
-  }
-});
 
-var ParallaxContainer = React.createClass({
-  getInitialState: function() {
-    return {
-      paneHeight: this.getWindowHeight(),
-      paneWidth: this.getDocumentWidth()
-    };
-  },
-  getDefaultProps: function() {
-    return {
-      parallax: true,
-      height: "auto",
-      img_h: 100,
-      img_w: 100,
-      imgSrc: null,
-      backgroundColor: "#ffffff"
-    };
-  },
-  getWindowHeight: function(){
-    return Math.ceil(ST_windowHeight());
-  },
-  getDocumentWidth: function(){
-    return Math.ceil(ST_docWidth());
-  },
-  checkImageHorizontal: function(){
-    return this.props.img_w >= this.props.img_h;
-  },
-  calcPaneHeight: function(){
-    if(this.props.height.indexOf("%") > -1) {
-      // console.log(this.props.height.replace("%"))
-      var percent = (parseInt(this.props.height) / 100);
-      return Math.ceil(percent * this.state.paneHeight);
-    }else{
-      return this.props.height=="auto" ? "auto" : parseInt(this.props.height);
-    }
-    // return (this.props.height.indexOf("%") > -1) ? this.state.windowHeight : this.props.height; 
-  },
-  calcImageDimensions: function(containW, containH){
-    var paneIsHorizontal = (containW >= containH);
-    var returnDimensions = {
-      offsetLeft: 0,
-      offsetTop: -10
-    };
-    if(this.checkImageHorizontal()){
-      var newH = containH+20;
-      var newW = Math.round( (containH / this.props.img_h) * this.props.img_w );
-
-      var widthDiff = containW - newW;
-      var heightDiff;
-      if(widthDiff>0){
-        returnDimensions.width = containW;
-        returnDimensions.height = Math.round((containW / newW) * newH);
-        heightDiff = containH - returnDimensions.height;
-        returnDimensions.offsetTop = Math.floor( heightDiff/2 );
-      }else{
-        returnDimensions.height = newH;
-        returnDimensions.width = newW;
-        returnDimensions.offsetLeft = Math.floor( widthDiff/2 );
-      }
-    }else{
-      console.log("todo")
-    }
-    return returnDimensions;
-
-  },
-  componentDidMount: function() {
-    this.handleResize();
-    ST_windowResize(function(){
-      this.handleResize();
-    }.bind(this));
-    if(this.props.parallax){
-      ST_windowScroll(function(){
-        this.handleWindowScroll();
-      }.bind(this));
-    }
-  },
-  handleResize: function(){
-    var h = this.getWindowHeight();
-    if( h!==this.state.paneHeight){
-      this.setState({ paneHeight: h });
-      return;
-    }
-    var w = this.getDocumentWidth();
-    if( w!==this.state.paneWidth){
-      this.setState({ paneWidth: w });
-      return;
-    }
-
-  },
-  imgStyle: function(imgDimensions){
-    var style = {
-      display: "block", 
-      width: imgDimensions.width, 
-      height: imgDimensions.height, 
-      position: "relative", 
-      left: imgDimensions.offsetLeft+"px"
-    };
-
-    if(Modernizr && Modernizr.csstransforms3d){
-      style.transform = "translate3d(0px, "+imgDimensions.offsetTop+"px, 0px)";
-    }else{
-      style.top = imgDimensions.offsetTop+"px";
-    }
-    return style;
-  },
-  handleWindowScroll: function(){
-    window.clearTimeout(this.timeoutScroll);
-    var el = this.getDOMNode();
-    var offsetTop =  $(el).offset().top;
-    var h = $(el).height();
-    var offsetH = offsetTop+h;
-    var element_img = $(el).find(".ParaBGImg");
-    var current_offset = parseInt( element_img.attr("data-topoffset") );
-    // console.log(current_offset)
-    if($(window).scrollTop()>=offsetTop &&  $(window).scrollTop()<=offsetH){
-      var diff = $(window).scrollTop() - offsetTop;
-      var change = current_offset+(diff*0.5);
-      if(Modernizr && Modernizr.csstransforms3d){
-        element_img.css({transform: "translate3d(0px, "+change+"px, 0px)"});
-      }else{
-        element_img.css("top", change);
-      }
-    }else{
-      this.timeoutScroll = window.setTimeout(function(){
-        if(Modernizr && Modernizr.csstransforms3d){
-          element_img.css({transform: "translate3d(0px, "+current_offset+"px, 0px)"});
-        }else{
-          element_img.css("top", current_offset);
-        }
-      }, 300);
-      
-    }
-  },
-  render: function() {
-    var setHeight = this.calcPaneHeight();
-    var imgDimensions;
-    var imageContainHeight;
-    if(setHeight!="auto"){
-      imageContainHeight = setHeight;
-    }else{
-      imageContainHeight = 1;
-    }
-    
-    var mainStyle = {
-      position: "relative", 
-      width: "100%", 
-      height: setHeight, margin: 0, padding: 0, backgroundColor: this.props.backgroundColor };
-   
-    var bgimg;
-    if(this.props.height!="auto" && !setHeight.isNaN ){
-      imgDimensions = this.calcImageDimensions( this.state.paneWidth, imageContainHeight );
-      var imgStyle = this.imgStyle(imgDimensions);
-      bgimg = <img className="ParaBGImg" data-topoffset={imgDimensions.offsetTop} src={this.props.imgSrc} style={imgStyle} />
-    }else{
-      mainStyle.background = "transparent url('"+this.props.imgSrc+"') no-repeat center center";
-      mainStyle.backgroundSize = "cover";
-    }
-
-    return (
-      <div className="ParaContainer" style={mainStyle} >
-        <div className="ParaBG" style={{ position: "relative", overflow: "hidden", width: "100%", height: imageContainHeight, margin: 0, padding: 0}}>
-          {bgimg}
-        </div>
-        <div className="ParaContent" style={{ position: "relative", width: "100%", top: "-"+imageContainHeight, height: setHeight, margin: 0, padding: 0}}>
-          <div style={{ position: "relative", width: "100%", height: "100%", zoom: "1"}}>
-            { this.props.children }
-          </div>
-        </div>
-      </div>
-    );
-  }
-});
 
 
 
@@ -1442,7 +1641,6 @@ var Quotes = React.createClass({
       this.setState({ item: this.state.items[index], toScroll: true });
       $(el).find(".QuoteText").fadeIn(200);
     }.bind(this));
-
   },
   handleNext: function(){
     this.handleScrollTo();
@@ -1525,172 +1723,6 @@ var Quotes = React.createClass({
 //==================
 
 
-var Stuff = React.createClass({
-  getInitialState: function() {
-    return {
-      loaded: false,
-      countLoad: 0,
-      IMG: this.getImgMain()
-    };
-  },
-  handleImageChange: function(){
-    this.setState({IMG: this.getImgMain()});
-  },
-  handleLoaded: function(){
-    this.setState({ countLoad: this.state.countLoad+1 });
-    var loadNumber = 3 - 1;
-    if(this.state.countLoad==loadNumber){
-      this.setState({ loaded: true });
-    }
-  },
-  getImgMain: function(){
-    var type = maintypes[Math.floor(Math.random()*maintypes.length)];
-    var retIMG = IMGS[type];
-    if(this.state!=null){
-      while (retIMG==this.state.IMG) {
-        type = maintypes[Math.floor(Math.random()*maintypes.length)];
-        retIMG = IMGS[type];
-      }
-    }
-    return retIMG;
-  },
-  render: function() {
-    var text = <span>loading...</span>;
-    if(this.state.loaded){
-      text = <span>FAMILIAR&nbsp;WILD</span>;
-    } 
-
-    return (
-      <TopContainer>
-
-        <ParallaxContainer backgroundColor={this.state.IMG.color} height="100%" imgSrc={this.state.IMG.url} img_h={this.state.IMG.img_h} img_w={this.state.IMG.img_w} >
-          <div onClick={this.handleImageChange} className="Logo" style={{position: "relative", top: "20%", height: "50%" }} >
-            <img src="/images/logo_w.svg" className="DropShadowed" style={{display: "block", height: "80%", margin: "0 auto"}} /> 
-            <div className="DropShadowed" style={{display: "block", height: "20%", textAlign: "center", color: "#fff", fontWeight: "200", fontSize: "36px", fontFamily: "Raleway, Helvettica, Arial, sans-serif"}} >
-            {text}
-            </div>
-          </div>
-        </ParallaxContainer>
-        
-        <div style={{display: (this.state.loaded ? "block" : "none"), overflow: "hidden" }}>
-          <AlbumsView onLoaded={this.handleLoaded} data={{id: "albums", ratioW: 40, ratioH: 18, title:"Albums", height: "auto", titleIMG: IMGS.none, backgroundIMG: IMGS.musicback}}  />
-
-          <StuffBlogs onLoaded={this.handleLoaded} blogdata={DATABLOG} isHidden={!this.state.loaded}/>
-          
-          
-
-          
-          <ParallaxContainer backgroundColor={IMGS.musicback.color} height={"250"} imgSrc={IMGS.musicback.url} img_h={IMGS.musicback.img_h} img_w={IMGS.musicback.img_w} >
-            <div style={{display: "block", overflow: "hidden" }}>
-            <LayoutRow row_data={{ fontColor: "#fff", backgroundColor: "transparent" }}>
-              <LayoutContainer>
-                <LayoutContainerHeading>{"Booking Press Contact"}</LayoutContainerHeading>
-              </LayoutContainer>
-            </LayoutRow>
-
-            <LayoutRow className="DownloadCodes" row_data={{ fontColor: "#fff", backgroundColor: "transparent" }}>
-              <LayoutContainer>
-                <div className="ButtonContain">
-                  <a className="Button" target="_blank" href="http://blog.familiarwild.com/bookingform" >Booking Form</a>
-                  <a className="Button" target="_blank" href="http://blog.familiarwild.com/biography" >Biography</a>
-                  <a className="Button" target="_blank" href="https://drive.google.com/file/d/0Bxg43wLZ5kd8V1pSTGUtN3NUS2s/edit?usp=sharing" >Press Kit</a>
-                </div>
-              </LayoutContainer>
-            </LayoutRow>
-            </div>
-          </ParallaxContainer>
-          
-
-          <Quotes onLoaded={this.handleLoaded} data={{id: "vid", ratioW: 40, ratioH: 18, title:"Quotes", height: "350", titleIMG: IMGS.none, backgroundIMG: IMGS.bgmountsm}} />
-
-
-
-          <ParallaxContainer backgroundColor={"#33ccff"} height={"250"} imgSrc={IMGS.bgblurvid.url} img_h={IMGS.bgblurvid.img_h} img_w={IMGS.bgblurvid.img_w} >
-            <div style={{display: "block", overflow: "hidden" }}>
-            <LayoutRow row_data={{ fontColor: "#fff", backgroundColor: "transparent" }}>
-              <LayoutContainer>
-                <LayoutContainerHeading>Download Codes</LayoutContainerHeading>
-              </LayoutContainer>
-            </LayoutRow>
-            <LayoutRow className="DownloadCodes" row_data={{ fontColor: "#fff", backgroundColor: "transparent" }}>
-              <LayoutContainer>
-                <p>{"If you purchased a download card from one of our events you can redeem your code here. Once you have downloaded your music simply drag the files into your itunes or your favorite player. "}</p>
-                <div className="ButtonContain">
-                <a className="Button" href="http://bandcode.familiarwild.com" >Redeem Code</a>
-                </div>
-              </LayoutContainer>
-            </LayoutRow>
-            </div>
-          </ParallaxContainer>
-          
-          
-        </div>
-      </TopContainer>
-    );
-  
-  }
-});
-
-
-
-
-
-
-
-var StuffBlogs = React.createClass({
-  getInitialState: function() {
-    return {
-      loaded: false,
-      countLoad: 0
-    };
-  },
-  handleLoaded: function(){
-    this.setState({ countLoad: this.state.countLoad+1 });
-    var totalItems = this.props.blogdata.length + 1; //Quotes
-    var loadNumber = totalItems-1;
-    if(this.state.countLoad==loadNumber){
-      this.setState({ loaded: true });
-      this.props.onLoaded();
-    }
-  },
-  render: function() {
-    var loadNumber = (this.state.countLoad < this.props.blogdata.length) ? this.state.countLoad : this.props.blogdata.length-1;
-
-    var showBlogs = [];
-    for(var i=0; i<=loadNumber; i++){
-      showBlogs.push(this.props.blogdata[i]);
-    }
-
-    return (
-      <div style={{display: (this.props.isHidden ? "block": "block") }}>
-       <StuffBlogsList data={showBlogs} onLoaded={this.handleLoaded} />
-      </div>
-    );
-  }
-});
-
-var StuffBlogsList = React.createClass({
-  handleLoaded: function(){
-    this.props.onLoaded();
-  },
-  render: function() {
-    var blogs;
-    if(this.props.data.length>0){
-      blogs = this.props.data.map(function(item, i) {
-        return (
-          <Blog key={item.id} data={item} titleColor={item.titleColor} onLoaded={this.handleLoaded} ratioW={this.ratioW} ratioH={this.ratioH} />
-        );
-      }.bind(this));
-    }
-
-    return (
-      <div>
-       {blogs}
-      </div>
-    );
-  }
-});
-
 
 
 
@@ -1750,5 +1782,5 @@ $(document).on("selectstart", ".BlogItem, .Logo, .Button", function(){
 
 
 
-React.render( <Stuff /> , document.getElementById('FamiliarWildApp'));
+React.render( <FamiliarLayout /> , document.getElementById('FamiliarWildApp'));
 

@@ -1,14 +1,8 @@
-//OLD
-
-
-
-
-
 
 var FamiliarLayout = React.createClass({
   getInitialState: function() {
     return {
-      loaded: true,
+      loaded: false,
       countLoad: 0,
       IMG: this.getImgMain()
     };
@@ -18,7 +12,7 @@ var FamiliarLayout = React.createClass({
   },
   handleLoaded: function(){
     this.setState({ countLoad: this.state.countLoad+1 });
-    var loadNumber = 3 - 1;
+    var loadNumber = 4 - 1;
     if(this.state.countLoad==loadNumber){
       this.setState({ loaded: true });
     }
@@ -35,7 +29,7 @@ var FamiliarLayout = React.createClass({
     return retIMG;
   },
   render: function() {
-    var text = <span>loading...</span>;
+    var logoText = <span>Loading...</span>;
     if(this.state.loaded){
       logoText = <span>FAMILIAR&nbsp;WILD</span>;
     } 
@@ -52,59 +46,51 @@ var FamiliarLayout = React.createClass({
           </div>
         </ParallaxContainer>
         
-        <div style={{display: (this.state.loaded ? "block" : "none"), overflow: "hidden" }}>
-          <AlbumsView onLoaded={this.handleLoaded} data={{id: "albums", ratioW: 40, ratioH: 18, title:"Albums", height: "auto", titleIMG: IMGS.none, backgroundIMG: IMGS.musicback}}  />
+        <AlbumsView onLoaded={this.handleLoaded} data={{id: "albums", ratioW: 40, ratioH: 18, title:"Albums", height: "auto", titleIMG: IMGS.none, backgroundIMG: IMGS.musicback}}  />
+        <Blog data={{id: "vid", ratioW: 40, ratioH: 18, tag: "fwvideo", title:"Videos", height: "620", titleIMG: IMGS.none, backgroundIMG: IMGS.bgrock}} onLoaded={this.handleLoaded} ratioW={40} ratioH={18} />
+        <Blog data={{id: "show", ratioW: 40, ratioH: 25, tag: "fwshows", title:"Shows", height: "auto", titleColor: "#000", titleIMG: IMGS.none, backgroundIMG: IMGS.bgice}} titleColor={"#000"} onLoaded={this.handleLoaded} ratioW={40} ratioH={25} />
+        
+        <ParallaxContainer backgroundColor={IMGS.musicback.color} height={"250"} imgSrc={IMGS.musicback.url} img_h={IMGS.musicback.img_h} img_w={IMGS.musicback.img_w} >
+          <div style={{display: "block", overflow: "hidden" }}>
+          <LayoutRow row_data={{ fontColor: "#fff", backgroundColor: "transparent" }}>
+            <LayoutContainer>
+              <LayoutContainerHeading>{"Booking Press Contact"}</LayoutContainerHeading>
+            </LayoutContainer>
+          </LayoutRow>
 
-          <FamiliarWildBlogs onLoaded={this.handleLoaded} blogdata={DATABLOG} isHidden={!this.state.loaded}/>
-          
-          
+          <LayoutRow className="DownloadCodes" row_data={{ fontColor: "#fff", backgroundColor: "transparent" }}>
+            <LayoutContainer>
+              <div className="ButtonContain">
+                <a className="Button" target="_blank" href="http://blog.familiarwild.com/bookingform" >Booking Form</a>
+                <a className="Button" target="_blank" href="http://blog.familiarwild.com/biography" >Biography</a>
+                <a className="Button" target="_blank" href="https://drive.google.com/file/d/0Bxg43wLZ5kd8V1pSTGUtN3NUS2s/edit?usp=sharing" >Press Kit</a>
+              </div>
+            </LayoutContainer>
+          </LayoutRow>
+          </div>
+        </ParallaxContainer>
+        
 
-          
-          <ParallaxContainer backgroundColor={IMGS.musicback.color} height={"250"} imgSrc={IMGS.musicback.url} img_h={IMGS.musicback.img_h} img_w={IMGS.musicback.img_w} >
-            <div style={{display: "block", overflow: "hidden" }}>
-            <LayoutRow row_data={{ fontColor: "#fff", backgroundColor: "transparent" }}>
-              <LayoutContainer>
-                <LayoutContainerHeading>{"Booking Press Contact"}</LayoutContainerHeading>
-              </LayoutContainer>
-            </LayoutRow>
+        <Quotes onLoaded={this.handleLoaded} data={{id: "vid", ratioW: 40, ratioH: 18, title:"Quotes", height: "350", titleIMG: IMGS.none, backgroundIMG: IMGS.bgmountsm}} />
 
-            <LayoutRow className="DownloadCodes" row_data={{ fontColor: "#fff", backgroundColor: "transparent" }}>
-              <LayoutContainer>
-                <div className="ButtonContain">
-                  <a className="Button" target="_blank" href="http://blog.familiarwild.com/bookingform" >Booking Form</a>
-                  <a className="Button" target="_blank" href="http://blog.familiarwild.com/biography" >Biography</a>
-                  <a className="Button" target="_blank" href="https://drive.google.com/file/d/0Bxg43wLZ5kd8V1pSTGUtN3NUS2s/edit?usp=sharing" >Press Kit</a>
-                </div>
-              </LayoutContainer>
-            </LayoutRow>
-            </div>
-          </ParallaxContainer>
-          
-
-          <Quotes onLoaded={this.handleLoaded} data={{id: "vid", ratioW: 40, ratioH: 18, title:"Quotes", height: "350", titleIMG: IMGS.none, backgroundIMG: IMGS.bgmountsm}} />
-
-
-
-          <ParallaxContainer backgroundColor={"#33ccff"} height={"250"} imgSrc={IMGS.bgblurvid.url} img_h={IMGS.bgblurvid.img_h} img_w={IMGS.bgblurvid.img_w} >
-            <div style={{display: "block", overflow: "hidden" }}>
-            <LayoutRow row_data={{ fontColor: "#fff", backgroundColor: "transparent" }}>
-              <LayoutContainer>
-                <LayoutContainerHeading>Download Codes</LayoutContainerHeading>
-              </LayoutContainer>
-            </LayoutRow>
-            <LayoutRow className="DownloadCodes" row_data={{ fontColor: "#fff", backgroundColor: "transparent" }}>
-              <LayoutContainer>
-                <p>{"If you purchased a download card from one of our events you can redeem your code here. Once you have downloaded your music simply drag the files into your itunes or your favorite player. "}</p>
-                <div className="ButtonContain">
-                <a className="Button" href="http://bandcode.familiarwild.com" >Redeem Code</a>
-                </div>
-              </LayoutContainer>
-            </LayoutRow>
-            </div>
-          </ParallaxContainer>
-          
-          
-        </div>
+        <ParallaxContainer backgroundColor={"#33ccff"} height={"250"} imgSrc={IMGS.bgblurvid.url} img_h={IMGS.bgblurvid.img_h} img_w={IMGS.bgblurvid.img_w} >
+          <div style={{display: "block", overflow: "hidden" }}>
+          <LayoutRow row_data={{ fontColor: "#fff", backgroundColor: "transparent" }}>
+            <LayoutContainer>
+              <LayoutContainerHeading>Download Codes</LayoutContainerHeading>
+            </LayoutContainer>
+          </LayoutRow>
+          <LayoutRow className="DownloadCodes" row_data={{ fontColor: "#fff", backgroundColor: "transparent" }}>
+            <LayoutContainer>
+              <p>{"If you purchased a download card from one of our events you can redeem your code here. Once you have downloaded your music simply drag the files into your itunes or your favorite player. "}</p>
+              <div className="ButtonContain">
+              <a className="Button" href="http://bandcode.familiarwild.com" >Redeem Code</a>
+              </div>
+            </LayoutContainer>
+          </LayoutRow>
+          </div>
+        </ParallaxContainer>
+        
       </TopContainer>
     );
   
@@ -112,67 +98,6 @@ var FamiliarLayout = React.createClass({
   }
 
 });
-
-
-
-
-var FamiliarWildBlogs = React.createClass({
-  getInitialState: function() {
-    return {
-      loaded: false,
-      countLoad: 0
-    };
-  },
-  handleLoaded: function(){
-    this.setState({ countLoad: this.state.countLoad+1 });
-    var totalItems = this.props.blogdata.length + 1; //Quotes
-    var loadNumber = totalItems-1;
-    if(this.state.countLoad==loadNumber){
-      this.setState({ loaded: true });
-      this.props.onLoaded();
-    }
-  },
-  render: function() {
-    var loadNumber = (this.state.countLoad < this.props.blogdata.length) ? this.state.countLoad : this.props.blogdata.length-1;
-
-    var showBlogs = [];
-    for(var i=0; i<=loadNumber; i++){
-      showBlogs.push(this.props.blogdata[i]);
-    }
-
-    return (
-      <div style={{display: (this.props.isHidden ? "block": "block") }}>
-       <StuffBlogsList data={showBlogs} onLoaded={this.handleLoaded} />
-      </div>
-    );
-  }
-});
-
-var StuffBlogsList = React.createClass({
-  handleLoaded: function(){
-    this.props.onLoaded();
-  },
-  render: function() {
-    var blogs;
-    if(this.props.data.length>0){
-      blogs = this.props.data.map(function(item, i) {
-        return (
-          <Blog key={item.id} data={item} titleColor={item.titleColor} onLoaded={this.handleLoaded} ratioW={this.ratioW} ratioH={this.ratioH} />
-        );
-      }.bind(this));
-    }
-
-    return (
-      <div>
-       {blogs}
-      </div>
-    );
-  }
-});
-
-
-
-
 
 
 
@@ -187,13 +112,23 @@ var StuffBlogsList = React.createClass({
 
 var TopContainer = React.createClass({
   render: function() {
+    var style={ 
+      display: "block", 
+      position: "relative", 
+      width: "100%", 
+      height: "auto", 
+      overflow: "hidden", 
+      margin: 0, 
+      padding: 0 
+    };
     return (
-      <div className="ParaMain" style={{ width: "100%", height: "auto", margin: 0, padding: 0 }} >
+      <div className="ParaMain" style={style} >
         { this.props.children }
       </div>
     );
   }
 });
+
 
 var ParallaxContainer = React.createClass({
   getInitialState: function() {
@@ -336,36 +271,125 @@ var ParallaxContainer = React.createClass({
     }else{
       imageContainHeight = 1;
     }
-    
-    var mainStyle = {
+    var style_top={ 
+      display: "block", 
       position: "relative", 
       width: "100%", 
-      height: setHeight, margin: 0, padding: 0, backgroundColor: this.props.backgroundColor };
-   
+      height: setHeight,
+      margin: 0, 
+      padding: 0,
+      backgroundColor: this.props.backgroundColor
+    };
+
     var bgimg;
     if(this.props.height!="auto" && !setHeight.isNaN ){
       imgDimensions = this.calcImageDimensions( this.state.paneWidth, imageContainHeight );
       var imgStyle = this.imgStyle(imgDimensions);
       bgimg = <img className="ParaBGImg" data-topoffset={imgDimensions.offsetTop} src={this.props.imgSrc} style={imgStyle} />
     }else{
-      mainStyle.background = "transparent url('"+this.props.imgSrc+"') no-repeat center center";
-      mainStyle.backgroundSize = "cover";
+      style_top.background = "transparent url('"+this.props.imgSrc+"') no-repeat center center";
+      style_top.backgroundSize = "cover";
     }
-
     return (
-      <div className="ParaContainer" style={mainStyle} >
+      <div className="ParaContainer" style={style_top} >
         <div className="ParaBG" style={{ position: "relative", overflow: "hidden", width: "100%", height: imageContainHeight, margin: 0, padding: 0}}>
           {bgimg}
         </div>
-        <div className="ParaContent" style={{ position: "relative", width: "100%", top: "-"+imageContainHeight, height: setHeight, margin: 0, padding: 0}}>
-          <div style={{ position: "relative", width: "100%", height: "100%", zoom: "1"}}>
-            { this.props.children }
-          </div>
+        <div className="ParaContent" style={{ position: "relative", overflow: "hidden", width: "100%", top: "-"+imageContainHeight, height: setHeight, margin: 0, padding: 0}}>
+          { this.props.children }
         </div>
       </div>
     );
   }
 });
+
+
+
+
+
+
+
+
+
+
+// var DATABLOG = [
+//   {id: "vid", ratioW: 40, ratioH: 18, tag: "fwvideo", title:"Videos", height: "620", titleIMG: IMGS.none, backgroundIMG: IMGS.bgrock}
+//   {id: "show", ratioW: 40, ratioH: 25, tag: "fwshows", title:"Shows", height: "auto", titleColor: "#000", titleIMG: IMGS.none, backgroundIMG: IMGS.bgice}
+// ];
+
+
+
+
+
+var FamiliarWildBlogs = React.createClass({
+  getInitialState: function() {
+    return {
+      loaded: false,
+      countLoad: 0
+    };
+  },
+  handleLoaded: function(){
+    this.setState({ countLoad: this.state.countLoad+1 });
+    var totalItems = this.props.blogdata.length + 1; //Quotes
+    var loadNumber = totalItems-1;
+    if(this.state.countLoad==loadNumber){
+      this.setState({ loaded: true });
+      this.props.onLoaded();
+    }
+  },
+  render: function() {
+    var loadNumber = (this.state.countLoad < this.props.blogdata.length) ? this.state.countLoad : this.props.blogdata.length-1;
+
+    var showBlogs = [];
+    for(var i=0; i<=loadNumber; i++){
+      showBlogs.push(this.props.blogdata[i]);
+    }
+
+    return (
+      <div style={{display: (this.props.isHidden ? "block": "block") }}>
+       <StuffBlogsList data={showBlogs} onLoaded={this.handleLoaded} />
+      </div>
+    );
+  }
+});
+
+var StuffBlogsList = React.createClass({
+  handleLoaded: function(){
+    this.props.onLoaded();
+  },
+  render: function() {
+    var blogs;
+    if(this.props.data.length>0){
+      blogs = this.props.data.map(function(item, i) {
+        return (
+          <Blog key={item.id} data={item} titleColor={item.titleColor} onLoaded={this.handleLoaded} ratioW={this.ratioW} ratioH={this.ratioH} />
+        );
+      }.bind(this));
+    }
+
+    return (
+      <div>
+       {blogs}
+      </div>
+    );
+  }
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -404,12 +428,6 @@ var IMGS = {
 }
 
 maintypes = ["main", "main2", "main3", "main4", "main5"];
-
-
-var DATABLOG = [
-  {id: "vid", ratioW: 40, ratioH: 18, tag: "fwvideo", title:"Videos", height: "620", titleIMG: IMGS.none, backgroundIMG: IMGS.bgrock},
-  {id: "show", ratioW: 40, ratioH: 25, tag: "fwshows", title:"Shows", height: "auto", titleColor: "#000", titleIMG: IMGS.none, backgroundIMG: IMGS.bgice}
-];
 
 
 

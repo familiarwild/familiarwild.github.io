@@ -86,7 +86,7 @@ var FamiliarLayout = React.createClass({
           <LayoutRow className="Booking" row_data={{ fontColor: "#fff", backgroundColor: "transparent" }}>
             <LayoutContainer>
               <div className="ButtonContain clearfix">
-                <a className="Button" target="_blank" href="/booking.html" >Contact Us + Booking</a>
+                <a className="Button" target="_blank" href="/contact.html" >Contact Us + Booking</a>
                 <a className="Button" target="_blank" href="http://blog.familiarwild.com/biography" >Biography</a>
                 <a className="Button" target="_blank" href="https://drive.google.com/file/d/0Bxg43wLZ5kd8V1pSTGUtN3NUS2s/edit?usp=sharing" >Press Kit</a>
               </div>

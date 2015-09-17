@@ -86,7 +86,7 @@ var FamiliarLayout = React.createClass({displayName: "FamiliarLayout",
           React.createElement(LayoutRow, {className: "Booking", row_data: { fontColor: "#fff", backgroundColor: "transparent"}}, 
             React.createElement(LayoutContainer, null, 
               React.createElement("div", {className: "ButtonContain clearfix"}, 
-                React.createElement("a", {className: "Button", target: "_blank", href: "/booking.html"}, "Contact Us + Booking"), 
+                React.createElement("a", {className: "Button", target: "_blank", href: "/contact.html"}, "Contact Us + Booking"), 
                 React.createElement("a", {className: "Button", target: "_blank", href: "http://blog.familiarwild.com/biography"}, "Biography"), 
                 React.createElement("a", {className: "Button", target: "_blank", href: "https://drive.google.com/file/d/0Bxg43wLZ5kd8V1pSTGUtN3NUS2s/edit?usp=sharing"}, "Press Kit")
               )

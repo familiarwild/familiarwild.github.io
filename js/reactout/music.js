@@ -715,7 +715,7 @@ var AlbumList = React.createClass({displayName: "AlbumList",
 
     var countItems = this.props.items.length;
     var width = Math.floor( docW / (countItems) );
-    width = (width>100) ? 100 : width;
+    width = (width>80) ? 80 : width;
 
     this.renderedWidth = width;
 
@@ -813,7 +813,7 @@ var AlbumItem = React.createClass({displayName: "AlbumItem",
       class_name += " full";
     }
 
-    var content = React.createElement("div", {className: "ALBContent", style: {position: "relative", zIndex: "1", overflow: "hidden", margin: "5px"}}, React.createElement("img", {src: this.props.data.artwork_thumb, style: {width: this.props.width-10, height: this.props.nav_height-10}}))
+    var content = React.createElement("div", {className: "ALBContent AlbumShadow_sm", style: {position: "relative", zIndex: "1", overflow: "hidden", margin: "5px"}}, React.createElement("img", {src: this.props.data.artwork_thumb, style: {width: this.props.width-10, height: this.props.nav_height-10}}))
     
     return (
        React.createElement("div", {className: class_name, 

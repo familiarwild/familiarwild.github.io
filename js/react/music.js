@@ -48,7 +48,7 @@ var FamiliarLayout = React.createClass({
         
         <AlbumsView onLoaded={this.handleLoaded} data={{id: "albums", ratioW: 40, ratioH: 18, title:"Albums", height: "auto", titleIMG: IMGS.none, backgroundIMG: IMGS.musicback}}  />
         <Blog data={{id: "vid", ratioW: 40, ratioH: 18, tag: "fwvideo", title:"Videos", height: "620", titleIMG: IMGS.none, backgroundIMG: IMGS.bgrock}} onLoaded={this.handleLoaded} ratioW={40} ratioH={18} />
-        <Blog data={{id: "show", ratioW: 40, ratioH: 25, tag: "fwshows", title:"Shows", height: "auto", titleColor: "#000", titleIMG: IMGS.none, backgroundIMG: IMGS.bgice}} titleColor={"#000"} onLoaded={this.handleLoaded} ratioW={40} ratioH={25} />
+        <Blog data={{id: "show", ratioW: 40, ratioH: 30, tag: "fwshows", title:"Shows", height: "auto", titleColor: "#000", titleIMG: IMGS.none, backgroundIMG: IMGS.bgice}} titleColor={"#000"} onLoaded={this.handleLoaded} ratioW={40} ratioH={25} />
         
         <ParallaxContainer backgroundColor={IMGS.musicback.color} height={"250"} imgSrc={IMGS.musicback.url} img_h={IMGS.musicback.img_h} img_w={IMGS.musicback.img_w} >
           <div style={{display: "block", overflow: "hidden" }}>
@@ -84,7 +84,7 @@ var FamiliarLayout = React.createClass({
             <LayoutContainer>
               <p>{"If you purchased a download card from one of our events you can redeem your code here. Once you have downloaded your music simply drag the files into your itunes or your favorite player. "}</p>
               <div className="ButtonContain">
-              <a className="Button" href="http://bandcode.familiarwild.com" >Redeem Code</a>
+              <a className="Button" target="_blank" href="http://bandcode.familiarwild.com" >Redeem Code</a>
               </div>
             </LayoutContainer>
           </LayoutRow>
@@ -1462,6 +1462,13 @@ var BlogItem = React.createClass({
       class_name += " full";
     }
     
+    var exinfo;
+    for(var i=0; i<this.props.data.tags.length;i++){
+      if(this.props.data.tags[i].indexOf("fwinfo_") >= 0){
+        exinfo = <div style={{background: "#aaa", color: "#FFF", width: "100%", overflow: "hidden", textAlign: "center"}}>{this.props.data.tags[i].replace("fwinfo_", "").replace(/_/g, " ")}</div>
+      }
+    }
+
     var content;
     if(this.props.data.type=="photo"){
       var imgs = null;
@@ -1475,8 +1482,8 @@ var BlogItem = React.createClass({
     } 
     if(this.props.data.type=="text"){
       content = <div className="BIContent" style={{overflow: "hidden" }}>
-          <div style={{fontSize: this.props.font_size}} dangerouslySetInnerHTML={{__html: "<h1>"+this.props.data.title+"</h1>" + this.props.data.body }} />
-        </div>
+        <div style={{fontSize: this.props.font_size}} dangerouslySetInnerHTML={{__html: "<h1>"+this.props.data.title+"</h1>" + this.props.data.body }} />
+      </div>
     } 
     if(this.props.data.type=="video"){
       if(this.props.data.video_type=="youtube" && this.props.data.permalink_url) {
@@ -1509,7 +1516,8 @@ var BlogItem = React.createClass({
 
         <div className="BIOverlay" style={{width: this.props.width, height: (this.props.nav_height ? this.props.nav_height : "auto"), marginBottom: (this.props.nav_height ? "-"+this.props.nav_height+"px" : "0px") }} >&nbsp;</div>
         <div className="BIContent" style={{overflow: "hidden", height: (this.props.nav_height ? this.props.nav_height : "auto") }}>
-        { content}
+          {exinfo}
+          {content}
         </div>
         {arrow}
        </div>

@@ -1497,7 +1497,7 @@ var BlogItem = React.createClass({displayName: "BlogItem",
           var vidw = "100%";
           var vidh = "350";
           content = React.createElement("div", {className: "BIContent", style: {overflow: "hidden"}}, 
-            React.createElement("div", {style: {fontSize: this.props.font_size}, dangerouslySetInnerHTML: {__html: this.props.data.player[0].embed_code.replace("width=\"250", "width=\""+vidw).replace("height=\"141", "height=\""+vidh)}})
+            React.createElement("div", {style: {fontSize: this.props.font_size}, dangerouslySetInnerHTML: {__html: this.props.data.player[0].embed_code.replace("width=\"250", "width=\""+vidw).replace(/height\=\"\d\d\d\"/g, "height=\""+vidh+"\"")}})
           )
         }
       }else{

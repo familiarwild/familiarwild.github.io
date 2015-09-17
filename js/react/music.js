@@ -1129,8 +1129,15 @@ var Blog = React.createClass({
         var post = data.response.posts[i];
         //console.log(post.state)
         if(post.status=="published"){
-          posts.push(post);
-          count++;
+          if(this.props.data.type=="video"){
+            if(this.props.data.video_type=="youtube" && this.props.data.permalink_url) {
+              posts.push(post);
+              count++;
+            } 
+          }else{
+            posts.push(post);
+            count++;
+          }
         }
         if(count==10){
           break;
@@ -1472,17 +1479,24 @@ var BlogItem = React.createClass({
         </div>
     } 
     if(this.props.data.type=="video"){
-      if(this.props.isNav){
-        var vidsrc = this.props.data.permalink_url.replace("https://www.youtube.com/watch?v=", "");
-        vidsrc = "http://img.youtube.com/vi/"+vidsrc+"/mqdefault.jpg"
-        content = <div className="BIContent" style={{overflow: "hidden" }}>
-          <img src={vidsrc} width="100%" />
-        </div>
+      if(this.props.data.video_type=="youtube" && this.props.data.permalink_url) {
+        if(this.props.isNav){
+          var vidsrc = this.props.data.permalink_url.replace("https://www.youtube.com/watch?v=", "");
+          vidsrc = "http://img.youtube.com/vi/"+vidsrc+"/mqdefault.jpg"
+          content = <div className="BIContent" style={{overflow: "hidden" }}>
+            <img src={vidsrc} width="100%" />
+          </div>
+        }else{
+          var vidw = "100%";
+          var vidh = "350";
+          content = <div className="BIContent" style={{overflow: "hidden" }}>
+            <div style={{fontSize: this.props.font_size}} dangerouslySetInnerHTML={{__html: this.props.data.player[0].embed_code.replace("width=\"250", "width=\""+vidw).replace("height=\"141", "height=\""+vidh) }} />
+          </div>
+        }
       }else{
-        var vidw = "100%";
-        var vidh = "350";
         content = <div className="BIContent" style={{overflow: "hidden" }}>
-          <div style={{fontSize: this.props.font_size}} dangerouslySetInnerHTML={{__html: this.props.data.player[0].embed_code.replace("width=\"250", "width=\""+vidw).replace("height=\"141", "height=\""+vidh) }} />
+          Video Unavailable
+
         </div>
       }
     } 

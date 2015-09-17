@@ -50,18 +50,43 @@ var FamiliarLayout = React.createClass({
         <Blog data={{id: "vid", ratioW: 40, ratioH: 18, tag: "fwvideo", title:"Videos", height: "620", titleIMG: IMGS.none, backgroundIMG: IMGS.bgrock}} onLoaded={this.handleLoaded} ratioW={40} ratioH={18} />
         <Blog data={{id: "show", ratioW: 40, ratioH: 30, tag: "fwshows", title:"Shows", height: "auto", titleColor: "#000", titleIMG: IMGS.none, backgroundIMG: IMGS.bgice}} titleColor={"#000"} onLoaded={this.handleLoaded} ratioW={40} ratioH={25} />
         
+
+        <ParallaxContainer backgroundColor={"#33ccff"} height={"400"} imgSrc={IMGS.bgblurvid.url} img_h={IMGS.bgblurvid.img_h} img_w={IMGS.bgblurvid.img_w} >
+          <div style={{display: "block", overflow: "hidden" }}>
+          <LayoutRow row_data={{ fontColor: "#fff", backgroundColor: "transparent" }}>
+            <LayoutContainer>
+              <LayoutContainerHeading>Download Codes</LayoutContainerHeading>
+            </LayoutContainer>
+          </LayoutRow>
+          <LayoutRow className="DownloadCodes" row_data={{ fontColor: "#fff", backgroundColor: "transparent" }}>
+            <LayoutContainer>
+              <p>{"If you received a download card from one of our events you can redeem your code here. Once you have downloaded your music simply drag the files into your itunes or your favorite player."}</p>
+              <div className="ButtonContain clearfix">
+              <a className="Button" target="_blank" href="http://bandcode.familiarwild.com" >Redeem Code</a>
+              </div>
+              <p><h3>Agent Information</h3>
+              <i>
+              {"We thank you for taking the time to listen to our music. ISRC codes are part of the song title in the samples provided... Unmastered samples do not have ISRC codes. Please contact a Familiar Wild representative we'd love to hear from you."}
+              </i></p>
+              
+            </LayoutContainer>
+          </LayoutRow>
+          </div>
+        </ParallaxContainer>
+
+
         <ParallaxContainer backgroundColor={IMGS.musicback.color} height={"250"} imgSrc={IMGS.musicback.url} img_h={IMGS.musicback.img_h} img_w={IMGS.musicback.img_w} >
           <div style={{display: "block", overflow: "hidden" }}>
           <LayoutRow row_data={{ fontColor: "#fff", backgroundColor: "transparent" }}>
             <LayoutContainer>
-              <LayoutContainerHeading>{"Booking Press Contact"}</LayoutContainerHeading>
+              <LayoutContainerHeading>{"Booking + Press + Contact"}</LayoutContainerHeading>
             </LayoutContainer>
           </LayoutRow>
 
-          <LayoutRow className="DownloadCodes" row_data={{ fontColor: "#fff", backgroundColor: "transparent" }}>
+          <LayoutRow className="Booking" row_data={{ fontColor: "#fff", backgroundColor: "transparent" }}>
             <LayoutContainer>
-              <div className="ButtonContain">
-                <a className="Button" target="_blank" href="http://blog.familiarwild.com/bookingform" >Booking Form</a>
+              <div className="ButtonContain clearfix">
+                <a className="Button" target="_blank" href="/booking.html" >Contact Us + Booking</a>
                 <a className="Button" target="_blank" href="http://blog.familiarwild.com/biography" >Biography</a>
                 <a className="Button" target="_blank" href="https://drive.google.com/file/d/0Bxg43wLZ5kd8V1pSTGUtN3NUS2s/edit?usp=sharing" >Press Kit</a>
               </div>
@@ -73,23 +98,7 @@ var FamiliarLayout = React.createClass({
 
         <Quotes onLoaded={this.handleLoaded} data={{id: "vid", ratioW: 40, ratioH: 18, title:"Quotes", height: "350", titleIMG: IMGS.none, backgroundIMG: IMGS.bgmountsm}} />
 
-        <ParallaxContainer backgroundColor={"#33ccff"} height={"250"} imgSrc={IMGS.bgblurvid.url} img_h={IMGS.bgblurvid.img_h} img_w={IMGS.bgblurvid.img_w} >
-          <div style={{display: "block", overflow: "hidden" }}>
-          <LayoutRow row_data={{ fontColor: "#fff", backgroundColor: "transparent" }}>
-            <LayoutContainer>
-              <LayoutContainerHeading>Download Codes</LayoutContainerHeading>
-            </LayoutContainer>
-          </LayoutRow>
-          <LayoutRow className="DownloadCodes" row_data={{ fontColor: "#fff", backgroundColor: "transparent" }}>
-            <LayoutContainer>
-              <p>{"If you purchased a download card from one of our events you can redeem your code here. Once you have downloaded your music simply drag the files into your itunes or your favorite player. "}</p>
-              <div className="ButtonContain">
-              <a className="Button" target="_blank" href="http://bandcode.familiarwild.com" >Redeem Code</a>
-              </div>
-            </LayoutContainer>
-          </LayoutRow>
-          </div>
-        </ParallaxContainer>
+        
         
       </TopContainer>
     );
@@ -1188,7 +1197,8 @@ var Blog = React.createClass({
         break;
       }
     }
-    index = ((index-1) >= 0) ? (index-1) : this.state.items.length-1;
+    //index = ((index-1) >= 0) ? (index-1) : this.state.items.length-1;
+    index = ((index-1) >= 0) ? (index-1) : index;
     this.setState({ item: this.state.items[index], toScroll: true });
   },
   handleNext: function(){
@@ -1201,7 +1211,8 @@ var Blog = React.createClass({
       }
     }
     
-    index = ((index+1) < this.state.items.length) ? (index+1) : 0;
+    //index = ((index+1) < this.state.items.length) ? (index+1) : 0;
+    index = ((index+1) < this.state.items.length) ? (index+1) : index;
     this.setState({ item: this.state.items[index], toScroll: true });
   },
   render: function() {
@@ -1233,8 +1244,8 @@ var Blog = React.createClass({
             {blog}
             </div>
             <div className="ButtonContain clearfix" style={{height: "80px", padding: "20px"}}>
-              <div className="Button Prev" onClick={this.handlePrev}>Prev</div>
-              <div className="Button Next" onClick={this.handleNext}>Next</div>
+              <div className="Button Prev" onClick={this.handlePrev}>Newer</div>
+              <div className="Button Next" onClick={this.handleNext}>Older</div>
             </div>
           </LayoutContainer>
         </LayoutRow>

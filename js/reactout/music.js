@@ -50,18 +50,43 @@ var FamiliarLayout = React.createClass({displayName: "FamiliarLayout",
         React.createElement(Blog, {data: {id: "vid", ratioW: 40, ratioH: 18, tag: "fwvideo", title:"Videos", height: "620", titleIMG: IMGS.none, backgroundIMG: IMGS.bgrock}, onLoaded: this.handleLoaded, ratioW: 40, ratioH: 18}), 
         React.createElement(Blog, {data: {id: "show", ratioW: 40, ratioH: 30, tag: "fwshows", title:"Shows", height: "auto", titleColor: "#000", titleIMG: IMGS.none, backgroundIMG: IMGS.bgice}, titleColor: "#000", onLoaded: this.handleLoaded, ratioW: 40, ratioH: 25}), 
         
+
+        React.createElement(ParallaxContainer, {backgroundColor: "#33ccff", height: "400", imgSrc: IMGS.bgblurvid.url, img_h: IMGS.bgblurvid.img_h, img_w: IMGS.bgblurvid.img_w}, 
+          React.createElement("div", {style: {display: "block", overflow: "hidden"}}, 
+          React.createElement(LayoutRow, {row_data: { fontColor: "#fff", backgroundColor: "transparent"}}, 
+            React.createElement(LayoutContainer, null, 
+              React.createElement(LayoutContainerHeading, null, "Download Codes")
+            )
+          ), 
+          React.createElement(LayoutRow, {className: "DownloadCodes", row_data: { fontColor: "#fff", backgroundColor: "transparent"}}, 
+            React.createElement(LayoutContainer, null, 
+              React.createElement("p", null, "If you received a download card from one of our events you can redeem your code here. Once you have downloaded your music simply drag the files into your itunes or your favorite player."), 
+              React.createElement("div", {className: "ButtonContain clearfix"}, 
+              React.createElement("a", {className: "Button", target: "_blank", href: "http://bandcode.familiarwild.com"}, "Redeem Code")
+              ), 
+              React.createElement("p", null, React.createElement("h3", null, "Agent Information"), 
+              React.createElement("i", null, 
+              "We thank you for taking the time to listen to our music. ISRC codes are part of the song title in the samples provided... Unmastered samples do not have ISRC codes. Please contact a Familiar Wild representative we'd love to hear from you."
+              ))
+              
+            )
+          )
+          )
+        ), 
+
+
         React.createElement(ParallaxContainer, {backgroundColor: IMGS.musicback.color, height: "250", imgSrc: IMGS.musicback.url, img_h: IMGS.musicback.img_h, img_w: IMGS.musicback.img_w}, 
           React.createElement("div", {style: {display: "block", overflow: "hidden"}}, 
           React.createElement(LayoutRow, {row_data: { fontColor: "#fff", backgroundColor: "transparent"}}, 
             React.createElement(LayoutContainer, null, 
-              React.createElement(LayoutContainerHeading, null, "Booking Press Contact")
+              React.createElement(LayoutContainerHeading, null, "Booking + Press + Contact")
             )
           ), 
 
-          React.createElement(LayoutRow, {className: "DownloadCodes", row_data: { fontColor: "#fff", backgroundColor: "transparent"}}, 
+          React.createElement(LayoutRow, {className: "Booking", row_data: { fontColor: "#fff", backgroundColor: "transparent"}}, 
             React.createElement(LayoutContainer, null, 
-              React.createElement("div", {className: "ButtonContain"}, 
-                React.createElement("a", {className: "Button", target: "_blank", href: "http://blog.familiarwild.com/bookingform"}, "Booking Form"), 
+              React.createElement("div", {className: "ButtonContain clearfix"}, 
+                React.createElement("a", {className: "Button", target: "_blank", href: "/booking.html"}, "Contact Us + Booking"), 
                 React.createElement("a", {className: "Button", target: "_blank", href: "http://blog.familiarwild.com/biography"}, "Biography"), 
                 React.createElement("a", {className: "Button", target: "_blank", href: "https://drive.google.com/file/d/0Bxg43wLZ5kd8V1pSTGUtN3NUS2s/edit?usp=sharing"}, "Press Kit")
               )
@@ -71,25 +96,9 @@ var FamiliarLayout = React.createClass({displayName: "FamiliarLayout",
         ), 
         
 
-        React.createElement(Quotes, {onLoaded: this.handleLoaded, data: {id: "vid", ratioW: 40, ratioH: 18, title:"Quotes", height: "350", titleIMG: IMGS.none, backgroundIMG: IMGS.bgmountsm}}), 
+        React.createElement(Quotes, {onLoaded: this.handleLoaded, data: {id: "vid", ratioW: 40, ratioH: 18, title:"Quotes", height: "350", titleIMG: IMGS.none, backgroundIMG: IMGS.bgmountsm}})
 
-        React.createElement(ParallaxContainer, {backgroundColor: "#33ccff", height: "250", imgSrc: IMGS.bgblurvid.url, img_h: IMGS.bgblurvid.img_h, img_w: IMGS.bgblurvid.img_w}, 
-          React.createElement("div", {style: {display: "block", overflow: "hidden"}}, 
-          React.createElement(LayoutRow, {row_data: { fontColor: "#fff", backgroundColor: "transparent"}}, 
-            React.createElement(LayoutContainer, null, 
-              React.createElement(LayoutContainerHeading, null, "Download Codes")
-            )
-          ), 
-          React.createElement(LayoutRow, {className: "DownloadCodes", row_data: { fontColor: "#fff", backgroundColor: "transparent"}}, 
-            React.createElement(LayoutContainer, null, 
-              React.createElement("p", null, "If you purchased a download card from one of our events you can redeem your code here. Once you have downloaded your music simply drag the files into your itunes or your favorite player. "), 
-              React.createElement("div", {className: "ButtonContain"}, 
-              React.createElement("a", {className: "Button", target: "_blank", href: "http://bandcode.familiarwild.com"}, "Redeem Code")
-              )
-            )
-          )
-          )
-        )
+        
         
       )
     );
@@ -1188,7 +1197,8 @@ var Blog = React.createClass({displayName: "Blog",
         break;
       }
     }
-    index = ((index-1) >= 0) ? (index-1) : this.state.items.length-1;
+    //index = ((index-1) >= 0) ? (index-1) : this.state.items.length-1;
+    index = ((index-1) >= 0) ? (index-1) : index;
     this.setState({ item: this.state.items[index], toScroll: true });
   },
   handleNext: function(){
@@ -1201,7 +1211,8 @@ var Blog = React.createClass({displayName: "Blog",
       }
     }
     
-    index = ((index+1) < this.state.items.length) ? (index+1) : 0;
+    //index = ((index+1) < this.state.items.length) ? (index+1) : 0;
+    index = ((index+1) < this.state.items.length) ? (index+1) : index;
     this.setState({ item: this.state.items[index], toScroll: true });
   },
   render: function() {
@@ -1233,8 +1244,8 @@ var Blog = React.createClass({displayName: "Blog",
             blog
             ), 
             React.createElement("div", {className: "ButtonContain clearfix", style: {height: "80px", padding: "20px"}}, 
-              React.createElement("div", {className: "Button Prev", onClick: this.handlePrev}, "Prev"), 
-              React.createElement("div", {className: "Button Next", onClick: this.handleNext}, "Next")
+              React.createElement("div", {className: "Button Prev", onClick: this.handlePrev}, "Newer"), 
+              React.createElement("div", {className: "Button Next", onClick: this.handleNext}, "Older")
             )
           )
         )

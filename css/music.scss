@@ -252,6 +252,8 @@
       color: #222;
     }
     &:active {
+      background: none;
+      color: inherit;
     }
 
   }
@@ -272,11 +274,29 @@
   }
 }
 
+
+.Booking{
+  .ButtonContain{
+    margin: 40px 0px;
+  }
+  .Button{
+    border: none;
+    font-size: 1.2em;
+    width: 33%;
+  }
+}
+
+
 .DownloadCodes{
+  .ButtonContain{
+    margin: 40px 0px;
+  }
   .Button{
     border: solid 1px #444;
-    width: 33%;
-    margin: 0 10%;
+    width: 100%;
+    background: #990033;
+    color: #fff;
+    font-size: 1.3em;
   }
 }
 

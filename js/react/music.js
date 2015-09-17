@@ -1202,7 +1202,7 @@ var Blog = React.createClass({
     }
     
     index = ((index+1) < this.state.items.length) ? (index+1) : 0;
-    this.setState({ item: this.state.items[index+1], toScroll: true });
+    this.setState({ item: this.state.items[index], toScroll: true });
   },
   render: function() {
     var docW = $(".ParaMain").width()-50;

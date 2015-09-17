@@ -1,0 +1,30 @@
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="author" content="Familiar Wild">
+
+  <meta property="og:title" content="Familiar Wild">
+  <meta property="og:description" content="{% if page.excerpt %}{{ page.excerpt | strip_html | strip_newlines | truncate: 160 }}{% else %}{{ site.description }}{% endif %}">
+  <meta property="og:image" content="{{ "/images/famwild_og.jpg" | prepend: site.url }}">
+
+  <title>{% if page.title %}{{ page.title }}{% else %}{{ site.title }}{% endif %}</title>
+
+  <link rel="canonical" href="{{ page.url | replace:'index.html','' | prepend: site.baseurl | prepend: site.url }}">
+  
+  <meta name="description" content="{% if page.excerpt %}{{ page.excerpt | strip_html | strip_newlines | truncate: 160 }}{% else %}{{ site.description }}{% endif %}">
+
+
+  <link rel="icon" href="/favicon.ico">
+  <!--  <link rel="stylesheet" href="{{ "/css/main.css" | prepend: site.baseurl }}"> -->
+ 
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="{{ "/css/bootstrap.css" | prepend: site.baseurl }}">
+
+  <link href='http://fonts.googleapis.com/css?family=Raleway:200' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Roboto+Mono:100' rel='stylesheet' type='text/css'>
+  
+  <script type="text/javascript" src="{{ "/js/jquery-1.11.1.min.js" | prepend: site.baseurl }}"></script>
+  <script type="text/javascript" src="{{ "/js/modernizr-2.7.1.min.js" | prepend: site.baseurl }}"></script>
+
+</head>

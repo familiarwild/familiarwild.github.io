@@ -80,8 +80,8 @@ var FamiliarLayout = React.createClass({
       }
     }else{
       agentInfo = <div className="ButtonContain clearfix">
-          <a className="Button" onClick={this.handleAgent}>Stream Samples</a>
-        </div>
+        <a className="Button" onClick={this.handleAgent}>Stream Samples</a>
+      </div>
     }
      
 

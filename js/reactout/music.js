@@ -80,8 +80,8 @@ var FamiliarLayout = React.createClass({displayName: "FamiliarLayout",
       }
     }else{
       agentInfo = React.createElement("div", {className: "ButtonContain clearfix"}, 
-          React.createElement("a", {className: "Button", onClick: this.handleAgent}, "Stream Samples")
-        )
+        React.createElement("a", {className: "Button", onClick: this.handleAgent}, "Stream Samples")
+      )
     }
      
 

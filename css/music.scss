@@ -360,7 +360,7 @@
     background: #990033;
     color: #fff;
     font-size: 1.1em;
-    width: 37%;
+    width: 97%;
     margin-left: 2%;
     float: left;
     text-align: center;
@@ -372,6 +372,7 @@
     }
   }
   input {
+    display: none;
     width: 40%;
     border: solid 1px #ccc;
     padding: 10px;

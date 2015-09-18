@@ -355,12 +355,13 @@
     display: block
   }
   div {
+    display: none;
     border: solid 1px #ccc;
     padding: 10px;
     background: #990033;
     color: #fff;
     font-size: 1.1em;
-    width: 97%;
+    width: 37%;
     margin-left: 2%;
     float: left;
     text-align: center;
@@ -373,7 +374,7 @@
   }
   input {
     display: none;
-    width: 40%;
+    width: 100%;
     border: solid 1px #ccc;
     padding: 10px;
     color: #444;

@@ -4,11 +4,41 @@ var FamiliarLayout = React.createClass({
     return {
       loaded: false,
       countLoad: 0,
+      agent: false,
+      validcode: false,
+      codetext: "",
       IMG: this.getImgMain()
     };
   },
   handleImageChange: function(){
     this.setState({IMG: this.getImgMain()});
+  },
+  handleTextInput: function(e){
+    var textme = e.target.value.replace(/[^0-9A-Za-z\-]/g, "")
+    var RegPattTest = /^[0-9A-Za-z]{1,4}\-?[0-9A-Za-z]{0,4}$/g;
+    if(RegPattTest.test(textme)){
+      var RegPattDash = /^[0-9A-Za-z]{4}$/;
+      if(RegPattDash.test(textme)){
+        textme += "-";
+      }
+      this.setState({codetext: textme});
+      var RegPattFin = /^[0-9A-Za-z]{4}\-[0-9A-Za-z]{4}$/;
+      if(RegPattFin.test(textme)){
+        this.handleAgentCode()
+      }
+    }    
+  },
+  handleAgent: function(){
+    this.setState({ agent: (!this.state.agent) });
+  },
+  handleAgentCode: function(){
+    var text = React.findDOMNode(this.refs.code).value;
+    var RegPattFin = /^[0-9A-Za-z]{4}\-[0-9A-Za-z]{4}$/;
+    if(RegPattFin.test(text)){
+      this.setState({ validcode: true });
+    }else{
+      this.setState({ validcode: false, agent: false });
+    }   
   },
   handleLoaded: function(){
     this.setState({ countLoad: this.state.countLoad+1 });
@@ -34,6 +64,27 @@ var FamiliarLayout = React.createClass({
       logoText = <span>FAMILIAR&nbsp;WILD</span>;
     } 
 
+    var downcodeheight = this.state.agent ? "auto" : "auto";
+    var agentInfo;
+    if(this.state.agent){
+      if(this.state.validcode){
+         agentInfo = <div style={{padding: "40px 0px"}}>
+         <iframe width="100%" height="480" scrolling="no" frameborder="no" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/playlists/145965754%3Fsecret_token%3Ds-uWIqP&amp;color=00aabb&amp;auto_play=true&amp;hide_related=false&amp;show_comments=true&amp;show_user=true&amp;show_reposts=false"></iframe>
+        </div>
+      }else{
+        agentInfo = <div className="SubmitCode clearfix" style={{padding: "40px 0px"}}>
+          <span>Enter Code</span>
+          <input ref="code" type="text" onChange={this.handleTextInput} value={this.state.codetext} />
+          <div onClick={this.handleAgentCode}>Submit Code</div>
+        </div>
+      }
+    }else{
+      agentInfo = <div className="ButtonContain clearfix">
+          <a className="Button" onClick={this.handleAgent}>Stream Samples</a>
+        </div>
+    }
+     
+
     return (
       <TopContainer>
 
@@ -51,7 +102,7 @@ var FamiliarLayout = React.createClass({
         <Blog data={{id: "show", ratioW: 40, ratioH: 30, tag: "fwshows", title:"Shows", height: "auto", titleColor: "#000", titleIMG: IMGS.none, backgroundIMG: IMGS.bgice}} titleColor={"#000"} onLoaded={this.handleLoaded} ratioW={40} ratioH={25} />
         
 
-        <ParallaxContainer backgroundColor={"#33ccff"} height={"400"} imgSrc={IMGS.bgblurvid.url} img_h={IMGS.bgblurvid.img_h} img_w={IMGS.bgblurvid.img_w} >
+        <ParallaxContainer backgroundColor={"#db455f"} height={downcodeheight} imgSrc={IMGS.bgblurvid.url} img_h={IMGS.bgblurvid.img_h} img_w={IMGS.bgblurvid.img_w} >
           <div style={{display: "block", overflow: "hidden" }}>
           <LayoutRow row_data={{ fontColor: "#fff", backgroundColor: "transparent" }}>
             <LayoutContainer>
@@ -64,15 +115,18 @@ var FamiliarLayout = React.createClass({
               <div className="ButtonContain clearfix">
               <a className="Button" target="_blank" href="http://bandcode.familiarwild.com" >Redeem Code</a>
               </div>
-              <p><h3>Agent Information</h3>
-              <i>
-              {"We thank you for taking the time to listen to our music. ISRC codes are part of the song title in the samples provided... Unmastered samples do not have ISRC codes. Please contact a Familiar Wild representative we'd love to hear from you."}
-              </i></p>
+
+              <h3>Agent Information</h3>
+              <div>{"We thank you for taking the time to listen to our music. ISRC codes are part of the song title in the samples provided... Unmastered samples do not have ISRC codes. Please contact a Familiar Wild representative we would love to hear from you."}</div>
+              <div>{"If you are unable to Download the Samples right now you can use your code to get a *streaming version*. Click the Samples button below to get started."}</div>
+              {agentInfo}
               
             </LayoutContainer>
           </LayoutRow>
           </div>
         </ParallaxContainer>
+
+        
 
 
         <ParallaxContainer backgroundColor={IMGS.musicback.color} height={"250"} imgSrc={IMGS.musicback.url} img_h={IMGS.musicback.img_h} img_w={IMGS.musicback.img_w} >
@@ -872,7 +926,6 @@ var AlbumLayout = React.createClass({
 
             {purcase}
 
-           
           </div>
         </div>
 

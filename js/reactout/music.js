@@ -15,13 +15,16 @@ var FamiliarLayout = React.createClass({displayName: "FamiliarLayout",
   },
   handleTextInput: function(e){
     var textme = e.target.value.replace(/[^0-9A-Za-z\-]/g, "")
-    var RegPattTest = /^[0-9A-Za-z]{1,4}\-?[0-9A-Za-z]{0,4}$/g;
+    var RegPattTest = /^[0-9A-Za-z]{0,4}\-?[0-9A-Za-z]{0,4}$/g;
     if(RegPattTest.test(textme)){
-      var RegPattDash = /^[0-9A-Za-z]{4}$/;
+      var RegPattDash = /^[0-9A-Za-z]{5}$/;
       if(RegPattDash.test(textme)){
-        textme += "-";
+        textmeA = textme.substring(0, 4);
+        textmeB = textme.substring(4, 5);
+        textme = textmeA + "-" + textmeB;
       }
       this.setState({codetext: textme});
+      
       var RegPattFin = /^[0-9A-Za-z]{4}\-[0-9A-Za-z]{4}$/;
       if(RegPattFin.test(textme)){
         this.handleAgentCode()

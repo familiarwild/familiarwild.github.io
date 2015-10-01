@@ -242,9 +242,7 @@ var Booking = React.createClass({displayName: "Booking",
       ), 
 
       React.createElement("h2", null, "Press Images"), 
-      React.createElement("div", null, React.createElement("a", {href: "/images/famw_pr01.jpg", target: "_blank"}, "Download High Res Image 01")), 
-      "-", 
-      React.createElement("div", null, React.createElement("a", {href: "/images/famw_pr02.jpg", target: "_blank"}, "Download High Res Image 02"))
+      React.createElement("div", null, React.createElement("a", {href: "/images/famw_pr01.jpg", target: "_blank"}, "Download High Res Image 01"))
       
 
 

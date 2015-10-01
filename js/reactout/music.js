@@ -130,28 +130,7 @@ var FamiliarLayout = React.createClass({displayName: "FamiliarLayout",
         ), 
 
         
-
-
-        React.createElement(ParallaxContainer, {backgroundColor: IMGS.musicback.color, height: "250", imgSrc: IMGS.musicback.url, img_h: IMGS.musicback.img_h, img_w: IMGS.musicback.img_w}, 
-          React.createElement("div", {style: {display: "block", overflow: "hidden"}}, 
-          React.createElement(LayoutRow, {row_data: { fontColor: "#fff", backgroundColor: "transparent"}}, 
-            React.createElement(LayoutContainer, null, 
-              React.createElement(LayoutContainerHeading, null, "Booking + Press + Contact")
-            )
-          ), 
-
-          React.createElement(LayoutRow, {className: "Booking", row_data: { fontColor: "#fff", backgroundColor: "transparent"}}, 
-            React.createElement(LayoutContainer, null, 
-              React.createElement("div", {className: "ButtonContain clearfix"}, 
-                React.createElement("a", {className: "Button", target: "_blank", href: "/contact.html"}, "Contact Us + Booking"), 
-                React.createElement("a", {className: "Button", target: "_blank", href: "/biography.html"}, "Biography"), 
-                React.createElement("a", {className: "Button", target: "_blank", href: "https://drive.google.com/file/d/0Bxg43wLZ5kd8V1pSTGUtN3NUS2s/edit?usp=sharing"}, "Press Kit")
-              )
-            )
-          )
-          )
-        ), 
-        
+        React.createElement(Booking, null), 
 
         React.createElement(Quotes, {onLoaded: this.handleLoaded, data: {id: "vid", ratioW: 40, ratioH: 18, title:"Quotes", height: "350", titleIMG: IMGS.none, backgroundIMG: IMGS.bgmountsm}})
 
@@ -165,7 +144,143 @@ var FamiliarLayout = React.createClass({displayName: "FamiliarLayout",
 
 });
 
+function handleBookingComplete(){
+  bookingObject.handleThankYou();
+}
+bookingObject = null;
 
+var Booking = React.createClass({displayName: "Booking",
+  getInitialState: function() {
+    return {
+      type: "none"
+    };
+  },
+  componentDidMount: function() {
+    bookingObject = this;
+  },
+  handleContact: function(){
+    this.handleScrollTo();
+    if(this.state.type=="contact"){
+      this.setState({type: "none"})
+    }else{
+      this.setState({type: "contact"})
+    }
+  },
+  handleEPK: function(){
+    this.handleScrollTo();
+    if(this.state.type=="epk"){
+      this.setState({type: "none"})
+    }else{
+      this.setState({type: "epk"})
+    }
+  },
+
+  
+
+  handleThankYou: function(){
+    this.handleScrollTo();
+    if(this.state.type=="thanks"){
+      this.setState({type: "none"})
+    }else{
+      this.setState({type: "thanks"})
+    }
+  },
+  handleScrollTo: function(){
+    if(this.state.toScroll){
+      var el = this.getDOMNode();
+      var ts = $(el).offset().top;
+      ST_setScrollPos(ts);
+    }
+  },
+  render: function() {
+
+    var content = null;
+    if(this.state.type=="contact"){
+      content = React.createElement("div", null, 
+      React.createElement("h2", null, "Contact Us"), 
+      React.createElement("p", null, "Fill out the contact form below or simply email us at ", React.createElement("a", {href: "mailto:familiarwild@gmail.com"}, "familiarwild@gmail.com")), 
+      React.createElement("div", null, 
+        React.createElement("iframe", {src: "/contact.html", frameborder: "0", scrolling: "no", style: {border: "none", width: "100%", height: "640"}})
+      )
+      )
+      
+    }
+    if(this.state.type=="thankyou"){
+      content = React.createElement("div", null, React.createElement("h2", null, "Thank you for sumbiting your information."))
+    }
+    if(this.state.type=="epk"){
+      content = React.createElement("div", null, 
+      React.createElement("h2", null, "Biography Short/Press"), 
+      React.createElement("p", null, "Familiar Wild writes \"pop music with heart and soul...and brain...and kindness\" (DJ Champion). This Pacific Northwest band creates music with stirring atmospheres, rare melodic angles and inviting textures. Their new album could be the love child of Indie Folk band Daughter, Scandi-Pop artist Susanne Sundfor and Electro-based Postal Service and will be released with Abandon Building Records, 2016."), 
+      React.createElement("h2", null, "Biography Full"), 
+      React.createElement("p", null, 
+      "The Tame sing like Wolves."
+      ), React.createElement("p", null, 
+      "What can you say about the music of Familiar Wild? It’s a weave of fibre optic branches forming a cradle of symphonic melody that you want to fold yourself into and float away on. It's \"disarming, unusual and inviting\" (Nothing But Hope And Passion) with \"stories [that] are contemplative and evocative in nature\" (Vue Weekly). \"It's pop music with heart and soul...and brain...and kindness\" (DJ Champion)."
+      ), React.createElement("p", null, 
+      "Regardless how you spin it, Familiar Wild is a Pacific Northwest band that creates music with stirring atmospheres, rare melodic angles and inviting textures."
+      ), React.createElement("p", null, 
+      "Their debut album, Dark Dreams, is rich in orchestral arrangements akin to Sufjan Stevens and intimate like Agnes Obel. The music is reminiscent of something lost, but almost within grasp. The sound is quoted as \"atmospheric\" and \"stirring\" with a \"warm sweetness\" that \"draws you in on the immense possibility that something might escape you\" (AlanCross, A Journal of Musical Things).   "
+      ), React.createElement("p", null, 
+      "Their sophomore album, Things We Forgot (released 2016), takes a spatial turn towards the geometric; adding edgy soundscapes, manipulated synth pads and hard hitting percussion to their organic instrumentation and melodic tendencies. These \"warm synth tones and electronic beats...pair nicely with the voice of [their] lead singer\" (Exclaim), creating an album that sounds like the love child of Indie Folk band Daughter, Scandi-Pop artist Susanne Sundfor and Electro-based Postal Service. "
+      ), React.createElement("p", null, 
+      "Familiar Wild blends their new genre with matching imagery at their shows and online; using geometry and nature as inspiration, they evoke the \"other\" in all of us through escapism to sound. Their music is intimate and radiant, with a live show that is equally generous in its gifts of feathered shadows and lingering joy."
+      ), 
+      React.createElement("h2", null, "Notable Events"), 
+      React.createElement("div", null, 
+        React.createElement("div", {style: {display: "list-item", marginLeft: "20px"}}, "Familiar Wild highlighted in Exclaim, Nothing But Hope And Passion (Vice affiliate), Silent Shout, Permanent Rain Press and Electric Sound of Joy (2015)"), 
+        React.createElement("div", {style: {display: "list-item", marginLeft: "20px"}}, "Familiar Wild/Adin Wridgway (modfusion media)/Kristian Adam nominated for Western Canadian Music Award 2014 (Dark Dreams)"), 
+        React.createElement("div", {style: {display: "list-item", marginLeft: "20px"}}, "Familiar Wild plays West Coast folk giant Vancouver Island MusicFest"), 
+        React.createElement("div", {style: {display: "list-item", marginLeft: "20px"}}, "Familiar Wild highlighted in Vue Weekly, Vancouver Sun and The Province, CTV performance, Global TV performance, Shaw TV performance"), 
+        React.createElement("div", {style: {display: "list-item", marginLeft: "20px"}}, "Familiar Wild plays Canadian Music Week 2014, Toronto"), 
+        React.createElement("div", {style: {display: "list-item", marginLeft: "20px"}}, "Slide highlighted in Episode 304 of CBC’s Arctic Air (January 28 2013)"), 
+        React.createElement("div", {style: {display: "list-item", marginLeft: "20px"}}, "Familiar Wild charts high on !earshot (national campus/community radio report)"), 
+        React.createElement("div", {style: {display: "list-item", marginLeft: "20px"}}, "Oregon places as Finalist in UK Songwriting Contest 2013 and Semi-Finalist in the International Songwriting Competition 2014"), 
+        React.createElement("div", {style: {display: "list-item", marginLeft: "20px"}}, "Familiar Wild plays West Coast Indie Festival giant, Rifflandia, 2013"), 
+        React.createElement("div", {style: {display: "list-item", marginLeft: "20px"}}, "Familiar Wild showcases at Toronto’s NXNE, 2013"), 
+        React.createElement("div", {style: {display: "list-item", marginLeft: "20px"}}, "Familiar Wild debuts at Vancouver’s top, mid-sized venues: The Rio and The Biltmore Cabaret, 2013")
+      ), 
+
+      React.createElement("h2", null, "Press Images"), 
+      React.createElement("div", null, React.createElement("a", {href: "/images/famw_PR01.jpg", target: "_blank"}, "Download High Res Image 01")), 
+      "-", 
+      React.createElement("div", null, React.createElement("a", {href: "/images/famw_PR02.jpg", target: "_blank"}, "Download High Res Image 02"))
+      
+
+
+      )
+    }
+    
+    return (
+    React.createElement("div", {className: "BookingCont", style: { backgroundColor:"#eee"}}, 
+          React.createElement("div", {style: {display: "block", overflow: "hidden"}}, 
+          React.createElement(LayoutRow, {row_data: { fontColor: "#333", backgroundColor: "transparent"}}, 
+            React.createElement(LayoutContainer, null, 
+              React.createElement(LayoutContainerHeading, null, "Booking + Press + Contact")
+            )
+          ), 
+
+          React.createElement(LayoutRow, {className: "Booking", row_data: { fontColor: "#111", backgroundColor: "transparent"}}, 
+            React.createElement(LayoutContainer, null, 
+              React.createElement("div", {className: "ButtonContain clearfix"}, 
+                React.createElement("a", {className: "Button" + ((this.state.type=='contact') ? ' Active' : ''), target: "_blank", onClick: this.handleContact}, "Contact Us"), 
+                React.createElement("a", {className: "Button" + ((this.state.type=='epk') ? ' Active' : ''), target: "_blank", onClick: this.handleEPK}, "Bio + EPK")
+              )
+            )
+          ), 
+
+          React.createElement(LayoutRow, {className: "BookingContent", row_data: { fontColor: "#333", backgroundColor: "transparent"}}, 
+            React.createElement(LayoutContainer, null, 
+              content
+            )
+          )
+
+          )
+    )
+    )
+  }
+
+});
 
 
 
@@ -356,6 +471,7 @@ var ParallaxContainer = React.createClass({displayName: "ParallaxContainer",
       style_top.background = "transparent url('"+this.props.imgSrc+"') no-repeat center center";
       style_top.backgroundSize = "cover";
     }
+
     return (
       React.createElement("div", {className: "ParaContainer", style: style_top}, 
         React.createElement("div", {className: "ParaBG", style: { position: "relative", overflow: "hidden", width: "100%", height: imageContainHeight, margin: 0, padding: 0}}, 

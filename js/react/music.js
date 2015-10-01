@@ -130,28 +130,7 @@ var FamiliarLayout = React.createClass({
         </ParallaxContainer>
 
         
-
-
-        <ParallaxContainer backgroundColor={IMGS.musicback.color} height={"250"} imgSrc={IMGS.musicback.url} img_h={IMGS.musicback.img_h} img_w={IMGS.musicback.img_w} >
-          <div style={{display: "block", overflow: "hidden" }}>
-          <LayoutRow row_data={{ fontColor: "#fff", backgroundColor: "transparent" }}>
-            <LayoutContainer>
-              <LayoutContainerHeading>{"Booking + Press + Contact"}</LayoutContainerHeading>
-            </LayoutContainer>
-          </LayoutRow>
-
-          <LayoutRow className="Booking" row_data={{ fontColor: "#fff", backgroundColor: "transparent" }}>
-            <LayoutContainer>
-              <div className="ButtonContain clearfix">
-                <a className="Button" target="_blank" href="/contact.html" >Contact Us + Booking</a>
-                <a className="Button" target="_blank" href="/biography.html" >Biography</a>
-                <a className="Button" target="_blank" href="https://drive.google.com/file/d/0Bxg43wLZ5kd8V1pSTGUtN3NUS2s/edit?usp=sharing" >Press Kit</a>
-              </div>
-            </LayoutContainer>
-          </LayoutRow>
-          </div>
-        </ParallaxContainer>
-        
+        <Booking />
 
         <Quotes onLoaded={this.handleLoaded} data={{id: "vid", ratioW: 40, ratioH: 18, title:"Quotes", height: "350", titleIMG: IMGS.none, backgroundIMG: IMGS.bgmountsm}} />
 
@@ -165,7 +144,143 @@ var FamiliarLayout = React.createClass({
 
 });
 
+function handleBookingComplete(){
+  bookingObject.handleThankYou();
+}
+bookingObject = null;
 
+var Booking = React.createClass({
+  getInitialState: function() {
+    return {
+      type: "none"
+    };
+  },
+  componentDidMount: function() {
+    bookingObject = this;
+  },
+  handleContact: function(){
+    this.handleScrollTo();
+    if(this.state.type=="contact"){
+      this.setState({type: "none"})
+    }else{
+      this.setState({type: "contact"})
+    }
+  },
+  handleEPK: function(){
+    this.handleScrollTo();
+    if(this.state.type=="epk"){
+      this.setState({type: "none"})
+    }else{
+      this.setState({type: "epk"})
+    }
+  },
+
+  
+
+  handleThankYou: function(){
+    this.handleScrollTo();
+    if(this.state.type=="thanks"){
+      this.setState({type: "none"})
+    }else{
+      this.setState({type: "thanks"})
+    }
+  },
+  handleScrollTo: function(){
+    if(this.state.toScroll){
+      var el = this.getDOMNode();
+      var ts = $(el).offset().top;
+      ST_setScrollPos(ts);
+    }
+  },
+  render: function() {
+
+    var content = null;
+    if(this.state.type=="contact"){
+      content = <div>
+      <h2>{"Contact Us"}</h2>
+      <p>Fill out the contact form below or simply email us at <a href="mailto:familiarwild@gmail.com">familiarwild@gmail.com</a></p>
+      <div>
+        <iframe src="/contact.html" frameborder="0" scrolling="no" style={{border: "none", width: "100%", height: "640" }} />
+      </div>
+      </div>
+      
+    }
+    if(this.state.type=="thankyou"){
+      content = <div><h2>{"Thank you for sumbiting your information."}</h2></div>
+    }
+    if(this.state.type=="epk"){
+      content = <div>
+      <h2>{"Biography Short/Press"}</h2>
+      <p>{"Familiar Wild writes \"pop music with heart and soul...and brain...and kindness\" (DJ Champion). This Pacific Northwest band creates music with stirring atmospheres, rare melodic angles and inviting textures. Their new album could be the love child of Indie Folk band Daughter, Scandi-Pop artist Susanne Sundfor and Electro-based Postal Service and will be released with Abandon Building Records, 2016."}</p>
+      <h2>{"Biography Full"}</h2>
+      <p>
+      {"The Tame sing like Wolves."}
+      </p><p>
+      {"What can you say about the music of Familiar Wild? It’s a weave of fibre optic branches forming a cradle of symphonic melody that you want to fold yourself into and float away on. It's \"disarming, unusual and inviting\" (Nothing But Hope And Passion) with \"stories [that] are contemplative and evocative in nature\" (Vue Weekly). \"It's pop music with heart and soul...and brain...and kindness\" (DJ Champion)."}
+      </p><p>
+      {"Regardless how you spin it, Familiar Wild is a Pacific Northwest band that creates music with stirring atmospheres, rare melodic angles and inviting textures."}
+      </p><p>
+      {"Their debut album, Dark Dreams, is rich in orchestral arrangements akin to Sufjan Stevens and intimate like Agnes Obel. The music is reminiscent of something lost, but almost within grasp. The sound is quoted as \"atmospheric\" and \"stirring\" with a \"warm sweetness\" that \"draws you in on the immense possibility that something might escape you\" (AlanCross, A Journal of Musical Things).   "}
+      </p><p>
+      {"Their sophomore album, Things We Forgot (released 2016), takes a spatial turn towards the geometric; adding edgy soundscapes, manipulated synth pads and hard hitting percussion to their organic instrumentation and melodic tendencies. These \"warm synth tones and electronic beats...pair nicely with the voice of [their] lead singer\" (Exclaim), creating an album that sounds like the love child of Indie Folk band Daughter, Scandi-Pop artist Susanne Sundfor and Electro-based Postal Service. "}
+      </p><p>
+      {"Familiar Wild blends their new genre with matching imagery at their shows and online; using geometry and nature as inspiration, they evoke the \"other\" in all of us through escapism to sound. Their music is intimate and radiant, with a live show that is equally generous in its gifts of feathered shadows and lingering joy."}
+      </p>
+      <h2>{"Notable Events"}</h2>
+      <div>
+        <div style={{display: "list-item", marginLeft: "20px" }}>{"Familiar Wild highlighted in Exclaim, Nothing But Hope And Passion (Vice affiliate), Silent Shout, Permanent Rain Press and Electric Sound of Joy (2015)"}</div>
+        <div style={{display: "list-item", marginLeft: "20px" }}>{"Familiar Wild/Adin Wridgway (modfusion media)/Kristian Adam nominated for Western Canadian Music Award 2014 (Dark Dreams)"}</div>
+        <div style={{display: "list-item", marginLeft: "20px" }}>{"Familiar Wild plays West Coast folk giant Vancouver Island MusicFest"}</div>
+        <div style={{display: "list-item", marginLeft: "20px" }}>{"Familiar Wild highlighted in Vue Weekly, Vancouver Sun and The Province, CTV performance, Global TV performance, Shaw TV performance"}</div>
+        <div style={{display: "list-item", marginLeft: "20px" }}>{"Familiar Wild plays Canadian Music Week 2014, Toronto"}</div>
+        <div style={{display: "list-item", marginLeft: "20px" }}>{"Slide highlighted in Episode 304 of CBC’s Arctic Air (January 28 2013)"}</div>
+        <div style={{display: "list-item", marginLeft: "20px" }}>{"Familiar Wild charts high on !earshot (national campus/community radio report)"}</div>
+        <div style={{display: "list-item", marginLeft: "20px" }}>{"Oregon places as Finalist in UK Songwriting Contest 2013 and Semi-Finalist in the International Songwriting Competition 2014"}</div>
+        <div style={{display: "list-item", marginLeft: "20px" }}>{"Familiar Wild plays West Coast Indie Festival giant, Rifflandia, 2013"}</div>
+        <div style={{display: "list-item", marginLeft: "20px" }}>{"Familiar Wild showcases at Toronto’s NXNE, 2013"}</div>
+        <div style={{display: "list-item", marginLeft: "20px" }}>{"Familiar Wild debuts at Vancouver’s top, mid-sized venues: The Rio and The Biltmore Cabaret, 2013"}</div>
+      </div>
+
+      <h2>{"Press Images"}</h2>
+      <div><a href="/images/famw_PR01.jpg" target="_blank">{"Download High Res Image 01"}</a></div>
+      -
+      <div><a href="/images/famw_PR02.jpg" target="_blank">{"Download High Res Image 02"}</a></div>
+      
+
+
+      </div>
+    }
+    
+    return (
+    <div className="BookingCont"  style={{ backgroundColor:"#eee" }} >
+          <div style={{display: "block", overflow: "hidden" }}>
+          <LayoutRow row_data={{ fontColor: "#333", backgroundColor: "transparent" }}>
+            <LayoutContainer>
+              <LayoutContainerHeading>{"Booking + Press + Contact"}</LayoutContainerHeading>
+            </LayoutContainer>
+          </LayoutRow>
+
+          <LayoutRow className="Booking" row_data={{ fontColor: "#111", backgroundColor: "transparent" }}>
+            <LayoutContainer>
+              <div className="ButtonContain clearfix">
+                <a className={"Button" + ((this.state.type=='contact') ? ' Active' : '') } target="_blank" onClick={this.handleContact} >Contact Us</a>
+                <a className={"Button" + ((this.state.type=='epk') ? ' Active' : '') } target="_blank" onClick={this.handleEPK} >Bio + EPK</a>
+              </div>
+            </LayoutContainer>
+          </LayoutRow>
+
+          <LayoutRow className="BookingContent" row_data={{ fontColor: "#333", backgroundColor: "transparent" }}>
+            <LayoutContainer>
+              {content}
+            </LayoutContainer>
+          </LayoutRow>
+
+          </div>
+    </div>
+    )
+  }
+
+});
 
 
 
@@ -356,6 +471,7 @@ var ParallaxContainer = React.createClass({
       style_top.background = "transparent url('"+this.props.imgSrc+"') no-repeat center center";
       style_top.backgroundSize = "cover";
     }
+
     return (
       <div className="ParaContainer" style={style_top} >
         <div className="ParaBG" style={{ position: "relative", overflow: "hidden", width: "100%", height: imageContainHeight, margin: 0, padding: 0}}>

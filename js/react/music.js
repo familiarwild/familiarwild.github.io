@@ -242,9 +242,9 @@ var Booking = React.createClass({
       </div>
 
       <h2>{"Press Images"}</h2>
-      <div><a href="/images/famw_PR01.jpg" target="_blank">{"Download High Res Image 01"}</a></div>
+      <div><a href="/images/famw_pr01.jpg" target="_blank">{"Download High Res Image 01"}</a></div>
       -
-      <div><a href="/images/famw_PR02.jpg" target="_blank">{"Download High Res Image 02"}</a></div>
+      <div><a href="/images/famw_pr02.jpg" target="_blank">{"Download High Res Image 02"}</a></div>
       
 
 

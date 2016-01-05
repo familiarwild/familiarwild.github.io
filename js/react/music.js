@@ -228,6 +228,7 @@ var Booking = React.createClass({
       </p>
       <h2>{"Notable Events"}</h2>
       <div>
+        <div style={{display: "list-item", marginLeft: "20px" }}>{"Nominated for a Toronto Indie Music Award for Every Cloud - 2015"}</div>
         <div style={{display: "list-item", marginLeft: "20px" }}>{"Familiar Wild highlighted in Exclaim, Nothing But Hope And Passion (Vice affiliate), Silent Shout, Permanent Rain Press and Electric Sound of Joy (2015)"}</div>
         <div style={{display: "list-item", marginLeft: "20px" }}>{"Familiar Wild/Adin Wridgway (modfusion media)/Kristian Adam nominated for Western Canadian Music Award 2014 (Dark Dreams)"}</div>
         <div style={{display: "list-item", marginLeft: "20px" }}>{"Familiar Wild plays West Coast folk giant Vancouver Island MusicFest"}</div>

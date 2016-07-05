@@ -39,6 +39,7 @@ var FamiliarLayout = React.createClass({displayName: "FamiliarLayout",
     var RegPattFin = /^[0-9A-Za-z]{4}\-[0-9A-Za-z]{4}$/;
     if(RegPattFin.test(text)){
       this.setState({ validcode: true });
+      window.open("http://bandcode.familiarwild.com/?code="+text, "_blank");
     }else{
       this.setState({ validcode: false, agent: false });
     }   
@@ -70,17 +71,17 @@ var FamiliarLayout = React.createClass({displayName: "FamiliarLayout",
     var downcodeheight = this.state.agent ? "auto" : "auto";
     var agentInfo;
     if(this.state.agent){
-      if(this.state.validcode){
-         agentInfo = React.createElement("div", {style: {padding: "40px 0px"}}, 
-         React.createElement("iframe", {width: "100%", height: "480", scrolling: "no", frameborder: "no", src: "https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/playlists/145965754%3Fsecret_token%3Ds-uWIqP&color=00aabb&auto_play=true&hide_related=false&show_comments=true&show_user=true&show_reposts=false"})
-        )
-      }else{
+      // if(this.state.validcode){
+      //    agentInfo = <div style={{padding: "40px 0px"}}>
+      //    <iframe width="100%" height="480" scrolling="no" frameborder="no" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/playlists/145965754%3Fsecret_token%3Ds-uWIqP&amp;color=00aabb&amp;auto_play=true&amp;hide_related=false&amp;show_comments=true&amp;show_user=true&amp;show_reposts=false"></iframe>
+      //   </div>
+      // }else{
         agentInfo = React.createElement("div", {className: "SubmitCode clearfix", style: {padding: "40px 0px"}}, 
           React.createElement("span", null, "Enter Code"), 
           React.createElement("input", {ref: "code", type: "text", onChange: this.handleTextInput, value: this.state.codetext}), 
           React.createElement("div", {onClick: this.handleAgentCode}, "Submit Code")
         )
-      }
+      //}
     }else{
       agentInfo = React.createElement("div", {className: "ButtonContain clearfix"}, 
         React.createElement("a", {className: "Button", onClick: this.handleAgent}, "Stream Samples")
@@ -608,12 +609,7 @@ var IMGS = {
   bgmountsm:  {url: "/images/bg_mountsm.jpg", img_w: 1000, img_h: 260, color: "#ddd"},
 }
 
-maintypes = ["main", "main2", "main3", "main4", "main5"];
-
-
-
-
-
+maintypes = ["main2", "main3"];
 
 
 
@@ -1069,6 +1065,16 @@ var ALBUMDATA = {
   //   purchase_url: "http://familiarwild.bandcamp.com/"
   // },
   {
+    id: 3,
+    selected: true,
+    year: "2016", 
+    name: "We Better Run ( Single )", 
+    artwork_img: "/images/cd_we_better_run.jpg",
+    artwork_thumb: "/images/cd_we_better_run_thumb.jpg",
+    bandcamp_listen_id: "1789577777",
+    purchase_url: "http://familiarwild.bandcamp.com/album/we-better-run-single"
+  },
+  {
     id: 2,
     selected: true,
     year: "2015", 
@@ -1076,7 +1082,7 @@ var ALBUMDATA = {
     artwork_img: "/images/cd_everycloud.jpg",
     artwork_thumb: "/images/cd_everycloud_thumb.jpg",
     bandcamp_listen_id: "1342195243",
-    purchase_url: "http://familiarwild.bandcamp.com/"
+    purchase_url: "http://familiarwild.bandcamp.com/album/every-cloud-single"
   },
   {
     id: 1,

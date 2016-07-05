@@ -1069,6 +1069,16 @@ var ALBUMDATA = {
   //   purchase_url: "http://familiarwild.bandcamp.com/"
   // },
   {
+    id: 3,
+    selected: true,
+    year: "2016", 
+    name: "We Better Run ( Single )", 
+    artwork_img: "/images/cd_we_better_run.jpg",
+    artwork_thumb: "/images/cd_we_better_run_thumb.jpg",
+    bandcamp_listen_id: "1789577777",
+    purchase_url: "http://familiarwild.bandcamp.com/album/we-better-run-single"
+  },
+  {
     id: 2,
     selected: true,
     year: "2015", 
@@ -1076,7 +1086,7 @@ var ALBUMDATA = {
     artwork_img: "/images/cd_everycloud.jpg",
     artwork_thumb: "/images/cd_everycloud_thumb.jpg",
     bandcamp_listen_id: "1342195243",
-    purchase_url: "http://familiarwild.bandcamp.com/"
+    purchase_url: "http://familiarwild.bandcamp.com/album/every-cloud-single"
   },
   {
     id: 1,

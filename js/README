@@ -7,5 +7,6 @@ jsx   --watch   src/    out/
 
 jsx --watch js/react/ /js/reactout/
 
+jekyll server
 
 

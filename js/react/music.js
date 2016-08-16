@@ -199,6 +199,15 @@ var Booking = React.createClass({
     if(this.state.type=="contact"){
       content = <div>
       <h2>{"Contact Us"}</h2>
+      <h3>Press contacts</h3>
+      <p>
+      Lexi: <a href="mailto:lexi.parachutepublicity@gmail.com">lexi.parachutepublicity@gmail.com</a>
+      </p>
+      <p>
+      Jason: <a href="mailto:parachutepublicity@gmail.com">parachutepublicity@gmail.com</a>
+      </p>
+
+      <h3>Management and Booking</h3>
       <p>Fill out the contact form below or simply email us at <a href="mailto:familiarwild@gmail.com">familiarwild@gmail.com</a></p>
       <div>
         <iframe src="/contact.html" frameborder="0" scrolling="no" style={{border: "none", width: "100%", height: "640" }} />

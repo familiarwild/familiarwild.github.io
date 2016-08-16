@@ -199,6 +199,15 @@ var Booking = React.createClass({displayName: "Booking",
     if(this.state.type=="contact"){
       content = React.createElement("div", null, 
       React.createElement("h2", null, "Contact Us"), 
+      React.createElement("h3", null, "Press contacts"), 
+      React.createElement("p", null, 
+      "Lexi: ", React.createElement("a", {href: "mailto:lexi.parachutepublicity@gmail.com"}, "lexi.parachutepublicity@gmail.com")
+      ), 
+      React.createElement("p", null, 
+      "Jason: ", React.createElement("a", {href: "mailto:parachutepublicity@gmail.com"}, "parachutepublicity@gmail.com")
+      ), 
+
+      React.createElement("h3", null, "Management and Booking"), 
       React.createElement("p", null, "Fill out the contact form below or simply email us at ", React.createElement("a", {href: "mailto:familiarwild@gmail.com"}, "familiarwild@gmail.com")), 
       React.createElement("div", null, 
         React.createElement("iframe", {src: "/contact.html", frameborder: "0", scrolling: "no", style: {border: "none", width: "100%", height: "640"}})

@@ -1020,20 +1020,27 @@ var AlbumItem = React.createClass({
 var AlbumLayout = React.createClass({
   render: function() {
     var width = this.props.width > 800 ? 800 : this.props.width;
-
     var purcase;
+    var aitunes;
     var listen;
+
     if(this.props.data.purchase_url){
       purcase = <div style={{ margin: "10px auto"}}><a href={this.props.data.purchase_url} style={{display: "inline-block", margin: "10px", padding: "10px", border: "solid 1px #eee", background: "#fff", color:"#333" }}>Purchase on Bandcamp</a></div>;
-      if(this.props.data.bandcamp_listen_id){
-        listen = <div style={{ margin: "10px auto"}}><iframe style={{ border: "0", width: "100%", height: "42px"}} src={"http://bandcamp.com/EmbeddedPlayer/album="+this.props.data.bandcamp_listen_id+"/size=small/bgcol=333333/linkcol=0f91ff/artwork=none/transparent=true/"} seamless><a href={"http://familiarwild.bandcamp.com/album/dark-dreams"}>Dark Dreams by Familiar Wild</a></iframe></div>
-      }
-    } else if(this.props.data.preorder_url) {
-      purcase = <div style={{ width: "100", margin: "20px auto"}}><a href={this.props.data.preorder_url}>Pre Order Now</a></div>;
+    } 
+    if(this.props.data.preorder_url) {
+      purcase = <div style={{ margin: "10px auto"}}><a href={this.props.data.preorder_url} style={{display: "inline-block", margin: "10px", padding: "10px", border: "solid 1px #eee", background: "#fff", color:"#333" }}>Pre Order Now (Bandcamp)</a></div>;
     }
 
-    
-    
+    if(this.props.data.itunes_url){
+      aitunes = (
+       <div style={{ margin: "10px auto"}}><a href={this.props.data.itunes_url} style={{display: "inline-block", margin: "10px", padding: "10px", border: "solid 1px #eee", background: "#fff", color:"#333" }}>iTunes</a>
+       </div> );
+    }
+
+    if(this.props.data.bandcamp_listen_id){
+      listen = <div style={{ margin: "10px auto"}}><iframe style={{ border: "0", width: "100%", height: "42px"}} src={"http://bandcamp.com/EmbeddedPlayer/album="+this.props.data.bandcamp_listen_id+"/size=small/bgcol=333333/linkcol=0f91ff/artwork=none/transparent=true/"} seamless><a href={"http://familiarwild.bandcamp.com/album/dark-dreams"}>Dark Dreams by Familiar Wild</a></iframe></div>
+    }
+
 
     return (
       <div className="AlbumLayout clearfix" style={{width: width, margin: "0px auto"}} >
@@ -1046,8 +1053,10 @@ var AlbumLayout = React.createClass({
           <div style={{ padding: "0px 10px", textAlign: "center"}} >
             <div style={{ fontSize: "1.6em", marginBottom: "1em" }}>{this.props.data.name}</div>
             {listen}
-
+            
             {purcase}
+
+            {aitunes}
 
           </div>
         </div>
@@ -1060,19 +1069,20 @@ var AlbumLayout = React.createClass({
 
 
 
-
 var ALBUMDATA = { 
   current_albums: [
-  // {
-  //   id: 3,
-  //   selected: true,
-  //   year: "2015", 
-  //   name: "Every Cloud ( Single )", 
-  //   artwork_img: "/images/cd_everycloud.jpg",
-  //   artwork_thumb: "/images/cd_everycloud_thumb.jpg",
-  //   bandcamp_listen_id: null,
-  //   purchase_url: "http://familiarwild.bandcamp.com/"
-  // },
+  {
+    id: 4,
+    selected: true,
+    itunes_url: "https://itunes.apple.com/ca/album/things-we-forgot/id1161869022",
+    year: "2016", 
+    name: "Things We Forgot", 
+    artwork_img: "/images/cd_things_we_forgot.jpg",
+    artwork_thumb: "/images/cd_things_we_forgot_thumb.jpg",
+    bandcamp_listen_id: "3551550047",
+    preorder_url: "http://familiarwild.bandcamp.com/album/things-we-forgot"
+    
+  },
   {
     id: 3,
     selected: true,
@@ -1121,97 +1131,6 @@ var ALBUMDATA = {
 //--------======================================================================================
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// var Album = React.createClass({
-
-//   getInitialState: function() {
-//     return {
-//       hasShadow: true,
-//       showDetails: true,
-//       linkAlbum: true
-//     };
-//   },
-//   render: function() {
-//     return (
-//       <div className="Album" >
-//         {this.props.data.name}
-//         <AlbumCover artwork_url={this.props.data.artwork_url} hasShadow={this.state.hasShadow} link_url={this.state.linkAlbum ? this.props.data.link_url : null} />
-//       </div>
-//     );
-//   }
-// });
-
-// var AlbumCover = React.createClass({
-//   handleClick: function(){
-//     if(this.props.link_url){
-//       document.location.href=this.props.link_url;
-//     }
-//   },
-//   render: function() {
-//     var class_name = "AlbumArt";
-//     if(this.props.hasShadow){
-//       class_name += " shadow";
-//     }
-//     if(this.props.link_url){
-//       class_name += " linked";
-//     }
-//     return (
-//       <div className={class_name} >
-//         <img src={this.props.artwork_url} onClick={this.handleClick} />
-//       </div>
-//     );
-//   }
-// });
-
-
-
-
-// var Albums = React.createClass({
-
-//   getInitialState: function() {
-//     return {
-//       albums: ALBUMDATA.albums
-//     };
-//   },
-
-//   componentDidMount: function() {
-//   //this.state
-//   //this.setState({})
-//   },
-
-//   render: function() {
-
-//     var albums = [];
-//     for (var i=0; i < this.state.albums.length; i++) {
-//       var a = this.state.albums[i];
-//       albums.push(<Album key={a.id} data={a} />);
-//     }
-//     return (
-//       <div className="Albums">
-//         {albums}
-//       </div>
-//     );
-//   }
-
-// });
 
 
 
@@ -1938,25 +1857,6 @@ var Quotes = React.createClass({
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 //==================
 
 
@@ -1981,7 +1881,6 @@ function ST_docWidth(){
 function ST_windowHeight(){
   return $(window).height();
 }
-
 
 
 var ST_windowResize_timeout = null;

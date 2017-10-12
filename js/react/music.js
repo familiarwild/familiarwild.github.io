@@ -1922,7 +1922,7 @@ function render_music(){
   document.getElementById('app_music'));
 }
 function render_video(){
-  React.render(  <Blog data={{id: "vid", ratioW: 40, ratioH: 18, tag: "fwvideo", title:"Videos", height: "620", titleIMG: IMGS.none, backgroundIMG: IMGS.none}} onLoaded={this.handleLoaded} ratioW={40} ratioH={18} /> ,
+  React.render(  <Blog data={{id: "vid", ratioW: 40, ratioH: 18, tag: "fwvideo", title:"Videos", height: "600", titleIMG: IMGS.none, backgroundIMG: IMGS.none}} onLoaded={this.handleLoaded} ratioW={40} ratioH={18} /> ,
   document.getElementById('app_video'));
 }
 function render_bio(){

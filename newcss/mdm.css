@@ -1,7 +1,6 @@
 body, html {
   height:100%;
   margin: 0;
-  min-width: 600px;
 }
 .mdm_main {
 }
@@ -170,7 +169,7 @@ video {
 
 .mdm_section{
   max-width: 1000px;
-  min-width: 600px;
+  min-width: 340px;
   margin: 0 auto;
   width: auto;
   padding: 20px;

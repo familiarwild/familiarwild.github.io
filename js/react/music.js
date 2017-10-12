@@ -1197,7 +1197,7 @@ var Blog = React.createClass({
     this.handleResize(false);
     this.getStateData(function(){
       this.setState({ item: this.state.items[0] })
-      this.props.onLoaded();
+      //this.props.onLoaded();
     }.bind(this));
 
     ST_windowResize(function(){
@@ -1918,11 +1918,11 @@ $(document).on("selectstart", ".BlogItem, .Logo, .Button", function(){
 
 
 function render_music(){
-  React.render(  <AlbumsView onLoaded={this.handleLoaded} data={{id: "albums", ratioW: 40, ratioH: 18, title:"Albums", height: "auto", titleIMG: IMGS.none, backgroundIMG: IMGS.none}}  /> ,
+  React.render(  <AlbumsView data={{id: "albums", ratioW: 40, ratioH: 18, title:"Albums", height: "auto", titleIMG: IMGS.none, backgroundIMG: IMGS.none}}  /> ,
   document.getElementById('app_music'));
 }
 function render_video(){
-  React.render(  <Blog data={{id: "vid", ratioW: 40, ratioH: 18, tag: "fwvideo", title:"Videos", height: "600", titleIMG: IMGS.none, backgroundIMG: IMGS.none}} onLoaded={this.handleLoaded} ratioW={40} ratioH={18} /> ,
+  React.render(  <Blog data={{id: "vid", ratioW: 40, ratioH: 18, tag: "fwvideo", title:"Videos", height: "600", titleIMG: IMGS.none, backgroundIMG: IMGS.none}} ratioW={40} ratioH={18} /> ,
   document.getElementById('app_video'));
 }
 function render_bio(){
@@ -1936,7 +1936,7 @@ function render_quotes(){
 }
 
 function render_shows(){
-  React.render( <Blog data={{id: "show", ratioW: 40, ratioH: 30, tag: "fwshows", title:"Shows", height: "auto", titleColor: "#000", titleIMG: IMGS.none, backgroundIMG: IMGS.none}} titleColor={"#000"} onLoaded={this.handleLoaded} ratioW={40} ratioH={25} /> ,
+  React.render( <Blog data={{id: "show", ratioW: 40, ratioH: 30, tag: "fwshows", title:"Shows", height: "auto", titleColor: "#000", titleIMG: IMGS.none, backgroundIMG: IMGS.none}} titleColor={"#000"} ratioW={40} ratioH={25} /> ,
   document.getElementById('app_shows'));
 }
         

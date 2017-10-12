@@ -30,9 +30,9 @@
   border: none;
 }
 .AlbumArt.shadow {
-  -webkit-box-shadow: 0px 0px 38px 0px rgba(0,0,0,1);
-  -moz-box-shadow: 0px 0px 38px 0px rgba(0,0,0,1);
-  box-shadow: 0px 0px 38px 0px rgba(0,0,0,1);
+  -webkit-box-shadow: 0px 0px 5px 0px rgba(0,0,0,1);
+  -moz-box-shadow: 0px 0px 5px 0px rgba(0,0,0,1);
+  box-shadow: 0px 0px 5px 0px rgba(0,0,0,1);
 }
 .AlbumArt.linked {
   cursor: pointer;
@@ -71,9 +71,9 @@ quote {
   color: #444;
 
   &.blogtype_video{
-    -webkit-box-shadow: 0px 0px 30px 0px rgba(0,0,0,0.8);
-    -moz-box-shadow: 0px 0px 30px 0px rgba(0,0,0,0.8);
-    box-shadow: 0px 0px 30px 0px rgba(0,0,0,0.8);
+    -webkit-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.8);
+    -moz-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.8);
+    box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.8);
   }
 
 
@@ -377,15 +377,15 @@ quote {
 
 
 .AlbumShadow{
-  -webkit-box-shadow: 0px 0px 30px 0px rgba(0,0,0,0.8);
-  -moz-box-shadow: 0px 0px 30px 0px rgba(0,0,0,0.8);
-  box-shadow: 0px 0px 30px 0px rgba(0,0,0,0.8);
+  -webkit-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.8);
+  -moz-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.8);
+  box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.8);
 }
 
 .AlbumShadow_sm{
-  -webkit-box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.8);
-  -moz-box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.8);
-  box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.8);
+  -webkit-box-shadow: 0px 0px 3px 0px rgba(0,0,0,0.8);
+  -moz-box-shadow: 0px 0px 3x 0px rgba(0,0,0,0.8);
+  box-shadow: 0px 0px 3px 0px rgba(0,0,0,0.8);
 }
 
 .AlbumLayoutPart{

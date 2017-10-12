@@ -1064,13 +1064,13 @@ var ALBUMDATA = {
   {
     id: 4,
     selected: true,
-    itunes_url: "https://itunes.apple.com/ca/album/things-we-forgot/id1161869022",
+    itunes_url: "https://geo.itunes.apple.com/us/album/things-we-forgot/id1161869022?app=itunes",
     year: "2016", 
     name: "Things We Forgot", 
     artwork_img: "/images/cd_things_we_forgot.jpg",
     artwork_thumb: "/images/cd_things_we_forgot_thumb.jpg",
     bandcamp_listen_id: "3551550047",
-    preorder_url: "http://familiarwild.bandcamp.com/album/things-we-forgot"
+    purchase_url: "http://familiarwild.bandcamp.com/album/things-we-forgot"
     
   },
   // {

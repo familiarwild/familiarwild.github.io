@@ -62,7 +62,7 @@ var FamiliarLayout = React.createClass({displayName: "FamiliarLayout",
     }
     return retIMG;
   },
-  render: function() {
+  render: function(info) {
     var logoText = React.createElement("span", null, "Loading...");
     if(this.state.loaded){
       logoText = React.createElement("span", null, "FAMILIAR WILD");
@@ -91,7 +91,6 @@ var FamiliarLayout = React.createClass({displayName: "FamiliarLayout",
 
     return (
       React.createElement(TopContainer, null, 
-
         React.createElement(ParallaxContainer, {backgroundColor: this.state.IMG.color, height: "100%", imgSrc: this.state.IMG.url, img_h: this.state.IMG.img_h, img_w: this.state.IMG.img_w}, 
           React.createElement("div", {onClick: this.handleImageChange, className: "Logo", style: {position: "relative", top: "20%", height: "50%"}}, 
             React.createElement("img", {src: "/images/logo_w.svg", className: "DropShadowed", style: {display: "block", height: "80%", margin: "0 auto"}}), 
@@ -135,8 +134,6 @@ var FamiliarLayout = React.createClass({displayName: "FamiliarLayout",
 
         React.createElement(Quotes, {onLoaded: this.handleLoaded, data: {id: "vid", ratioW: 40, ratioH: 18, title:"Quotes", height: "350", titleIMG: IMGS.none, backgroundIMG: IMGS.bgmountsm}})
 
-        
-        
       )
     );
   
@@ -153,7 +150,7 @@ bookingObject = null;
 var Booking = React.createClass({displayName: "Booking",
   getInitialState: function() {
     return {
-      type: "none"
+      type: "contact"
     };
   },
   componentDidMount: function() {
@@ -198,19 +195,8 @@ var Booking = React.createClass({displayName: "Booking",
     var content = null;
     if(this.state.type=="contact"){
       content = React.createElement("div", null, 
-      React.createElement("h2", null, "Contact Us"), 
-      React.createElement("h3", null, "Press contacts"), 
       React.createElement("p", null, 
-      "Lexi: ", React.createElement("a", {href: "mailto:lexi.parachutepublicity@gmail.com"}, "lexi.parachutepublicity@gmail.com")
-      ), 
-      React.createElement("p", null, 
-      "Jason: ", React.createElement("a", {href: "mailto:parachutepublicity@gmail.com"}, "parachutepublicity@gmail.com")
-      ), 
-
-      React.createElement("h3", null, "Management and Booking"), 
-      React.createElement("p", null, "Fill out the contact form below or simply email us at ", React.createElement("a", {href: "mailto:familiarwild@gmail.com"}, "familiarwild@gmail.com")), 
-      React.createElement("div", null, 
-        React.createElement("iframe", {src: "/contact.html", frameborder: "0", scrolling: "no", style: {border: "none", width: "100%", height: "640"}})
+      "Regan Harney: ", React.createElement("a", {href: "mailto:managementfamiliarwild@gmail.com"}, "managementfamiliarwild@gmail.com")
       )
       )
       
@@ -261,18 +247,14 @@ var Booking = React.createClass({displayName: "Booking",
     }
     
     return (
-    React.createElement("div", {className: "BookingCont", style: { backgroundColor:"#eee"}}, 
+    React.createElement("div", {className: "BookingCont", style: { backgroundColor:"transparent"}}, 
           React.createElement("div", {style: {display: "block", overflow: "hidden"}}, 
-          React.createElement(LayoutRow, {row_data: { fontColor: "#333", backgroundColor: "transparent"}}, 
-            React.createElement(LayoutContainer, null, 
-              React.createElement(LayoutContainerHeading, null, "Booking + Press + Contact")
-            )
-          ), 
+
 
           React.createElement(LayoutRow, {className: "Booking", row_data: { fontColor: "#111", backgroundColor: "transparent"}}, 
             React.createElement(LayoutContainer, null, 
               React.createElement("div", {className: "ButtonContain clearfix"}, 
-                React.createElement("a", {className: "Button" + ((this.state.type=='contact') ? ' Active' : ''), target: "_blank", onClick: this.handleContact}, "Contact Us"), 
+                React.createElement("a", {className: "Button" + ((this.state.type=='contact') ? ' Active' : ''), target: "_blank", onClick: this.handleContact}, "Booking & Inquiries"), 
                 React.createElement("a", {className: "Button" + ((this.state.type=='epk') ? ' Active' : ''), target: "_blank", onClick: this.handleEPK}, "Bio + EPK")
               )
             )
@@ -688,16 +670,19 @@ var LayoutContainerHeading = React.createClass({displayName: "LayoutContainerHea
 //--------======================================================================================
 //--------======================================================================================
 
+
+        // <LayoutRow className="AlbumTitle" row_data={{ fontColor: "#fff", backgroundColor: "transparent" }}>
+        //   <LayoutContainer>
+        //     <LayoutContainerHeading>{this.props.data.title}</LayoutContainerHeading>
+        //   </LayoutContainer>
+        // </LayoutRow>
+
+
 var AlbumsView = React.createClass({displayName: "AlbumsView",
   render: function() {
     return (
       React.createElement("div", {className: "AlbumsView", style: {display: "block", margin: "0px auto"}}, 
       React.createElement(ParallaxContainer, {backgroundColor: this.props.data.backgroundIMG.color, height: this.props.data.height, imgSrc: this.props.data.backgroundIMG.url, img_h: this.props.data.backgroundIMG.img_h, img_w: this.props.data.backgroundIMG.img_w}, 
-        React.createElement(LayoutRow, {className: "AlbumTitle", row_data: { fontColor: "#fff", backgroundColor: "transparent"}}, 
-          React.createElement(LayoutContainer, null, 
-            React.createElement(LayoutContainerHeading, null, this.props.data.title)
-          )
-        ), 
 
         React.createElement("div", {className: "AlbumsViewMain"}, 
           React.createElement(Albums, {albums_type: "current_albums", data: { title: this.props.data.title}})
@@ -839,24 +824,29 @@ var Albums = React.createClass({displayName: "Albums",
       var active_id = this.state.item.id;
     }
 
-    return (
-      React.createElement("div", {className: "Albums", style: {display: "block", margin: "0px auto"}}, 
-        React.createElement(LayoutRow, {className: "AlbumNav", row_data: { fontColor: "#fff", backgroundColor: "transparent"}}, 
+    var albnav1 = null;
+    var albnav2 = null;
+    if(this.state.items.length>1){
+      albnav1 = (React.createElement(LayoutRow, {className: "AlbumNav", row_data: { fontColor: "#fff", backgroundColor: "transparent"}}, 
           React.createElement(LayoutContainer, null, 
             React.createElement(AlbumList, {ratioW: 100, ratioH: 100, prev: this.state.prev, next: this.state.next, onPrev: this.handlePrev, onNext: this.handleNext, active_id: active_id, isSmall: this.state.isSmall, items: this.state.items, onItemSelect: this.handleItemSelect})
           )
-        ), 
-      
+        ));
+      albnav2 = (React.createElement("div", {className: "ButtonContain clearfix", style: {height: "80px", padding: "20px"}}, 
+              React.createElement("div", {className: "Button Prev", onClick: this.handlePrev}, "Newer"), 
+              React.createElement("div", {className: "Button Next", onClick: this.handleNext}, "Older")
+            ))
+    }
 
+    return (
+      React.createElement("div", {className: "Albums", style: {display: "block", margin: "0px auto"}}, 
+        albnav1, 
         React.createElement(LayoutRow, {className: "AlbumBody", row_data: { fontColor: "#fff", backgroundColor: "transparent"}}, 
           React.createElement(LayoutContainer, null, 
             React.createElement("div", {className: "AlbumBodyInner", style: { minHeight: "100px", height: this.state.innerHeight}}, 
               alb
             ), 
-            React.createElement("div", {className: "ButtonContain clearfix", style: {height: "80px", padding: "20px"}}, 
-              React.createElement("div", {className: "Button Prev", onClick: this.handlePrev}, "Newer"), 
-              React.createElement("div", {className: "Button Next", onClick: this.handleNext}, "Older")
-            )
+            albnav2
           )
         )
       )
@@ -1083,37 +1073,37 @@ var ALBUMDATA = {
     preorder_url: "http://familiarwild.bandcamp.com/album/things-we-forgot"
     
   },
-  {
-    id: 3,
-    selected: true,
-    year: "2016", 
-    name: "We Better Run ( Single )", 
-    artwork_img: "/images/cd_we_better_run.jpg",
-    artwork_thumb: "/images/cd_we_better_run_thumb.jpg",
-    bandcamp_listen_id: "1789577777",
-    purchase_url: "http://familiarwild.bandcamp.com/album/we-better-run-single"
-  },
-  {
-    id: 2,
-    selected: true,
-    year: "2015", 
-    name: "Every Cloud ( Single )", 
-    artwork_img: "/images/cd_everycloud.jpg",
-    artwork_thumb: "/images/cd_everycloud_thumb.jpg",
-    bandcamp_listen_id: "1342195243",
-    purchase_url: "http://familiarwild.bandcamp.com/album/every-cloud-single"
-  },
-  {
-    id: 1,
-    selected: true,
-    name: "Dark Dreams", 
-    year: "2013", 
-    artwork_img: "/images/cd_darkdreams.jpg",
-    artwork_thumb: "/images/cd_darkdreams_thumb.jpg",
-    purchase_url: "http://familiarwild.bandcamp.com/album/dark-dreams",
-    bandcamp_listen_id: "3869561879",
-    itunes_url: "https://itunes.apple.com/ca/album/dark-dreams/id722391559"
-  }
+  // {
+  //   id: 3,
+  //   selected: true,
+  //   year: "2016", 
+  //   name: "We Better Run ( Single )", 
+  //   artwork_img: "/images/cd_we_better_run.jpg",
+  //   artwork_thumb: "/images/cd_we_better_run_thumb.jpg",
+  //   bandcamp_listen_id: "1789577777",
+  //   purchase_url: "http://familiarwild.bandcamp.com/album/we-better-run-single"
+  // },
+  // {
+  //   id: 2,
+  //   selected: true,
+  //   year: "2015", 
+  //   name: "Every Cloud ( Single )", 
+  //   artwork_img: "/images/cd_everycloud.jpg",
+  //   artwork_thumb: "/images/cd_everycloud_thumb.jpg",
+  //   bandcamp_listen_id: "1342195243",
+  //   purchase_url: "http://familiarwild.bandcamp.com/album/every-cloud-single"
+  // },
+  // {
+  //   id: 1,
+  //   selected: true,
+  //   name: "Dark Dreams", 
+  //   year: "2013", 
+  //   artwork_img: "/images/cd_darkdreams.jpg",
+  //   artwork_thumb: "/images/cd_darkdreams_thumb.jpg",
+  //   purchase_url: "http://familiarwild.bandcamp.com/album/dark-dreams",
+  //   bandcamp_listen_id: "3869561879",
+  //   itunes_url: "https://itunes.apple.com/ca/album/dark-dreams/id722391559"
+  // }
   ]
 
 };
@@ -1177,7 +1167,8 @@ var ALBUMDATA = {
 
 
 
-
+//<LayoutContainerHeading>{this.props.data.title}</LayoutContainerHeading>
+            
 
 
 
@@ -1330,28 +1321,36 @@ var Blog = React.createClass({displayName: "Blog",
       blog = React.createElement(BlogItem, {width: docW, key: "full"+item.id, data: item, nav_height: null, onSelect: this.handleSelect, onScrollTo: this.handleScrollTo})
       var active_id = item.id;
     }
-    //console.log(this.props.data)
+
+    var itemnav1 = null;
+    var itemnav2 = null;
+    if(this.state.items.length>1){
+      itemnav1 =(React.createElement(LayoutRow, {className: "BlogNav", row_data: { fontColor: this.props.titleColor, backgroundColor: "transparent", backgroundImage: this.props.data.titleIMG.url}}, 
+          React.createElement(LayoutContainer, null, 
+            React.createElement(BlogList, {ratioW: this.props.data.ratioW, ratioH: this.props.data.ratioH, prev: this.state.prev, next: this.state.next, onPrev: this.handlePrev, onNext: this.handleNext, active_id: active_id, isSmall: this.state.isSmall, items: this.state.items, onItemSelect: this.handleItemSelect})
+          )
+        ))
+      itemnav2 = (React.createElement("div", {className: "ButtonContain clearfix", style: {height: "80px", padding: "20px"}}, 
+              React.createElement("div", {className: "Button Prev", onClick: this.handlePrev}, "Newer"), 
+              React.createElement("div", {className: "Button Next", onClick: this.handleNext}, "Older")
+            ))
+    }
     
+    if(this.props.data.id=="show"){
+      itemnav1 = null;
+    }
+
     return (
       React.createElement("div", {className: "Blog"}, 
       React.createElement(ParallaxContainer, {backgroundColor: this.props.data.backgroundIMG.color, height: this.props.data.height, imgSrc: this.props.data.backgroundIMG.url, img_h: this.props.data.backgroundIMG.img_h, img_w: this.props.data.backgroundIMG.img_w}, 
-        React.createElement(LayoutRow, {className: "BlogNav", row_data: { fontColor: this.props.titleColor, backgroundColor: "transparent", backgroundImage: this.props.data.titleIMG.url}}, 
-          React.createElement(LayoutContainer, null, 
-            React.createElement(LayoutContainerHeading, null, this.props.data.title), 
-            React.createElement(BlogList, {ratioW: this.props.data.ratioW, ratioH: this.props.data.ratioH, prev: this.state.prev, next: this.state.next, onPrev: this.handlePrev, onNext: this.handleNext, active_id: active_id, isSmall: this.state.isSmall, items: this.state.items, onItemSelect: this.handleItemSelect})
-          )
-        ), 
+        itemnav1, 
       
-
-        React.createElement(LayoutRow, {className: "BlogBody", row_data: { fontColor: "#fff", backgroundColor: "transparent"}}, 
+        React.createElement(LayoutRow, {className: "BlogBody", row_data: { backgroundColor: "transparent"}}, 
           React.createElement(LayoutContainer, null, 
             React.createElement("div", {className: "BlogBodyInner", style: {minHeight: "100px"}}, 
             blog
             ), 
-            React.createElement("div", {className: "ButtonContain clearfix", style: {height: "80px", padding: "20px"}}, 
-              React.createElement("div", {className: "Button Prev", onClick: this.handlePrev}, "Newer"), 
-              React.createElement("div", {className: "Button Next", onClick: this.handleNext}, "Older")
-            )
+            itemnav2
           )
         )
       )
@@ -1528,7 +1527,7 @@ var BlogItem = React.createClass({displayName: "BlogItem",
     return {
       isActive: false,
       alt_size: 1,
-      padding: "20px",
+      padding: "5px",
       font_size: "16px",
       nav_height: 40
     };
@@ -1578,6 +1577,8 @@ var BlogItem = React.createClass({displayName: "BlogItem",
       class_name += " full";
     }
     
+    class_name += " blogtype_"+this.props.data.type;
+
     var exinfo;
     for(var i=0; i<this.props.data.tags.length;i++){
       if(this.props.data.tags[i].indexOf("fwinfo_") >= 0){
@@ -1597,7 +1598,7 @@ var BlogItem = React.createClass({displayName: "BlogItem",
         )
     } 
     if(this.props.data.type=="text"){
-      content = React.createElement("div", {className: "BIContent", style: {overflow: "hidden"}}, 
+      content = React.createElement("div", {className: "BIContent BIText", style: {overflow: "hidden"}}, 
         React.createElement("div", {style: {fontSize: this.props.font_size}, dangerouslySetInnerHTML: {__html: "<h1>"+this.props.data.title+"</h1>" + this.props.data.body}})
       )
     } 
@@ -1613,7 +1614,7 @@ var BlogItem = React.createClass({displayName: "BlogItem",
           var vidw = "100%";
           var vidh = "350";
           content = React.createElement("div", {className: "BIContent", style: {overflow: "hidden"}}, 
-            React.createElement("div", {style: {fontSize: this.props.font_size}, dangerouslySetInnerHTML: {__html: this.props.data.player[0].embed_code.replace(/width\=\"\d\d\d\"/g, "width=\""+vidw+"\"").replace(/height\=\"\d\d\d\"/g, "height=\""+vidh+"\"")}})
+            React.createElement("div", {style: {fontSize: this.props.font_size, lineHeight: 0}, dangerouslySetInnerHTML: {__html: this.props.data.player[0].embed_code.replace(/width\=\"\d\d\d\"/g, "width=\""+vidw+"\"").replace(/heightxxx\=\"\d\d\d\"/g, "height=\""+vidh+"\"")}})
           )
         }
       }else{
@@ -1901,9 +1902,10 @@ function ST_getScrollPos(){
   return $(window).scrollTop();
 }
 function ST_setScrollPos(number){
-  var body = $("html, body");
-  body.stop().animate({scrollTop:number}, 200, 'swing');
-  //return $(window).scrollTop(number, 200);
+  // var body = $("body");
+  console.log($("html, body").animate)
+  $("html, body").animate({ scrollTop: number }, 200, 'swing');
+  //$(window).scrollTop(number, 200);
 }
 
 $(document).on("selectstart", ".BlogItem, .Logo, .Button", function(){
@@ -1915,8 +1917,37 @@ $(document).on("selectstart", ".BlogItem, .Logo, .Button", function(){
 
 
 
+function render_music(){
+  React.render(  React.createElement(AlbumsView, {onLoaded: this.handleLoaded, data: {id: "albums", ratioW: 40, ratioH: 18, title:"Albums", height: "auto", titleIMG: IMGS.none, backgroundIMG: IMGS.none}}) ,
+  document.getElementById('app_music'));
+}
+function render_video(){
+  React.render(  React.createElement(Blog, {data: {id: "vid", ratioW: 40, ratioH: 18, tag: "fwvideo", title:"Videos", height: "620", titleIMG: IMGS.none, backgroundIMG: IMGS.none}, onLoaded: this.handleLoaded, ratioW: 40, ratioH: 18}) ,
+  document.getElementById('app_video'));
+}
+function render_bio(){
+  React.render(  React.createElement(Booking, null) ,
+  document.getElementById('app_bio'));
+}
+
+function render_quotes(){
+  React.render(  React.createElement(Quotes, {onLoaded: this.handleLoaded, data: {id: "vid", ratioW: 40, ratioH: 18, title:"Quotes", height: "350", titleIMG: IMGS.none, backgroundIMG: IMGS.bgmountsm}}) ,
+  document.getElementById('app_quotes'));
+}
+
+function render_shows(){
+  React.render( React.createElement(Blog, {data: {id: "show", ratioW: 40, ratioH: 30, tag: "fwshows", title:"Shows", height: "auto", titleColor: "#000", titleIMG: IMGS.none, backgroundIMG: IMGS.none}, titleColor: "#000", onLoaded: this.handleLoaded, ratioW: 40, ratioH: 25}) ,
+  document.getElementById('app_shows'));
+}
+        
+        
+
+       
 
 
+function render_main(){
+ React.render( React.createElement(FamiliarLayout, null) , document.getElementById('FamiliarWildApp'));
+}
 
-React.render( React.createElement(FamiliarLayout, null) , document.getElementById('FamiliarWildApp'));
+
 

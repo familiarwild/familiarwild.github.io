@@ -1,12 +1,195 @@
 ---
 layout: default
 ---
-<div id="FamiliarWildApp"></div>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/4.1.13/es5-shim.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/4.1.13/es5-sham.min.js"></script>
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.13.3/react-with-addons.min.js"></script>
-<script type="text/javascript" src="{{ "/js/reactout/music.js" | prepend: site.baseurl }}"></script>
+    <div id="home" class="mdm_main">
+      <div class="mdm_video">
+        <video poster="images/bga.png" id="bgvid" playsinline autoplay muted loop>
+        <source src="images/weba.mp4" type="video/mp4">
+        </video>
+      </div>
 
+
+      <div id="mdmnav" class="mdmnav fixed-top">
+        <div class="mdmnav_il">
+          <div class="mdmnav_i i_l">
+            <button id="mdm_menubtn" class="c-hamburger c-hamburger--htx">
+              <span>toggle menu</span>
+            </button>
+          </div>
+          <div class="mdmnav_i i_c">
+            <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="40px" height="40px" viewBox="0 0 300 300" enable-background="new 0 0 300 300" xml:space="preserve">
+              <g>
+                <path fill="#FFFFFF" d="M80.832,44.959 80.831,52.771 14.354,149.763 80.831,246.76 80.832,254.57 9,149.763z"/>
+                <path fill="#FFFFFF" d="M97.938,77.736 100.616,81.642 51.242,153.659 48.572,149.762z"/>
+                <path fill="#FFFFFF" d="M89.093,133.113 91.77,137.02 66.029,174.752 63.359,170.854z"/>
+              </g>
+              <g>
+                <path fill="#FFFFFF" d="M80.832,254.57 150.011,153.718 219.128,254.568 290.947,149.758 285.594,149.758 219.128,246.754 202.055,221.843 251.447,149.76 246.093,149.76 199.378,217.938 149.974,145.854 80.831,246.76z"/>
+              </g>
+              <g>
+                <path  fill="none" stroke="#FFF"  d="M80.832,44.959 149.974,145.854 147.295,149.762 80.831,52.771z"/>
+                <path  fill="none" stroke="#FFF"  d="M103.305,221.811 100.626,225.715 150.02,297.783 199.381,225.751 196.678,221.811 150.02,289.973z"/>
+                <path fill="none" stroke="#FFF"  d="M150.02,1.747 150.02,9.559 246.093,149.76 251.447,149.76 202.055,77.68 219.128,52.768 285.594,149.758 290.947,149.758 219.128,44.956 199.378,73.773z"/>
+              </g>
+            </svg>
+          </div>
+          <div class="mdmnav_i i_r">
+            <a id="mbm_music" target="_blank" href="http://familiarwild.bandcamp.com" class="material-icons">library_music</a>
+          </div>
+        </div>
+        <div id="mdmnav_menu" class="mdmnav_menu">
+          <ul id="list-example" >
+            <li><a href="#">Intro</a></li>
+            <li><a href="#s_video">Video</a></li>
+            <li><a href="#s_album">Album</a></li>
+            <li><a href="#s_book">Booking + Inquiries</a></li>
+            <li><a href="#s_shows">Shows</a></li>
+            <li><a href="#s_bio">Biography + Quotes</a></li>
+            
+          </ul>
+        </div>  
+      </div>
+
+      <div class="mdm_home_content">
+        <svg class="drop-shadow-a" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="250px" height="250px" viewBox="0 0 300 300" enable-background="new 0 0 300 300" xml:space="preserve">
+            <g>
+              <path fill="#FFFFFF" d="M80.832,44.959 80.831,52.771 14.354,149.763 80.831,246.76 80.832,254.57 9,149.763z"/>
+              <path fill="#FFFFFF" d="M97.938,77.736 100.616,81.642 51.242,153.659 48.572,149.762z"/>
+              <path fill="#FFFFFF" d="M89.093,133.113 91.77,137.02 66.029,174.752 63.359,170.854z"/>
+            </g>
+            <g>
+              <path fill="#FFFFFF" d="M80.832,254.57 150.011,153.718 219.128,254.568 290.947,149.758 285.594,149.758 219.128,246.754 202.055,221.843 251.447,149.76 246.093,149.76 199.378,217.938 149.974,145.854 80.831,246.76z"/>
+            </g>
+            <g>
+              <path  fill="none" stroke="#FFF"  d="M80.832,44.959 149.974,145.854 147.295,149.762 80.831,52.771z"/>
+              <path  fill="none" stroke="#FFF"  d="M103.305,221.811 100.626,225.715 150.02,297.783 199.381,225.751 196.678,221.811 150.02,289.973z"/>
+              <path fill="none" stroke="#FFF"  d="M150.02,1.747 150.02,9.559 246.093,149.76 251.447,149.76 202.055,77.68 219.128,52.768 285.594,149.758 290.947,149.758 219.128,44.956 199.378,73.773z"/>
+            </g>
+        </svg>
+        <div style="color: #fff; margin-top:5px;">
+          FAMILIAR WILD
+        </div>
+        <div style="margin-top:25px;">
+          <a href="#s_video" style="color: #975aa9;">Watch the latest Video</a>
+        </div>
+      </div>
+
+       <div class="mdm_home_content_scroll">
+
+        
+
+
+        <div id="s_video" class="mdm_section">
+          <h2>Video</h2>
+          <div id="app_video"></div>
+        </div>
+
+        <div id="s_album" class="mdm_section">
+          <h2>Album</h2>
+          <div id="app_music"></div>
+        </div>
+
+        <div id="s_book" class="mdm_section">
+          <h2>Booking + Inquiries</h2>
+          <div style="padding: 20px;">
+            <p ><span >Regan Harney: </span><a href="mailto:managementfamiliarwild@gmail.com">managementfamiliarwild@gmail.com</a></p>
+          </div>
+        </div>
+        
+        <div id="s_shows" class="mdm_section">
+          <h2>Shows</h2>
+          <div id="app_shows" class="ParaMain"></div>
+        </div>
+      
+        <div id="s_bio" class="mdm_section">
+          <h2>Biography + Quotes</h2>
+          <div id="app_bio" class="">
+            <p>Electro Folk-Pop. The Tame sing like Wolves. </p>
+            <p>Familiar Wild writes "pop music with heart and soul...and brain...and kindness" (DJ Champion). The newest album (nominated for a Toronto Indie Music Award and Western Canadian Music Award) could be the love child of Indie Folk band Daughter, Electro-based Postal Service and Scandi-Pop artist Susanne Sundfor. Familiar Wild performs alongside meticulously curated video, putting audiences "under a dreamlike spell" of lingering joy (Vancouver Weekly) and creating "a tribe-like atmosphere" with "deep electro-synth influences" (Impose Magazine).</p>
+            <quote>A background of cool indie-electronica melodies makes room for [the] smooth vocals and messages throughout the album</quote>
+            <i>- Beatroute</i>
+            
+            <quote>[We Better Run] serves to cement Familiar Wild's reputation as a fresh new face on the scene - one that delivers their enjoyable music with conviction</quote>
+            <i>- Ride the Tempo</i>
+
+            <quote>[We Better Run] serves to cement Familiar Wild's reputation as a fresh new face on the scene - one that delivers their enjoyable music with conviction</quote>
+            <i>- Ride the Tempo</i>
+
+            <quote>...plenty of warm synth tones and electronic beats, all of which pair nicely with the voice of [their] singer</quote>
+            <i>- Exclaim</i>
+
+            <quote>if [We Better Run] is just a preview of what audiences can expect from Familiar Wild's upcoming album then listeners should be very excited to hear what awaits on Things We Forgot</quote>
+            <i>- The Scene Magazine</i>
+
+            <quote>[Things We Forgot] is an electronic pop gem.</quote>
+            <i>- Next Northwest</i>
+
+            <br /><br /><br />
+            <h3>Press Images</h3>
+            <a href="images/famw_pr03.jpg" target="_blank">Image</a>
+
+
+          </div>
+        </div>
+      
+    </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
+    <script src="js/bootstrap.min.js" ></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/4.1.13/es5-shim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/4.1.13/es5-sham.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.13.3/react-with-addons.min.js"></script>
+
+    <script src="js/reactout/music.js" ></script>
+    <script>
+      var lineDrawing = anime({
+        targets: '.mdm_home_content svg path',
+        strokeDashoffset: [anime.setDashoffset, 0],
+        easing: 'easeInOutSine',
+        duration: 10000,
+        delay: function(el, i) { return i * 50 },
+        direction: 'alternate',
+        loop: true
+      });
+
+
+      $(document).on("click", "#mdm_menubtn", function(e) {
+        if( $("#mdm_menubtn").hasClass("is-active") ){
+          menu_hide();
+        }else{
+          menu_show();
+        }
+      });
+
+      $(document).on("click", ".mdmnav_menu a", function(e) {
+        if( $("#mdm_menubtn").hasClass("is-active") ){
+          menu_hide();
+        }else{
+          menu_show();
+        }
+      });
+
+
+    function menu_hide(){
+      $("#mdmnav").removeClass("is-active");
+      $("#mdm_menubtn").removeClass("is-active");
+      $("#mdmnav_menu").removeClass("is-active");
+    }
+    function menu_show(){
+      $("#mdmnav").addClass("is-active");
+      $("#mdm_menubtn").addClass("is-active");
+      $("#mdmnav_menu").addClass("is-active");
+    }
+
+   
+    render_music();
+    render_video();
+    render_shows();
+
+
+    </script>
+  
